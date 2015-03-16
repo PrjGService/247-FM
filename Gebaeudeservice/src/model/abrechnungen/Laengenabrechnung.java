@@ -5,16 +5,13 @@ import model.Dienstleistung;
 
 public class Laengenabrechnung extends Dienstleistung {
 	
-	float laenge;
+
 
 	public Laengenabrechnung(int dienstleistungsID, String dienstleistungsName,
 			float dienstleistungspreis, float dienstleistungsaufwand,
-			String mitgliedsName, Enums.Faktortyp dienstleistungFaktortyp, float laenge) {
+			String mitgliedsName, Enums.Faktortyp dienstleistungFaktortyp) {
 		super(dienstleistungsID, dienstleistungsName, dienstleistungspreis,
 				dienstleistungsaufwand, mitgliedsName, dienstleistungFaktortyp);
-		this.laenge = laenge;
-		dienstleistungspreis = preisermitteln(laenge);
-		dienstleistungsaufwand = aufwandermitteln(laenge);
 		
 		
 	}

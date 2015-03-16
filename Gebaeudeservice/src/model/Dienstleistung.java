@@ -5,11 +5,11 @@ import enums.Enums;
 public abstract class Dienstleistung {
 	
 	 private int dienstleistungsID;
-	 String dienstleistungsName;
-	 float dienstleistungspreis;
-	 float dienstleistungsaufwand;
-	 String mitgliedsName;
-	 Enums.Faktortyp DienstleistungFaktortyp;
+	 public String dienstleistungsName;
+	 public float dienstleistungspreis;
+	 public float dienstleistungsaufwand;
+	 public String mitgliedsName;
+	 public Enums.Faktortyp DienstleistungFaktortyp;
 	
 	abstract public float preisermitteln(float wert);
 	

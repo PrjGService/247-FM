@@ -5,16 +5,12 @@ import model.Dienstleistung;
 
 public class Wohnungsabrechnung extends Dienstleistung {
 	
-	int anzahlWohnung;
 
 	public Wohnungsabrechnung(int dienstleistungsID, String dienstleistungsName,
 			float dienstleistungspreis, float dienstleistungsaufwand,
-			String mitgliedsName, Enums.Faktortyp dienstleistungFaktortyp, int anzahlWohnung) {
+			String mitgliedsName, Enums.Faktortyp dienstleistungFaktortyp) {
 		super(dienstleistungsID, dienstleistungsName, dienstleistungspreis,
 				dienstleistungsaufwand, mitgliedsName, dienstleistungFaktortyp);
-		this.anzahlWohnung = anzahlWohnung;
-		dienstleistungspreis = preisermitteln(anzahlWohnung);
-		dienstleistungsaufwand = aufwandermitteln(anzahlWohnung);
 		
 		
 	}

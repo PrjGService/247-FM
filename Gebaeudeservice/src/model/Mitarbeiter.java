@@ -9,9 +9,9 @@ import enums.Enums.Mitarbeiterstatus;
 
 public class Mitarbeiter {
 
-	int mitarbeiterID;
-	String mitarbeiterName;
-	Mitarbeiterstatus mitarbeiterStatus;
+	public int mitarbeiterID;
+	public String mitarbeiterName;
+	public Mitarbeiterstatus mitarbeiterStatus;
 	Position aktuellePosition;
 	
 	

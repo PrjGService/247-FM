@@ -5,16 +5,12 @@ import model.Dienstleistung;
 
 public class Pauschalabrechnung extends Dienstleistung {
 	
-	int anzahlMonat;
 
 	public Pauschalabrechnung(int dienstleistungsID, String dienstleistungsName,
 			float dienstleistungspreis, float dienstleistungsaufwand,
-			String mitgliedsName, Enums.Faktortyp dienstleistungFaktortyp, int anzahlMonat) {
+			String mitgliedsName, Enums.Faktortyp dienstleistungFaktortyp) {
 		super(dienstleistungsID, dienstleistungsName, dienstleistungspreis,
 				dienstleistungsaufwand, mitgliedsName, dienstleistungFaktortyp);
-		this.anzahlMonat = anzahlMonat;
-		dienstleistungspreis = preisermitteln(anzahlMonat);
-		dienstleistungsaufwand = aufwandermitteln(anzahlMonat);
 		
 		
 	}

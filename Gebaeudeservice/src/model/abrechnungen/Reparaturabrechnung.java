@@ -4,16 +4,12 @@ import enums.Enums;
 
 public class Reparaturabrechnung extends Wohnungsabrechnung {
 	
-	float materialkosten;
 
 	public Reparaturabrechnung(int dienstleistungsID, String dienstleistungsName,
 			float dienstleistungspreis, float dienstleistungsaufwand,
-			String mitgliedsName, Enums.Faktortyp dienstleistungFaktortyp, float materialkosten,int anzahlWohnungen) {
+			String mitgliedsName, Enums.Faktortyp dienstleistungFaktortyp) {
 		super(dienstleistungsID, dienstleistungsName, dienstleistungspreis,
-				dienstleistungsaufwand, mitgliedsName, dienstleistungFaktortyp, anzahlWohnungen);
-		this.materialkosten = materialkosten;
-		dienstleistungspreis = preisermitteln(anzahlWohnungen, materialkosten);
-		dienstleistungsaufwand = aufwandermitteln(anzahlWohnungen, materialkosten);
+				dienstleistungsaufwand, mitgliedsName, dienstleistungFaktortyp);
 		
 		
 	}

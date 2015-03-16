@@ -5,16 +5,13 @@ import model.Dienstleistung;
 
 public class Einsatzabrechnung extends Dienstleistung {
 	
-	int anzahlEinsatz;
+
 
 	public Einsatzabrechnung(int dienstleistungsID, String dienstleistungsName,
 			float dienstleistungspreis, float dienstleistungsaufwand,
-			String mitgliedsName, Enums.Faktortyp dienstleistungFaktortyp, int anzahlEinsatz) {
+			String mitgliedsName, Enums.Faktortyp dienstleistungFaktortyp) {
 		super(dienstleistungsID, dienstleistungsName, dienstleistungspreis,
 				dienstleistungsaufwand, mitgliedsName, dienstleistungFaktortyp);
-		this.anzahlEinsatz = anzahlEinsatz;
-		dienstleistungspreis = preisermitteln(anzahlEinsatz);
-		dienstleistungsaufwand = aufwandermitteln(anzahlEinsatz);
 		
 		
 	}

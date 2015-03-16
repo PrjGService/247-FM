@@ -10,11 +10,11 @@ import enums.Enums;
 
 public class Auftrag {
 	
-	 int auftragID;
-	 Auftraggeber auftraggeber;
-	 Enums.Auftragsstatus auftragstatus;
-	 Date auftragdatum;
-	 List<Position> positionen;
+	 public int auftragID;
+	 public Auftraggeber auftraggeber;
+	 public Enums.Auftragsstatus auftragstatus;
+	 public Date auftragdatum;
+	 public List<Position> positionen;
 	
 	
 	//TODO
@@ -69,6 +69,11 @@ public class Auftrag {
 			preis+=positionen.get(i).positionMenge*positionen.get(i).dienstleistung.dienstleistungspreis;
 		}
 		return preis;
+	}
+	
+	public void suchePositionen()
+	{
+		//TODO positionen zu auftrag suchen
 	}
 
 }

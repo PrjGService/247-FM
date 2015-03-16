@@ -7,12 +7,12 @@ import enums.Enums;
 
 public class Position {
 
-	Dienstleistung dienstleistung;
-	Auftrag auftrag;
-	Mitarbeiter mitarbeiter;
-	float positionMenge;
-	Date positionAusfuehrungsdatum;
-	Enums.Auftragsstatus positionStatus;
+	public Dienstleistung dienstleistung;
+	public Auftrag auftrag;
+	public Mitarbeiter mitarbeiter;
+	public float positionMenge;
+	public Date positionAusfuehrungsdatum;
+	public Enums.Auftragsstatus positionStatus;
 	
 	
 	public Position(Dienstleistung dienstleistung, Auftrag auftrag,

@@ -34,6 +34,7 @@ public class Rechnung {
 	//versenden methode
 	public void versenden()
 	{
+		//TODO parameter an methode anpassen
 		Verwaltung.verwaltung.sendInvoice("GS", auftraggeber.auftraggeberName, "GS", (double)auftrag.getCost(), rechnungVerwendungszweck, rechnungDatum, rechnungZahlungsziel, auftraggeber.auftraggeberAdresse);
 	}
 

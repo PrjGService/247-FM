@@ -5,16 +5,12 @@ import model.Dienstleistung;
 
 public class Stundenabrechnung extends Dienstleistung {
 	
-	int anzahlStunde;
 
 	public Stundenabrechnung(int dienstleistungsID, String dienstleistungsName,
 			float dienstleistungspreis, float dienstleistungsaufwand,
-			String mitgliedsName, Enums.Faktortyp dienstleistungFaktortyp, int anzahlStunde) {
+			String mitgliedsName, Enums.Faktortyp dienstleistungFaktortyp) {
 		super(dienstleistungsID, dienstleistungsName, dienstleistungspreis,
 				dienstleistungsaufwand, mitgliedsName, dienstleistungFaktortyp);
-		this.anzahlStunde = anzahlStunde;
-		dienstleistungspreis = preisermitteln(anzahlStunde);
-		dienstleistungsaufwand = aufwandermitteln(anzahlStunde);
 		
 		
 	}

@@ -9,13 +9,20 @@ import java.util.Queue;
 import javax.jws.WebMethod;
 import javax.swing.JOptionPane;
 
+import database.DBManager;
+
 import util.Publisher;
+import webservices.impl.BVWSImplService;
+import webservices.impl.BVWebService;
+import webservices.impl.SchnittstelleBH;
+import webservices.impl.SchnittstellenimplService;
 
 import model.Auftrag;
 import model.Auftraggeber;
 import model.Dienstleistung;
 import model.Mitarbeiter;
 import model.Position;
+import model.User;
 
 public class Verwaltung {
 
@@ -26,7 +33,7 @@ public class Verwaltung {
 	
 	//startmethode um schnittstellen zu publishen und anwendung zu starten
 	public static void main(String[] args) {
-		Publisher.getInstance();
+		//Publisher.getInstance();
 		verwaltung = new Verwaltung();
 		System.out.println("Gebaeudeserviceanwendung wurde gestartet");
 
@@ -34,12 +41,13 @@ public class Verwaltung {
 	
 	
 	
-	
+	public List<User> userList;
 	public List<Mitarbeiter> mitarbeiterList;
 	public List<Auftrag> auftragList;
 	public List<Dienstleistung> dienstleistungList;
 	public Queue<Position> positionQueue;
 	public Auftraggeber auftraggeber;
+	public DBManager conn;
 	
 	public int tag;
 	public int zieltag;
@@ -47,22 +55,50 @@ public class Verwaltung {
 	//TODO Startinitialisierung
 	public Verwaltung()
 	{
-		mitarbeiterList = new ArrayList<Mitarbeiter>();
-		dienstleistungList = new ArrayList<Dienstleistung>();
+		conn = new DBManager();
+		userList = conn.getAllUser();
+		auftraggeber = conn.readAuftraggeber(1);
+		mitarbeiterList = conn.getAllMitarbeiter();
+		dienstleistungList = conn.getAllDienstleistung();
 		auftragList = new ArrayList<Auftrag>();
 		positionQueue = new ArrayDeque<Position>();
 		//positionqueue und listen initial füllen 
-		//auftraggeber einlesen
 		//db einlesen
 		//listen füllen
+		
+		
 		Runtime.getRuntime().addShutdownHook(new Thread()
 		{
 		    @Override
 		    public void run()
 		    {
 		        //TODO Daten zurück in die Datenbank schreiben
+		    	conn.close();
 		    }
 		});
+	}
+	
+	public void login(String user,String pw)
+	{
+		boolean login = false;
+		for(int i = 0; i < userList.size(); i++)
+		{
+			
+			if(userList.get(i).name == user && userList.get(i).password == pw)
+			{
+				login = true;
+				break;
+			}
+		}
+		if(login)
+		{
+			System.out.println("Login erfolgreich, willkommen "+user);
+		}
+		else
+		{
+			System.out.println("Login fehlgeschlagen für user "+user);
+		}
+
 	}
 	
 	
@@ -122,6 +158,35 @@ public class Verwaltung {
 			if( dienstleistungList.get(i).getDienstleistungsID() == dienstleistungsID)
 			{
 				erg = dienstleistungList.get(i);
+				break;
+			}
+		}
+		return erg;
+	}
+	
+	public Auftrag getAuftrag(int auftragsID)
+	{
+		Auftrag erg = null;
+		for(int i = 0; i < auftragList.size(); i++)
+		{
+			if( auftragList.get(i).auftragID == auftragsID)
+			{
+				erg = auftragList.get(i);
+				break;
+			}
+		}
+		return erg;
+	}
+	
+	public Mitarbeiter getMitarbeiter(int mitarbeiterID)
+	{
+		Mitarbeiter erg = null;
+		for(int i = 0; i < mitarbeiterList.size(); i++)
+		{
+			if( mitarbeiterList.get(i).mitarbeiterID == mitarbeiterID)
+			{
+				erg = mitarbeiterList.get(i);
+				break;
 			}
 		}
 		return erg;
@@ -143,19 +208,19 @@ public class Verwaltung {
 	public void instructTimepush(int timestep)
 	{
 		BVWSImplService  timeService = new BVWSImplService();
-		BVWS timeWS = timeService.getBVWSImplPort();
+		BVWebService timeWS = timeService.getBVWSImplPort();
 		try
 		{
 			//0 ist rc für fehlerlos?
-			if(timeWS.pushTime(timestep) == 0)
-			{	
-				System.err.println("Timepush erfolgreich");
-			}
-			else
-				
-			{	
-				System.out.println("Timepush abgelehnt");
-			}
+//			if(timeWS.pushTime(timestep) == 0)
+//			{	
+//				System.err.println("Timepush erfolgreich");
+//			}
+//			else
+//				
+//			{	
+//				System.out.println("Timepush abgelehnt");
+//			}
 		}
 		catch(Exception e)
 		{
@@ -164,23 +229,23 @@ public class Verwaltung {
 	}
 	
 	public void sendInvoice(String rechnungsersteller, String rechnungsempfaenger, String sender
-								,Double betrag, String verwendungszweck, Date rechnungsdatum
+								,double betrag, String verwendungszweck, Date rechnungsdatum
 								, Date zahlungsdatum, String rechnungsadresse )
 	{
-		RechnungWSService  InvoiceService = new RechnungWSImplService();
-		RechnungWS InvoiceWS = InvoiceService.getRechnungWSImplPort();
+		SchnittstellenimplService  InvoiceService = new SchnittstellenimplService();
+		SchnittstelleBH InvoiceWS = InvoiceService.getSchnittstellenimplPort();
 		try
 		{
-			if(InvoiceWS.erfasseRechnung(rechnungsersteller, rechnungsempfaenger, sender, betrag, verwendungszweck
-					, rechnungsdatum, zahlungsdatum, rechnungsadresse) == "Rechnung wurde bearbeitet")
-			{	
-				System.err.println("Rechnungsversand erfolgreich");
-			}
-			else
-				
-			{	
-				System.out.println("Rechnung abgelehnt");
-			}
+//			if(InvoiceWS.erfasseRechnung(verwendungszweck, sender, rechnungsersteller, rechnungsempfaenger,  betrag 
+//					, rechnungsdatum, zahlungsdatum) == "Rechnung wurde bearbeitet")
+//			{	
+//				System.err.println("Rechnungsversand erfolgreich");
+//			}
+//			else
+//				
+//			{	
+//				System.out.println("Rechnung abgelehnt");
+//			}
 		}
 		catch(Exception e)
 		{
@@ -191,23 +256,23 @@ public class Verwaltung {
 	public List<String> getOpenitems(String sender)
 	{
 		List<String> liste = null;
-		OffenePostenWSImplService  itemService = new OffenePostenWSImplService();
-		OffenePostenWS itemWS = timeService.getOffenePostenWSImplPort();
-		try
-		{
-			liste = itemWS.getOffenePosten(sender);
-		}
-		catch(Exception e)
-		{
-			System.err.println("Es ist ein Fehler beim anfragen der offenen Posten aufgetreten.");
-		}
+//		OffenePostenWSImplService  itemService = new OffenePostenWSImplService();
+//		OffenePostenWS itemWS = timeService.getOffenePostenWSImplPort();
+//		try
+//		{
+//			liste = itemWS.getOffenePosten(sender);
+//		}
+//		catch(Exception e)
+//		{
+//			System.err.println("Es ist ein Fehler beim anfragen der offenen Posten aufgetreten.");
+//		}
 		return liste;
 	}
 	
 	public void instructDunnning(String verwendungszweck)
 	{
-		MahnsystemWSImplService  dunningService = new MahnsystemWSImplService();
-		MahnsystemWS dunningWS = dunningService.getMahnsystemWSImplPort();
+		SchnittstellenimplService  dunningService = new SchnittstellenimplService();
+		SchnittstelleBH dunningWS = dunningService.getSchnittstellenimplPort();
 		try
 		{
 			if(dunningWS.uebergabeMahnauftrag(verwendungszweck) == "Mahnauftrag erhalten" )
@@ -228,7 +293,7 @@ public class Verwaltung {
 	
 	//zum export der schnittstellenmethoden:
 	//Starten der eigenen Anwendung als Java Application
-	//Öffnen der Konsole um wsimport zu nutzen: wsimport -keep -clientjar Gebaeudeservice.jar http://ip:port/verzeichnis?wsdl
+	//Öffnen der Konsole um wsimport zu nutzen: wsimport -keep -clientjar Gebaeudeservice.jar http://10.10.10.25:1000/ws?wsdl
 	
 
 }

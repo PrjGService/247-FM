@@ -8,9 +8,9 @@ import enums.Enums.Auftragsstatus;
 
 public class Auftraggeber {
 
-	int auftraggeberID;
-	String auftraggeberName;
-	String auftraggeberAdresse;
+	public int auftraggeberID;
+	public String auftraggeberName;
+	public String auftraggeberAdresse;
 	
 	public Auftraggeber(int auftraggeberID, String auftraggeberName,
 			String auftraggeberAdresse) 
