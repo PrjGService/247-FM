@@ -33,9 +33,8 @@ public class Verwaltung {
 	
 	//startmethode um schnittstellen zu publishen und anwendung zu starten
 	public static void main(String[] args) {
-		//Publisher.getInstance();
-		verwaltung = new Verwaltung();
-		System.out.println("Gebaeudeserviceanwendung wurde gestartet");
+		Publisher.getInstance();
+		
 
 	}
 	
@@ -55,6 +54,7 @@ public class Verwaltung {
 	//TODO Startinitialisierung
 	public Verwaltung()
 	{
+		System.out.println("Gebaeudeserviceanwendung wurde gestartet");
 		conn = new DBManager();
 		userList = conn.getAllUser();
 		auftraggeber = conn.readAuftraggeber(1);

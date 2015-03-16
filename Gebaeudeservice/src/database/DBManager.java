@@ -38,7 +38,7 @@ public class DBManager {
 	public DBManager()
 	{
 		conn = DBUtil.getConnection();
-		System.out.println("Veerbindung zur DB hergestellt");
+		System.out.println("Verbindung zur DB hergestellt");
 	
 	}
 	
@@ -290,7 +290,7 @@ public class DBManager {
 	public User readUser(String name)
 	{
 		 try {
-	            statement = conn.prepareStatement("SELECT * FROM user WHERE Benutzername = " + name + ";");
+	            statement = conn.prepareStatement("SELECT * FROM user WHERE Benutzername = '" + name + "';");
 	            result = statement.executeQuery();
 	            result.next();
 	            return new User(name, result.getString(2));
@@ -305,8 +305,8 @@ public class DBManager {
 	public void writeUser(User u)
 	{
 		 try {
-			 statement = conn.prepareStatement("DELETE FROM user WHERE Benutzername = "
-	                    + u.name + ";");
+			 statement = conn.prepareStatement("DELETE FROM user WHERE Benutzername = '"
+	                    + u.name + "';");
 	            statement.execute();
 	            statement = conn
 	                    .prepareStatement(

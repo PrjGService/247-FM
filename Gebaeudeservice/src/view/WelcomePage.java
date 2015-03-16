@@ -1,32 +1,39 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+
+import controller.Verwaltung;
 
 public class WelcomePage extends JFrame {
 
 	JFrame WelcomePage;
+	String username;
+	String pwname;
+	JTextField pw;
+	JTextField user;
+	Verwaltung verwaltung;
 
 	public WelcomePage() {
 
+		verwaltung = new Verwaltung();
 		JFrame welcome = new JFrame("24/7 - Facility Management");
 		Image icon = new ImageIcon("res/logo.png").getImage();
 		Image logo1 = new ImageIcon("res/logo1.png").getImage();
@@ -35,7 +42,7 @@ public class WelcomePage extends JFrame {
 		welcome.setIconImage(icon);
 		welcome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		// Hintergrund über ImagePanel
+		// Hintergrund ï¿½ber ImagePanel
 
 		BufferedImage myImage = null;
 		try {
@@ -63,16 +70,23 @@ public class WelcomePage extends JFrame {
 		JLabel password = new JLabel("Passwort:   ");
 		password.setFont(new Font("ARIAL", Font.BOLD, 22));
 
-		JTextField user = new JTextField();
+		user = new JTextField();
 		user.setFont(new Font("ARIAL", Font.BOLD, 22));
-		user.getText();
 		
-		JTextField pw = new JTextField();
+		
+		pw = new JTextField();
 		pw.setFont(new Font("ARIAL", Font.BOLD, 22));
-		pw.getText();
 
-		JButton button1 = new JButton("Anmelden");
+		LayoutButton button1 = new LayoutButton("Anmelden");
 		button1.setLayout(new BorderLayout());
+
+		button1.addActionListener(new ActionListener()
+		{
+		  public void actionPerformed(ActionEvent e)
+		  {
+		    Verwaltung.verwaltung.login(user.getText(), pw.getText());
+		  }
+		});
 
 		login.add(name);
 		login.add(user);

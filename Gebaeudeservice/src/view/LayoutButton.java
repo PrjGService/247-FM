@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-public class LayoutButton extends JFrame implements ActionListener {
+public class LayoutButton extends JButton {
 
 	String title;
 	JButton button;
@@ -16,16 +16,12 @@ public class LayoutButton extends JFrame implements ActionListener {
 	public LayoutButton(String title) {
 
 		this.title = title;
-		button = new JButton(title);
-		button.setBackground(Color.DARK_GRAY);
-		button.setFont(new Font("ARIAL", Font.BOLD, 22));
+		this.setText(title);
+		//button = new JButton(title);
+		//this.setBackground(Color.DARK_GRAY);
+		this.setFont(new Font("ARIAL", Font.BOLD, 22));
 
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
 
 }
