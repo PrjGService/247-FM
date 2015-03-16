@@ -88,6 +88,8 @@ public class WelcomePage extends JFrame {
 		    {
 		    	//hier einfügen wass bei login passieren soll
 		    	System.out.println("Login erfolgreich");
+		    	
+		    	Masterframe frame = new Masterframe();
 		    }
 		    else
 		    {
