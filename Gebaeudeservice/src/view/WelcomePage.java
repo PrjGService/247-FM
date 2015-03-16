@@ -87,10 +87,12 @@ public class WelcomePage extends JFrame {
 		    if(verwaltung.login(user.getText(), pw.getText()))
 		    {
 		    	//hier einfügen wass bei login passieren soll
+		    	System.out.println("Login erfolgreich");
 		    }
 		    else
 		    {
 		    	//hier einfügen was bei fehlgeschlagenem login passieren soll
+		    	System.out.println("login fehlgeschlagen");
 		    }
 		  }
 		});
