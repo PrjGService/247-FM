@@ -64,8 +64,11 @@ public class WelcomePage extends JFrame {
 		password.setFont(new Font("ARIAL", Font.BOLD, 22));
 
 		JTextField user = new JTextField();
+		user.setFont(new Font("ARIAL", Font.BOLD, 22));
 		user.getText();
+		
 		JTextField pw = new JTextField();
+		pw.setFont(new Font("ARIAL", Font.BOLD, 22));
 		pw.getText();
 
 		JButton button1 = new JButton("Anmelden");
@@ -75,10 +78,13 @@ public class WelcomePage extends JFrame {
 		login.add(user);
 		login.add(password);
 		login.add(pw);
-		login.add(button1, BorderLayout.CENTER);
+		
+		Container south = new Container();
+		south.setLayout(new BorderLayout());
+		south.add(login, button1);
 
 		welcome.add(logo, BorderLayout.CENTER);
-		welcome.add(login, BorderLayout.SOUTH);
+		welcome.add(south, BorderLayout.SOUTH);
 
 		welcome.pack();
 		welcome.setVisible(true);
