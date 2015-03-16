@@ -78,13 +78,10 @@ public class WelcomePage extends JFrame {
 		login.add(user);
 		login.add(password);
 		login.add(pw);
-		
-		Container south = new Container();
-		south.setLayout(new BorderLayout());
-		south.add(login, button1);
+		login.add(button1, BorderLayout.CENTER);
 
 		welcome.add(logo, BorderLayout.CENTER);
-		welcome.add(south, BorderLayout.SOUTH);
+		welcome.add(login, BorderLayout.SOUTH);
 
 		welcome.pack();
 		welcome.setVisible(true);
