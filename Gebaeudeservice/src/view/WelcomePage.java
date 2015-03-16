@@ -84,7 +84,7 @@ public class WelcomePage extends JFrame {
 		{
 		  public void actionPerformed(ActionEvent e)
 		  {
-		    Verwaltung.verwaltung.login(user.getText(), pw.getText());
+		    verwaltung.login(user.getText(), pw.getText());
 		  }
 		});
 
