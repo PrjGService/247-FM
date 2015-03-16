@@ -84,7 +84,14 @@ public class WelcomePage extends JFrame {
 		{
 		  public void actionPerformed(ActionEvent e)
 		  {
-		    verwaltung.login(user.getText(), pw.getText());
+		    if(verwaltung.login(user.getText(), pw.getText()))
+		    {
+		    	//hier einfügen wass bei login passieren soll
+		    }
+		    else
+		    {
+		    	//hier einfügen was bei fehlgeschlagenem login passieren soll
+		    }
 		  }
 		});
 

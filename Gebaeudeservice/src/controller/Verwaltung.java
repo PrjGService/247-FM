@@ -79,26 +79,22 @@ public class Verwaltung {
 	}
 	
 	
-	public void login(String user,String pw)
+	public boolean login(String user,String pw)
 	{
 		boolean login = false;
+		System.out.println(user+pw);
 		for(int i = 0; i < userList.size(); i++)
 		{
-			
-			if(userList.get(i).name == user && userList.get(i).password == pw)
+			User u = userList.get(i);
+			System.out.println(u.name+" "+user);
+			System.out.println(u.password+" "+pw);
+			if(u.name.matches(user) && u.password.matches(pw))
 			{
 				login = true;
 				break;
 			}
 		}
-		if(login)
-		{
-			System.out.println("Login erfolgreich, willkommen "+user);
-		}
-		else
-		{
-			System.out.println("Login fehlgeschlagen für user "+user);
-		}
+		return login;
 
 	}
 	

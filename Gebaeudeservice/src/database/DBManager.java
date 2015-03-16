@@ -94,11 +94,17 @@ public class DBManager {
 	public List<Auftrag> getAllAuftrag()
 	{
 		List<Auftrag> l = new ArrayList<Auftrag>();
+		List<Integer> helper = new ArrayList<Integer>();
 		try {
 			statement = conn.prepareStatement("SELECT * FROM auftrag;");
 			result = statement.executeQuery();    
-	        while(result.next()){
-	        	l.add(readAuftrag(result.getInt(1)));
+			while(result.next()){
+	        	helper.add(result.getInt(1));
+	        	
+	        }
+	        for(int i = 0; i < helper.size();i++)
+	        {	        	
+	        	l.add(readAuftrag(helper.get(i)));
 	        }
 		} catch (SQLException e) {
 			// Auto-generated catch block
@@ -149,11 +155,17 @@ public class DBManager {
 	public List<Mitarbeiter> getAllMitarbeiter()
 	{
 		List<Mitarbeiter> l = new ArrayList<Mitarbeiter>();
+		List<Integer> helper = new ArrayList<Integer>();
 		try {
 			statement = conn.prepareStatement("SELECT * FROM mitarbeiter;");
 			result = statement.executeQuery();    
-	        while(result.next()){
-	        	l.add(readMitarbeiter(result.getInt(1)));
+			while(result.next()){
+	        	helper.add(result.getInt(1));
+	        	
+	        }
+	        for(int i = 0; i < helper.size();i++)
+	        {	        	
+	        	l.add(readMitarbeiter(helper.get(i)));
 	        }
 		} catch (SQLException e) {
 			// Auto-generated catch block
@@ -272,12 +284,18 @@ public class DBManager {
 	
 	public List<Dienstleistung> getAllDienstleistung()
 	{
+		List<Integer> helper = new ArrayList<Integer>();
 		List<Dienstleistung> l = new ArrayList<Dienstleistung>();
 		try {
 			statement = conn.prepareStatement("SELECT * FROM dienstleistung;");
 			result = statement.executeQuery();    
-	        while(result.next()){
-	        	l.add(readDienstleistung(result.getInt(1)));
+			while(result.next()){
+	        	helper.add(result.getInt(1));
+	        	
+	        }
+	        for(int i = 0; i < helper.size();i++)
+	        {	        	
+	        	l.add(readDienstleistung(helper.get(i)));
 	        }
 		} catch (SQLException e) {
 			// Auto-generated catch block
@@ -327,11 +345,17 @@ public class DBManager {
 	public List<User> getAllUser()
 	{
 		List<User> l = new ArrayList<User>();
+		List<String> helper = new ArrayList<String>();
 		try {
 			statement = conn.prepareStatement("SELECT * FROM user;");
 			result = statement.executeQuery();    
 	        while(result.next()){
-	        	l.add(readUser(result.getString(1)));
+	        	helper.add(result.getString(1));
+	        	
+	        }
+	        for(int i = 0; i < helper.size();i++)
+	        {	        	
+	        	l.add(readUser(helper.get(i)));
 	        }
 		} catch (SQLException e) {
 			// Auto-generated catch block
@@ -384,11 +408,17 @@ public class DBManager {
 	public List<Position> getAllPosition()
 	{
 		List<Position> l = new ArrayList<Position>();
+		List<Integer[]> helper = new ArrayList<Integer[]>();
 		try {
 			statement = conn.prepareStatement("SELECT * FROM position;");
-			result = statement.executeQuery();    
+			result = statement.executeQuery();
 	        while(result.next()){
-	        	l.add(readPosition(result.getInt(1),result.getInt(2),result.getInt(3)));
+	        	Integer[] i = {result.getInt(1),result.getInt(2),result.getInt(3)};
+	        	helper.add( i);      	
+	        }
+	        for(int i = 0; i < helper.size();i++)
+	        {	        	
+	        	l.add(readPosition(helper.get(i)[0],helper.get(i)[1],helper.get(i)[2]));
 	        }
 		} catch (SQLException e) {
 			// Auto-generated catch block
@@ -439,11 +469,17 @@ public class DBManager {
 //	public List<Rechnung> getAllRechnung()
 //	{
 //		List<Mitarbeiter> l = new ArrayList<Mitarbeiter>();
+//		List<Integer> helper = new ArrayList<Integer>();
 //		try {
 //			statement = conn.prepareStatement("SELECT * FROM mitarbeiter;");
 //			result = statement.executeQuery();    
-//	        while(result.next()){
-//	        	l.add(readMitarbeiter(result.getInt(1)));
+//			while(result.next()){
+//	        	helper.add(result.getInt(1));
+//	        	
+//	        }
+//	        for(int i = 0; i < helper.size();i++)
+//	        {	        	
+//	        	l.add(readRechnung(helper.get(i)));
 //	        }
 //		} catch (SQLException e) {
 //			// Auto-generated catch block
