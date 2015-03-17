@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
@@ -39,7 +40,7 @@ public class WelcomePage extends JFrame {
 		Image icon = new ImageIcon("res/logo.png").getImage();
 		Image logo1 = new ImageIcon("res/logo1.png").getImage();
 
-		welcome.setResizable(false);
+		welcome.setResizable(true);
 		welcome.setIconImage(icon);
 		welcome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -60,8 +61,7 @@ public class WelcomePage extends JFrame {
 		logo.setHorizontalAlignment(SwingConstants.HORIZONTAL);
 		logo.setIcon(new ImageIcon(logo1));
 
-		GridLayout loginmask = new GridLayout(3, 2, 0, 10);
-		GridLayout buttonlayout = new GridLayout(1, 1, 0, 10);
+		GridLayout loginmask = new GridLayout(4, 2, 0, 10);
 
 		JPanel login = new JPanel();
 		login.setLayout(loginmask);
@@ -95,19 +95,30 @@ public class WelcomePage extends JFrame {
 		    else
 		    {
 		    	//hier einfügen was bei fehlgeschlagenem login passieren soll
-		    	System.out.println("login fehlgeschlagen");
+		    	System.out.println("Login fehlgeschlagen");
+		    	
+		    	LoginWarning warning = new LoginWarning();
 		    }
 		  }
 		});
-
+		
+		JLabel ph1 = new JLabel();
+		JLabel ph2 = new JLabel();
+		
+		login.add(ph1);
+		login.add(ph2);
 		login.add(name);
 		login.add(user);
 		login.add(password);
 		login.add(pw);
-		login.add(button1, BorderLayout.CENTER);
+		
+		JPanel south = new JPanel();
+		south.setLayout(new BorderLayout());
+		south.add(login, BorderLayout.CENTER);
+		south.add(button1, BorderLayout.SOUTH);
 
 		welcome.add(logo, BorderLayout.CENTER);
-		welcome.add(login, BorderLayout.SOUTH);
+		welcome.add(south, BorderLayout.SOUTH);
 
 		welcome.pack();
 		welcome.setVisible(true);
