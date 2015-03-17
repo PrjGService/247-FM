@@ -3,9 +3,10 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="res"/>
-	<classpathentry kind="lib" path="bank0815-1_0.jar"/>
-	<classpathentry kind="lib" path="BH_1_0.jar"/>
-	<classpathentry kind="lib" path="gm-1_0.jar"/>
-	<classpathentry kind="lib" path="mysql-connector-java-5.1.33-bin.jar"/>
+	<classpathentry kind="lib" path="lib/swingx-all-1.6.4-sources.jar"/>
+	<classpathentry kind="lib" path="lib/bank0815-1_0.jar"/>
+	<classpathentry kind="lib" path="lib/BH_1_0.jar"/>
+	<classpathentry kind="lib" path="lib/gm-1_0.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.33-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
