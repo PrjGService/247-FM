@@ -17,6 +17,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -27,7 +28,7 @@ public class WelcomePage extends JFrame {
 	JFrame WelcomePage;
 	String username;
 	String pwname;
-	JTextField pw;
+	JPasswordField pw;
 	JTextField user;
 	Verwaltung verwaltung;
 
@@ -74,7 +75,7 @@ public class WelcomePage extends JFrame {
 		user.setFont(new Font("ARIAL", Font.BOLD, 22));
 		
 		
-		pw = new JTextField();
+		pw = new JPasswordField();
 		pw.setFont(new Font("ARIAL", Font.BOLD, 22));
 
 		LayoutButton button1 = new LayoutButton("Anmelden");
