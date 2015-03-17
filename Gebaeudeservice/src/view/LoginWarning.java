@@ -18,10 +18,11 @@ public class LoginWarning extends JFrame {
 		
 		loginwarning.setResizable(false);
 		loginwarning.setIconImage(logo);
-		loginwarning.setVisible(true);
+		loginwarning.setLocationRelativeTo(getParent());
 		loginwarning.setSize(400, 200);
 		loginwarning.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
+		loginwarning.setVisible(true);
 		System.out.println(loginwarning);
 		
 		
