@@ -22,13 +22,13 @@ public class LoginWarning extends JFrame {
 		loginwarning.setResizable(false);
 		loginwarning.setIconImage(logo);
 		loginwarning.setLocationRelativeTo(null);
-		loginwarning.setSize(400, 250);
+		loginwarning.setSize(300, 255);
 		loginwarning.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		loginwarning.setLayout(new BorderLayout());
 
 		JLabel label1 = new JLabel();
 		label1.setText("<html><body><center> Anmeldung nicht erfolgreich! <br><br> Benutzername oder Passwort nicht bekannt. </body></html>");
-		label1.setFont(new Font("Arial", Font.BOLD, 18));
+		label1.setFont(new Font("Arial", Font.PLAIN, 18));
 		label1.setHorizontalAlignment(SwingConstants.HORIZONTAL);
 
 		loginwarning.add(label1,BorderLayout.CENTER);

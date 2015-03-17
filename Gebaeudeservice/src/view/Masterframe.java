@@ -21,7 +21,7 @@ public class Masterframe extends JFrame {
 		masterframe.setExtendedState(Frame.MAXIMIZED_BOTH);
 		masterframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		System.out.println(masterframe);
+		System.out.println("Anmeldung erfolgreich - System gestartet!");
 
 	}
 

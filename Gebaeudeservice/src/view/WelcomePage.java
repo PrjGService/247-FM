@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Frame;
@@ -29,6 +30,7 @@ import controller.Verwaltung;
 public class WelcomePage extends JFrame {
 
 	JFrame WelcomePage;
+	JFrame welcome;
 	String username;
 	String pwname;
 	JPasswordField pw;
@@ -38,7 +40,7 @@ public class WelcomePage extends JFrame {
 	public WelcomePage() {
 
 		verwaltung = new Verwaltung();
-		JFrame welcome = new JFrame("24/7 - Facility Management");
+		final JFrame welcome = new JFrame("24/7 - Facility Management");
 		Image icon = new ImageIcon("res/logo.png").getImage();
 		Image logo1 = new ImageIcon("res/logo1.png").getImage();
 
@@ -46,13 +48,13 @@ public class WelcomePage extends JFrame {
 		welcome.setIconImage(icon);
 		welcome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		// Hintergrund �ber ImagePanel
+		// Hintergrund ImagePanel
 
 		BufferedImage myImage = null;
 		try {
 			myImage = ImageIO.read(new File("res/gebaeudeservice.jpg"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 
@@ -69,15 +71,24 @@ public class WelcomePage extends JFrame {
 		login.setLayout(loginmask);
 
 		JLabel name = new JLabel("Name:   ");
-		name.setFont(new Font("ARIAL", Font.BOLD, 22));
+		name.setFont(new Font("ARIAL", Font.PLAIN, 22));
+		name.setForeground(new Color(19, 123, 64));
+		name.setBackground(Color.WHITE);
+
 		JLabel password = new JLabel("Passwort:   ");
-		password.setFont(new Font("ARIAL", Font.BOLD, 22));
+		password.setFont(new Font("ARIAL", Font.PLAIN, 22));
+		password.setForeground(new Color(19, 123, 64));
+		password.setBackground(Color.WHITE);
 
 		user = new JTextField();
-		user.setFont(new Font("ARIAL", Font.BOLD, 22));
+		user.setFont(new Font("ARIAL", Font.PLAIN, 22));
+		user.setForeground(new Color(19, 123, 64));
+		user.setBackground(Color.WHITE);
 
 		pw = new JPasswordField();
-		pw.setFont(new Font("ARIAL", Font.BOLD, 22));
+		pw.setFont(new Font("ARIAL", Font.PLAIN, 22));
+		pw.setForeground(new Color(19, 123, 64));
+		pw.setBackground(Color.WHITE);
 
 		pw.addKeyListener(new KeyListener() {
 
@@ -118,17 +129,18 @@ public class WelcomePage extends JFrame {
 
 		LayoutButton button1 = new LayoutButton("Anmelden");
 		button1.setLayout(new BorderLayout());
+		button1.setForeground(new Color(19, 123, 64));
 
 		button1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (verwaltung.login(user.getText(), pw.getText())) {
-					// hier einfügen wass bei login passieren soll
+
 					System.out.println("Login erfolgreich");
 
 					Masterframe frame = new Masterframe();
+					welcome.dispose();
 				} else {
-					// hier einfügen was bei fehlgeschlagenem login passieren
-					// soll
+
 					System.out.println("Login fehlgeschlagen");
 
 					LoginWarning warning = new LoginWarning();
@@ -145,11 +157,13 @@ public class WelcomePage extends JFrame {
 		login.add(user);
 		login.add(password);
 		login.add(pw);
+		login.setBackground(Color.WHITE);
 
 		JPanel south = new JPanel();
 		south.setLayout(new BorderLayout());
 		south.add(login, BorderLayout.CENTER);
 		south.add(button1, BorderLayout.SOUTH);
+		south.setBackground(Color.WHITE);
 
 		welcome.add(logo, BorderLayout.CENTER);
 		welcome.add(south, BorderLayout.SOUTH);
