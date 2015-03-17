@@ -1,5 +1,6 @@
 package view;
 
+
 import controller.Verwaltung;
 
 public class Launcher {
