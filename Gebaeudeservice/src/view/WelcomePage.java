@@ -8,6 +8,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -73,45 +75,77 @@ public class WelcomePage extends JFrame {
 
 		user = new JTextField();
 		user.setFont(new Font("ARIAL", Font.BOLD, 22));
-		
-		
+
 		pw = new JPasswordField();
 		pw.setFont(new Font("ARIAL", Font.BOLD, 22));
+
+		pw.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+
+				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+
+					if (verwaltung.login(user.getText(), pw.getText())) {
+						System.out.println("Login erfolgreich");
+						Masterframe frame = new Masterframe();
+					} else {
+
+						System.out.println("Login fehlgeschlagen");
+						LoginWarning warning = new LoginWarning();
+					}
+
+				} else {
+
+					// leer lassen
+
+				}
+
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 
 		LayoutButton button1 = new LayoutButton("Anmelden");
 		button1.setLayout(new BorderLayout());
 
-		button1.addActionListener(new ActionListener()
-		{
-		  public void actionPerformed(ActionEvent e)
-		  {
-		    if(verwaltung.login(user.getText(), pw.getText()))
-		    {
-		    	//hier einfügen wass bei login passieren soll
-		    	System.out.println("Login erfolgreich");
-		    	
-		    	Masterframe frame = new Masterframe();
-		    }
-		    else
-		    {
-		    	//hier einfügen was bei fehlgeschlagenem login passieren soll
-		    	System.out.println("Login fehlgeschlagen");
-		    	
-		    	LoginWarning warning = new LoginWarning();
-		    }
-		  }
+		button1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (verwaltung.login(user.getText(), pw.getText())) {
+					// hier einfügen wass bei login passieren soll
+					System.out.println("Login erfolgreich");
+
+					Masterframe frame = new Masterframe();
+				} else {
+					// hier einfügen was bei fehlgeschlagenem login passieren
+					// soll
+					System.out.println("Login fehlgeschlagen");
+
+					LoginWarning warning = new LoginWarning();
+				}
+			}
 		});
-		
+
 		JLabel ph1 = new JLabel();
 		JLabel ph2 = new JLabel();
-		
+
 		login.add(ph1);
 		login.add(ph2);
 		login.add(name);
 		login.add(user);
 		login.add(password);
 		login.add(pw);
-		
+
 		JPanel south = new JPanel();
 		south.setLayout(new BorderLayout());
 		south.add(login, BorderLayout.CENTER);
