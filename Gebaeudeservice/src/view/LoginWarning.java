@@ -16,6 +16,8 @@ import javax.swing.SwingConstants;
 
 public class LoginWarning extends JFrame {
 
+	private static final long serialVersionUID = -2919771881955889317L;
+
 	JFrame loginwarning;
 
 	public LoginWarning() {
