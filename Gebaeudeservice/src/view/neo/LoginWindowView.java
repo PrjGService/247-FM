@@ -102,5 +102,4 @@ public class LoginWindowView extends JXFrame{
 		this.setLocationRelativeTo(this.getOwner());
 	}
 	
-
 }
