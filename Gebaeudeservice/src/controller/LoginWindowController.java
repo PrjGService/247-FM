@@ -26,5 +26,6 @@ public class LoginWindowController {
 		// do something with login incrementals.
 	
 		MainWindowController.getInstance();
+		view.dispose();
 	}
 }
