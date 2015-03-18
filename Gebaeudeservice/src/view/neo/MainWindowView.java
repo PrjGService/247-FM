@@ -4,16 +4,20 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.ScrollPaneLayout;
 import javax.swing.UIManager;
+
+import model.Auftrag;
 
 import org.jdesktop.swingx.JXFrame;
 import org.jdesktop.swingx.JXHeader;
@@ -22,6 +26,13 @@ import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 
 import util.UIUtil;
+import view.neo.content.AuftragsUebersichtView;
+import view.neo.content.ImpressumView;
+import view.neo.content.MahnauftragsView;
+import view.neo.content.MitarbeiterView;
+import view.neo.content.RechnungsAnlegenView;
+import view.neo.content.RechnungsUebersichtView;
+import view.neo.content.StatusAbfragenView;
 
 public class MainWindowView extends JXFrame{
 	
@@ -36,8 +47,36 @@ public class MainWindowView extends JXFrame{
 	JXPanel centerContentData;
 	CardLayout centerContentDataLayout;
 	
-	private JXTaskPane firstTaskPane;
-	private AbstractAction firstAction;
+	private JXTaskPane auftraegeTaskPane;
+	
+	private AbstractAction auftraegeUebersichtAction;
+	private AuftragsUebersichtView auftreageUebersichtPanel;
+	
+	private AbstractAction statusAbfragenAction;
+	private JXPanel statusAbfragenPanel; 
+	
+	private JXTaskPane mitarbeiterTaskPane;
+	
+	private AbstractAction mitarbeiterAction;
+	private JXPanel mitarbeiterPanel;
+	
+	private JXTaskPane rechnungTaskPane;
+	
+	private AbstractAction rechnungAction;
+	private JXPanel rechnungPanel;
+	
+	private AbstractAction rechnungAnlegenAction;
+	private JXPanel rechnungAnlegenPanel;
+	
+	private AbstractAction mahnauftragAction;
+	private JXPanel mahnauftragPanel;
+	
+	private JXTaskPane adminTaskPane;
+	
+	private AbstractAction impressumAction;
+	private JXPanel impressumPanel;
+	
+	private AbstractAction logoutAction;
 
 	/**
 	 * 
@@ -71,6 +110,8 @@ public class MainWindowView extends JXFrame{
 		header.setDescriptionFont(new Font("Arial", Font.PLAIN, 16));
 		header.setDescriptionForeground(Color.white);
 		header.setBackground(UIUtil.getStandardColor());
+		header.setIcon(new ImageIcon(new ImageIcon("res/logo.png").getImage().
+				getScaledInstance(-1, 60, Image.SCALE_SMOOTH)));
 		contentPanel.add(header, BorderLayout.NORTH);
 		
 		mainPanel = new JXPanel(new BorderLayout());
@@ -83,7 +124,8 @@ public class MainWindowView extends JXFrame{
 		
 		centerContentDataLayout = new CardLayout();
 		centerContentData = new JXPanel();
-		centerContentData.setLayout(centerContentDataLayout);		
+		centerContentData.setLayout(centerContentDataLayout);	
+		centerContentData.setBackground(Color.white);
 		centerContent = new JScrollPane(centerContentData);
 		centerContent.setLayout(new ScrollPaneLayout());
 		centerContent.setBorder(BorderFactory.createEmptyBorder(3, 3, 0, 0));
@@ -96,26 +138,181 @@ public class MainWindowView extends JXFrame{
 		centerPanel.setDividerSize(0);
 		mainPanel.add(centerPanel, BorderLayout.CENTER);
 		
-		firstTaskPane = new JXTaskPane("Erste Navigurationsgruppe");
+		auftraegeTaskPane = new JXTaskPane("Aufträge");
 		
-		firstAction = new AbstractAction() {
+		auftreageUebersichtPanel = new AuftragsUebersichtView();
+		centerContentData.add(auftreageUebersichtPanel, auftreageUebersichtPanel.getClass().getName());
+		
+		auftraegeUebersichtAction = new AbstractAction() {
+			private static final long serialVersionUID = -1035106393148369106L;
 
-			  {
-			    putValue(Action.NAME, "task pane item 2 : an action");
-			    putValue(Action.SHORT_DESCRIPTION, "perform an action");
+			{
+			    putValue(Action.NAME, "Übersicht");
+			    putValue(Action.SHORT_DESCRIPTION, "Übersichtsseite Aufträge");
 			  }
 
 			  public void actionPerformed(ActionEvent e) {
-				  // do something.
+				  showContent(auftreageUebersichtPanel.getClass().getName());
 			  }
 
 			};
+
+		auftraegeTaskPane.add(auftraegeUebersichtAction);
 		
-		firstTaskPane.add(firstAction);
+		statusAbfragenPanel = new StatusAbfragenView();
+		centerContentData.add(statusAbfragenPanel, statusAbfragenPanel.getClass().getName());
 		
-		centerNavigatorData.add(firstTaskPane);
+		statusAbfragenAction = new AbstractAction() {
+			private static final long serialVersionUID = -1035106393148369106L;
+
+			{
+			    putValue(Action.NAME, "Status abfragen");
+			    putValue(Action.SHORT_DESCRIPTION, "Status der Azufträge abfragen");
+			  }
+
+			  public void actionPerformed(ActionEvent e) {
+				  showContent(statusAbfragenPanel.getClass().getName());
+			  }
+
+			};
+
+		auftraegeTaskPane.add(statusAbfragenAction);
+		
+		mitarbeiterTaskPane = new JXTaskPane("Mitarbeiter");
+		
+		mitarbeiterPanel = new MitarbeiterView();
+		centerContentData.add(mitarbeiterPanel, mitarbeiterPanel.getClass().getName());
+		
+		mitarbeiterAction = new AbstractAction() {
+			private static final long serialVersionUID = -1035106393148369106L;
+
+			{
+			    putValue(Action.NAME, "Mitarbeiter");
+			    putValue(Action.SHORT_DESCRIPTION, "Mitarbeiter anzeigen");
+			  }
+
+			  public void actionPerformed(ActionEvent e) {
+				  showContent(mitarbeiterPanel.getClass().getName());
+			  }
+
+			};
+
+		mitarbeiterTaskPane.add(mitarbeiterAction);
+		
+		rechnungTaskPane = new JXTaskPane("Rechnung");
+		
+		rechnungPanel = new RechnungsUebersichtView();
+		centerContentData.add(rechnungPanel, rechnungPanel.getClass().getName());
+		
+		rechnungAction = new AbstractAction() {
+			private static final long serialVersionUID = -1035106393148369106L;
+
+			{
+			    putValue(Action.NAME, "Übersicht");
+			    putValue(Action.SHORT_DESCRIPTION, "Rechnungsübersicht anzeigen");
+			  }
+
+			  public void actionPerformed(ActionEvent e) {
+				  showContent(rechnungPanel.getClass().getName());
+			  }
+
+			};
+
+		rechnungTaskPane.add(rechnungAction);
+		
+		rechnungAnlegenPanel = new RechnungsAnlegenView();
+		centerContentData.add(rechnungAnlegenPanel, rechnungAnlegenPanel.getClass().getName());
+		
+		rechnungAnlegenAction = new AbstractAction() {
+			private static final long serialVersionUID = -1035106393148369106L;
+
+			{
+			    putValue(Action.NAME, "Neu anlegen");
+			    putValue(Action.SHORT_DESCRIPTION, "Rechnung anlegen");
+			  }
+
+			  public void actionPerformed(ActionEvent e) {
+				  showContent(rechnungAnlegenPanel.getClass().getName());
+			  }
+
+			};
+
+		rechnungTaskPane.add(rechnungAnlegenAction);
+		
+		mahnauftragPanel = new MahnauftragsView();
+		centerContentData.add(mahnauftragPanel, mahnauftragPanel.getClass().getName());
+		
+		mahnauftragAction = new AbstractAction() {
+			private static final long serialVersionUID = -1035106393148369106L;
+
+			{
+			    putValue(Action.NAME, "Mahnauftrag erteilen");
+			    putValue(Action.SHORT_DESCRIPTION, "Mahnung anlegen");
+			  }
+
+			  public void actionPerformed(ActionEvent e) {
+				  showContent(mahnauftragAction.getClass().getName());
+			  }
+
+			};
+
+		rechnungTaskPane.add(mahnauftragAction);
+		
+		adminTaskPane = new JXTaskPane("Administrativ");
+		
+		impressumPanel = new ImpressumView();
+		centerContentData.add(impressumPanel, impressumPanel.getClass().getName());
+		
+		impressumAction = new AbstractAction() {
+			private static final long serialVersionUID = -1035106393148369106L;
+
+			{
+			    putValue(Action.NAME, "Impressum");
+			    putValue(Action.SHORT_DESCRIPTION, "Impressum anzeigen");
+			  }
+
+			  public void actionPerformed(ActionEvent e) {
+				  showContent(impressumPanel.getClass().getName());
+			  }
+
+			};
+
+		adminTaskPane.add(impressumAction);
+		
+		logoutAction = new AbstractAction() {
+			private static final long serialVersionUID = -1035106393148369106L;
+
+			{
+			    putValue(Action.NAME, "Abmelden");
+			    putValue(Action.SHORT_DESCRIPTION, "Abmelden von der Sessions.");
+			  }
+
+			  public void actionPerformed(ActionEvent e) {
+				  System.exit(0);
+			  }
+
+			};
+
+		adminTaskPane.add(logoutAction);
+		
+		centerNavigatorData.add(auftraegeTaskPane);
+		centerNavigatorData.add(mitarbeiterTaskPane);
+		centerNavigatorData.add(rechnungTaskPane);
+		centerNavigatorData.add(adminTaskPane);
 		contentPanel.add(mainPanel, BorderLayout.CENTER);
 	}
 	
+	public void showContent(String key){
+		centerContentDataLayout.show(centerContentData, key);
+		centerContentData.repaint();
+	}
 	
+	public void addOrChangeAuftrag(Auftrag auftrag){
+		auftreageUebersichtPanel.addAuftrag(Long.valueOf(auftrag.auftragID), auftrag.auftraggeber.auftraggeberName, 
+				auftrag.auftragstatus.toString(), auftrag.auftragdatum.toString(), "??");
+	}
+
+	public void deleteAuftrag(Auftrag auftrag) {
+		auftreageUebersichtPanel.deleteAuftrag(auftrag.auftragID);	
+	}
 }

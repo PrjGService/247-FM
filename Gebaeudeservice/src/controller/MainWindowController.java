@@ -1,5 +1,6 @@
 package controller;
 
+import model.Auftrag;
 import view.neo.MainWindowView;
 
 public class MainWindowController {
@@ -19,6 +20,14 @@ public class MainWindowController {
 		super();
 		this.view = view;
 		this.view.setVisible(true);
+	}
+	
+	public void addOrChangeAuftrag(Auftrag auftrag){
+		view.addOrChangeAuftrag(auftrag);
+	}
+	
+	public void deleteAuftrag(Auftrag auftrag){
+		view.deleteAuftrag(auftrag);
 	}
 
 }
