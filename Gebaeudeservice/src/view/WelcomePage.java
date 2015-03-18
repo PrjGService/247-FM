@@ -44,7 +44,7 @@ public class WelcomePage extends JFrame {
 		Image icon = new ImageIcon("res/logo.png").getImage();
 		Image logo1 = new ImageIcon("res/logo1.png").getImage();
 
-		welcome.setResizable(true);
+		welcome.setResizable(false);
 		welcome.setIconImage(icon);
 		welcome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
