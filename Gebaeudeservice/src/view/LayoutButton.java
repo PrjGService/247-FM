@@ -1,6 +1,8 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Font;
+
 import javax.swing.JButton;
 
 public class LayoutButton extends JButton {
@@ -14,9 +16,8 @@ public class LayoutButton extends JButton {
 
 		this.title = title;
 		this.setText(title);
-		// button = new JButton(title);
-		// this.setBackground(Color.DARK_GRAY);
 		this.setFont(new Font("ARIAL", Font.BOLD, 22));
+		this.setForeground(new Color(19, 123, 64));
 
 	}
 

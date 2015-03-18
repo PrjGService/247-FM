@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -39,7 +38,6 @@ public class LoginWarning extends JFrame {
 		label1.setHorizontalAlignment(SwingConstants.HORIZONTAL);
 
 		LayoutButton close = new LayoutButton("OK");
-		close.setForeground(new Color(19, 123, 64));
 		close.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				loginwarning.dispose();

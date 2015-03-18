@@ -130,8 +130,7 @@ public class WelcomePage extends JFrame {
 
 		LayoutButton button1 = new LayoutButton("Anmelden");
 		button1.setLayout(new BorderLayout());
-		button1.setForeground(new Color(19, 123, 64));
-
+		
 		button1.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
