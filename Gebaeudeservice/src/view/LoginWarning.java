@@ -1,8 +1,13 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -15,7 +20,7 @@ public class LoginWarning extends JFrame {
 
 	public LoginWarning() {
 
-		JFrame loginwarning = new JFrame("Login fehlgeschlagen.");
+		final JFrame loginwarning = new JFrame("Login fehlgeschlagen.");
 
 		Image logo = new ImageIcon("res/logo.png").getImage();
 
@@ -27,15 +32,51 @@ public class LoginWarning extends JFrame {
 		loginwarning.setLayout(new BorderLayout());
 
 		JLabel label1 = new JLabel();
-		label1.setText("<html><body><center> Anmeldung nicht erfolgreich! <br><br> Benutzername oder Passwort nicht bekannt. </body></html>");
+		label1.setText("<html><body><center> Anmeldung nicht erfolgreich! <br><br> Benutzername oder Passwort nicht korrekt. </body></html>");
 		label1.setFont(new Font("Arial", Font.PLAIN, 18));
 		label1.setHorizontalAlignment(SwingConstants.HORIZONTAL);
 
-		loginwarning.add(label1,BorderLayout.CENTER);
+		LayoutButton close = new LayoutButton("OK");
+		close.setForeground(new Color(19, 123, 64));
+		close.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				loginwarning.dispose();
+			}
+		});
+		close.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+
+					loginwarning.dispose();
+
+				} else {
+
+				}
+
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+		});
+
+		loginwarning.add(label1, BorderLayout.CENTER);
+		loginwarning.add(close, BorderLayout.SOUTH);
 
 		loginwarning.setVisible(true);
 		System.out.println("Warning erzeugt.");
 
 	}
-
 }
