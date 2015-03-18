@@ -51,7 +51,7 @@ public class LoginWarning extends JFrame {
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
 
 					loginwarning.dispose();
-					System.out.println("Warning geschlossen.");
+					System.out.println("Warning closed.");
 
 				} else {
 
@@ -77,7 +77,7 @@ public class LoginWarning extends JFrame {
 		loginwarning.add(close, BorderLayout.SOUTH);
 
 		loginwarning.setVisible(true);
-		System.out.println("Warning erzeugt.");
+		System.out.println("Warning generated.");
 
 	}
 }

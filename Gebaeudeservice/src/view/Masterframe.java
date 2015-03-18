@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 
 public class Masterframe extends JFrame {
 
+	private static final long serialVersionUID = 4586531413334355265L;
+	
 	JFrame masterframe;
 
 	public Masterframe() {
@@ -21,7 +23,7 @@ public class Masterframe extends JFrame {
 		masterframe.setExtendedState(Frame.MAXIMIZED_BOTH);
 		masterframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		System.out.println("Anmeldung erfolgreich - System gestartet!");
+		System.out.println("Login succesfull - System started!");
 
 	}
 

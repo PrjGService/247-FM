@@ -2,7 +2,6 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
@@ -17,7 +16,6 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,6 +26,8 @@ import javax.swing.SwingConstants;
 import controller.Verwaltung;
 
 public class WelcomePage extends JFrame {
+
+	private static final long serialVersionUID = 3557864012470377221L;
 
 	JFrame WelcomePage;
 	JFrame welcome;
@@ -92,18 +92,19 @@ public class WelcomePage extends JFrame {
 
 		pw.addKeyListener(new KeyListener() {
 
+			@SuppressWarnings("deprecation")
 			@Override
 			public void keyTyped(KeyEvent e) {
 
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
 
 					if (verwaltung.login(user.getText(), pw.getText())) {
-						System.out.println("Login erfolgreich");
-						Masterframe frame = new Masterframe();
+						System.out.println("Login succesfull.");
+						new Masterframe();
 					} else {
 
-						System.out.println("Login fehlgeschlagen");
-						LoginWarning warning = new LoginWarning();
+						System.out.println("Login failed.");
+						new LoginWarning();
 					}
 
 				} else {
@@ -132,18 +133,19 @@ public class WelcomePage extends JFrame {
 		button1.setForeground(new Color(19, 123, 64));
 
 		button1.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				if (verwaltung.login(user.getText(), pw.getText())) {
 
-					System.out.println("Login erfolgreich");
+					System.out.println("Login succesfull.");
 
-					Masterframe frame = new Masterframe();
+					new Masterframe();
 					welcome.dispose();
 				} else {
 
-					System.out.println("Login fehlgeschlagen");
+					System.out.println("Login failed.");
 
-					LoginWarning warning = new LoginWarning();
+					new LoginWarning();
 				}
 			}
 		});
@@ -172,7 +174,7 @@ public class WelcomePage extends JFrame {
 		welcome.setVisible(true);
 		welcome.setExtendedState(Frame.MAXIMIZED_BOTH);
 
-		System.out.println(welcome);
+		System.out.println("Loginpage generated.");
 
 	}
 }
