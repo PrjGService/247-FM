@@ -108,7 +108,7 @@ public class WelcomePage extends JFrame {
 
 				} else {
 
-					// leer lassen
+					// no need
 
 				}
 

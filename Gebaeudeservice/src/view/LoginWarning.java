@@ -51,6 +51,7 @@ public class LoginWarning extends JFrame {
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
 
 					loginwarning.dispose();
+					System.out.println("Warning geschlossen.");
 
 				} else {
 
