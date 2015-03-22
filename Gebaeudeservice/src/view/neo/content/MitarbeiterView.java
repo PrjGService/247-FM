@@ -16,6 +16,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 import javax.swing.table.TableCellRenderer;
 
 import model.Mitarbeiter;
@@ -177,7 +178,6 @@ public class MitarbeiterView extends JXPanel {
 				} else {
 					setText("");
 					setIcon(icon1);
-					setSize(getPreferredSize());
 				}
 				break;
 
