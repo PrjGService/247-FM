@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.table.TableCellRenderer;
 
@@ -39,7 +40,7 @@ public class MitarbeiterView extends JXPanel {
 	private JScrollPane mainTablePane;
 	private MitarbeiterModel tableModel;
 	private JXTable mainTable;
-	
+
 	public MitarbeiterView() {
 		super();
 		initUI();
@@ -48,13 +49,13 @@ public class MitarbeiterView extends JXPanel {
 	private void initUI() {
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
-		
+
 		mainTable = createMitarbeiterTable();
 		mainTablePane = new JScrollPane(mainTable);
 		this.add(mainTablePane, BorderLayout.CENTER);
 
 	}
-	
+
 	private JXTable createMitarbeiterTable() {
 		tableModel = new MitarbeiterModel();
 		JXTable mitarbeiterTable = new JXTable(tableModel);
@@ -70,29 +71,33 @@ public class MitarbeiterView extends JXPanel {
 		mitarbeiterTable.setSelectionBackground(UIUtil.getStandardColor());
 		mitarbeiterTable.setSelectionForeground(Color.WHITE);
 
+		TableRowRenderer renderer = new TableRowRenderer(tableModel);
+
 		mitarbeiterTable.getColumnModel().getColumn(0).setPreferredWidth(25);
 
 		mitarbeiterTable.getTableHeader().resizeAndRepaint();
-		mitarbeiterTable.setDefaultRenderer(Object.class, new TableRowRenderer(
-				tableModel));
-		
+		mitarbeiterTable.setDefaultRenderer(Object.class, renderer);
+		mitarbeiterTable.setDefaultRenderer(Long.class, renderer);
+
 		DBManager dbmanager = new DBManager();
 		List<Mitarbeiter> m = dbmanager.getAllMitarbeiter();
 		for (Mitarbeiter mitarbeiter : m) {
 			IRow MitarbeiterRow;
-			tableModel.addRow(new MitarbeiterRow(mitarbeiter.getMitarbeiterID(), mitarbeiter.getMitarbeiterName(), mitarbeiter.getMitarbeiterStatus()));
-			
-	
+			tableModel.addRow(new MitarbeiterRow(
+					mitarbeiter.getMitarbeiterID(), mitarbeiter
+							.getMitarbeiterName(), mitarbeiter
+							.getMitarbeiterStatus()));
+
 		}
-		
+
 		return mitarbeiterTable;
 	}
-	
+
 	public void addMitarbeiter(long id, String name, Mitarbeiterstatus status) {
 		tableModel.addRow(new MitarbeiterRow(id, name, status));
 		tableModel.fireTableDataChanged();
 	}
-	
+
 	public void deleteAuftrag(long id) {
 		for (int i = 0; i < tableModel.getRowCount(); i++) {
 			AuftragsRow r = (AuftragsRow) tableModel.getRow(i);
@@ -117,21 +122,54 @@ public class MitarbeiterView extends JXPanel {
 				Object value, boolean isSelected, boolean hasFocus, int row,
 				int col) {
 
-			setForeground(Color.BLACK);
-			setBackground(Color.white);
-			if (value != null)
-				setText(value.toString());
+			setFont(new Font("Arial", Font.PLAIN, 14));
+			setHorizontalAlignment(SwingUtilities.CENTER);
+			setIcon(null);
 
 			if (hasFocus || isSelected) {
-				Font font = new Font(this.getFont().getFamily(), Font.BOLD,
-						this.getFont().getSize());
-				this.setFont(font);
+				setBackground(UIUtil.getStandardColor());
+				setForeground(Color.WHITE);
 			} else {
-				Font font = new Font(this.getFont().getFamily(), Font.PLAIN,
-						this.getFont().getSize());
-				this.setFont(font);
+				if (row % 2 == 0)
+					setBackground(UIUtil.getSecondColor());
+				else
+					setBackground(Color.WHITE);
+				setForeground(Color.BLACK);
 			}
 
+			switch (col) {
+			case 0:
+				setHorizontalAlignment(SwingUtilities.LEFT);
+				setHorizontalTextPosition(SwingUtilities.LEFT);
+				setText(" " + String.valueOf((long) value));
+				System.out.println("test");
+				break;
+			case 1:
+				setHorizontalAlignment(SwingUtilities.LEFT);
+				setText((String) value);
+				break;
+			case 2:
+				setHorizontalAlignment(SwingUtilities.LEFT);
+				Mitarbeiterstatus status = (Mitarbeiterstatus) value;
+				if (status != null) {
+					if (status.ordinal() == Mitarbeiterstatus.ARBEITET
+							.ordinal()) {
+						setIcon(null);
+					} else if (status.ordinal() == Mitarbeiterstatus.VERFUEGBAR
+							.ordinal()) {
+						setIcon(null);
+					} else if (status.ordinal() == Mitarbeiterstatus.UNVERFUEGBAR
+							.ordinal()) {
+						setIcon(null);
+					}
+				}
+				break;
+
+			default:
+				System.out.println("Spalte nicht gefunden und übersprungen: "
+						+ col);
+				break;
+			}
 			return this;
 		}
 	}
@@ -141,10 +179,10 @@ public class MitarbeiterView extends JXPanel {
 		private static final long serialVersionUID = -5574999980921824807L;
 
 		private static Class[] columnClass = { Long.class, String.class,
-				String.class};
+				String.class };
 
 		private static String[] columnNames = { "Mitarbeiter-ID", "Name",
-				"Status"};
+				"Status" };
 
 		public MitarbeiterModel() {
 			super(columnClass, columnNames);
@@ -156,7 +194,8 @@ public class MitarbeiterView extends JXPanel {
 
 		@Override
 		public Object getValueAt(int rowIndex, int columnIndex) {
-			MitarbeiterRow row = (MitarbeiterRow) dataVector.elementAt(rowIndex);
+			MitarbeiterRow row = (MitarbeiterRow) dataVector
+					.elementAt(rowIndex);
 
 			switch (columnIndex) {
 			case 0:
@@ -165,13 +204,14 @@ public class MitarbeiterView extends JXPanel {
 				return row.getName();
 			case 2:
 				return row.getStatus();
-			
+
 			}
 			return null;
 		}
 
 		public void setValue(Object value, int rowIndex, int columnIndex) {
-			MitarbeiterRow row = (MitarbeiterRow) dataVector.elementAt(rowIndex);
+			MitarbeiterRow row = (MitarbeiterRow) dataVector
+					.elementAt(rowIndex);
 
 			switch (columnIndex) {
 			case 0:
@@ -192,12 +232,11 @@ public class MitarbeiterView extends JXPanel {
 		private String name;
 		private Mitarbeiterstatus status;
 
-
 		public MitarbeiterRow(long id, String name, Mitarbeiterstatus status) {
 			this.id = id;
 			this.name = name;
 			this.status = status;
-			
+
 		}
 
 		public long getId() {

@@ -63,7 +63,7 @@ public class AuftragsUebersichtView extends JXPanel {
 		
 		TableRowRenderer renderer = new TableRowRenderer(tableModel);
 
-		auftragsTable.getColumnModel().getColumn(0).setPreferredWidth(25);;
+		auftragsTable.getColumnModel().getColumn(0).setPreferredWidth(25);
 
 		auftragsTable.getTableHeader().resizeAndRepaint();
 		auftragsTable.setDefaultRenderer(Object.class, renderer);
@@ -74,7 +74,7 @@ public class AuftragsUebersichtView extends JXPanel {
 		// List<Auftrag> l = dbmanager.getAllAuftrag();
 		// for (Auftrag auftrag : l) {
 		tableModel.addRow(new AuftragsRow(1, "SHIFT Geb�udemanagement",
-				"bezahlt", "12.01.2015", "Rasen m�hen"));
+				"bezahlt", "12.01.2015", "Rasen mahen"));
 		tableModel.addRow(new AuftragsRow(2, "SHIFT Geb�udemanagement",
 				"bezahlt", "23.01.2015", "Reparatur"));
 		tableModel.addRow(new AuftragsRow(3, "SHIFT Geb�udemanagement",
@@ -163,7 +163,6 @@ public class AuftragsUebersichtView extends JXPanel {
 				System.out.println("Spalte nicht gefunden und übersprungen: " + col);
 				break;
 			}
-			System.out.println(col);
 			return this;
 		}
 	}
