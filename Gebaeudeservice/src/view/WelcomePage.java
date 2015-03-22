@@ -44,7 +44,7 @@ public class WelcomePage extends JFrame {
 		Image icon = new ImageIcon("res/logo.png").getImage();
 		Image logo1 = new ImageIcon("res/logo1.png").getImage();
 
-		welcome.setResizable(true);
+		welcome.setResizable(false);
 		welcome.setIconImage(icon);
 		welcome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -173,7 +173,8 @@ public class WelcomePage extends JFrame {
 
 		welcome.pack();
 		welcome.setVisible(true);
-		welcome.setExtendedState(Frame.MAXIMIZED_BOTH);
+		welcome.setLocationRelativeTo(getParent());
+		welcome.setExtendedState(Frame.NORMAL);
 
 		System.out.println("Loginpage generated.");
 

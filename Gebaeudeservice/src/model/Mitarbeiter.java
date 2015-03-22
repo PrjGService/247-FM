@@ -17,6 +17,54 @@ public class Mitarbeiter {
 	
 	
 	
+	public int getMitarbeiterID() {
+		return mitarbeiterID;
+	}
+
+
+
+	public void setMitarbeiterID(int mitarbeiterID) {
+		this.mitarbeiterID = mitarbeiterID;
+	}
+
+
+
+	public String getMitarbeiterName() {
+		return mitarbeiterName;
+	}
+
+
+
+	public void setMitarbeiterName(String mitarbeiterName) {
+		this.mitarbeiterName = mitarbeiterName;
+	}
+
+
+
+	public Mitarbeiterstatus getMitarbeiterStatus() {
+		return mitarbeiterStatus;
+	}
+
+
+
+	public void setMitarbeiterStatus(Mitarbeiterstatus mitarbeiterStatus) {
+		this.mitarbeiterStatus = mitarbeiterStatus;
+	}
+
+
+
+	public Position getAktuellePosition() {
+		return aktuellePosition;
+	}
+
+
+
+	public void setAktuellePosition(Position aktuellePosition) {
+		this.aktuellePosition = aktuellePosition;
+	}
+
+
+
 	public Mitarbeiter(int mitarbeiterID, String mitarbeiterName,
 			Mitarbeiterstatus mitarbeiterStatus) {
 		this.mitarbeiterID = mitarbeiterID;

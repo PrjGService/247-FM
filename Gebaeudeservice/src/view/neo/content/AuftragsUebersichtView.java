@@ -71,17 +71,17 @@ public class AuftragsUebersichtView extends JXPanel {
 		DBManager dbmanager = new DBManager();
 //		List<Auftrag> l = dbmanager.getAllAuftrag();
 //		for (Auftrag auftrag : l) {
-			tableModel.addRow(new AuftragsRow(1, "SHIFT GM",
+			tableModel.addRow(new AuftragsRow(1, "SHIFT Gebäudemanagement",
 					"bezahlt", "12.01.2015", "Rasen mähen"));
-			tableModel.addRow(new AuftragsRow(2, "SHIFT GM",
+			tableModel.addRow(new AuftragsRow(2, "SHIFT Gebäudemanagement",
 					"bezahlt", "23.01.2015", "Reparatur"));
-			tableModel.addRow(new AuftragsRow(3, "SHIFT GM",
+			tableModel.addRow(new AuftragsRow(3, "SHIFT Gebäudemanagement",
 					"erledigt", "08.02.2015", "Gas"));
-			tableModel.addRow(new AuftragsRow(4, "SHIFT GM",
+			tableModel.addRow(new AuftragsRow(4, "SHIFT Gebäudemanagement",
 					"erledigt", "10.02.2015", "Wasser"));
-			tableModel.addRow(new AuftragsRow(5, "SHIFT GM",
+			tableModel.addRow(new AuftragsRow(5, "SHIFT Gebäudemanagement",
 					"offen", "26.03.2015", "Hecke schneiden"));
-			tableModel.addRow(new AuftragsRow(6, "SHIFT GM",
+			tableModel.addRow(new AuftragsRow(6, "SHIFT Gebäudemanagement",
 					"offen", "01.04.2015", "Treppenreinigung"));
 //		}
 		return auftragsTable;
@@ -209,6 +209,7 @@ public class AuftragsUebersichtView extends JXPanel {
 			this.auftragsstatus = auftragsstatus;
 			this.auftragsdatum = auftragsdatum;
 			this.dienstleistung = dienstleistung;
+			
 		}
 
 		public long getId() {
