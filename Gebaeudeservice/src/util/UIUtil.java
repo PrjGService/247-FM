@@ -20,4 +20,7 @@ public class UIUtil {
 		return new Color(19,123,64);
 	}
 
+	public static Color getSecondColor(){
+		return new Color(165,202,152);
+	}
 }

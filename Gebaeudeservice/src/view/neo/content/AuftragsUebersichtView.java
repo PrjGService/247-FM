@@ -4,16 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.table.TableCellRenderer;
-
-import model.Auftrag;
 
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
@@ -62,28 +60,32 @@ public class AuftragsUebersichtView extends JXPanel {
 		auftragsTable.setGridColor(Color.BLACK);
 		auftragsTable.setSelectionBackground(UIUtil.getStandardColor());
 		auftragsTable.setSelectionForeground(Color.WHITE);
+		
+		TableRowRenderer renderer = new TableRowRenderer(tableModel);
 
-		auftragsTable.getColumnModel().getColumn(0).setPreferredWidth(25);
+		auftragsTable.getColumnModel().getColumn(0).setPreferredWidth(25);;
 
 		auftragsTable.getTableHeader().resizeAndRepaint();
-		auftragsTable.setDefaultRenderer(Object.class, new TableRowRenderer(
-				tableModel));
+		auftragsTable.setDefaultRenderer(Object.class, renderer);
+		auftragsTable.setDefaultRenderer(Long.class, renderer);
+		
+		
 		DBManager dbmanager = new DBManager();
-//		List<Auftrag> l = dbmanager.getAllAuftrag();
-//		for (Auftrag auftrag : l) {
-			tableModel.addRow(new AuftragsRow(1, "SHIFT Gebäudemanagement",
-					"bezahlt", "12.01.2015", "Rasen mähen"));
-			tableModel.addRow(new AuftragsRow(2, "SHIFT Gebäudemanagement",
-					"bezahlt", "23.01.2015", "Reparatur"));
-			tableModel.addRow(new AuftragsRow(3, "SHIFT Gebäudemanagement",
-					"erledigt", "08.02.2015", "Gas"));
-			tableModel.addRow(new AuftragsRow(4, "SHIFT Gebäudemanagement",
-					"erledigt", "10.02.2015", "Wasser"));
-			tableModel.addRow(new AuftragsRow(5, "SHIFT Gebäudemanagement",
-					"offen", "26.03.2015", "Hecke schneiden"));
-			tableModel.addRow(new AuftragsRow(6, "SHIFT Gebäudemanagement",
-					"offen", "01.04.2015", "Treppenreinigung"));
-//		}
+		// List<Auftrag> l = dbmanager.getAllAuftrag();
+		// for (Auftrag auftrag : l) {
+		tableModel.addRow(new AuftragsRow(1, "SHIFT Gebï¿½udemanagement",
+				"bezahlt", "12.01.2015", "Rasen mï¿½hen"));
+		tableModel.addRow(new AuftragsRow(2, "SHIFT Gebï¿½udemanagement",
+				"bezahlt", "23.01.2015", "Reparatur"));
+		tableModel.addRow(new AuftragsRow(3, "SHIFT Gebï¿½udemanagement",
+				"erledigt", "08.02.2015", "Gas"));
+		tableModel.addRow(new AuftragsRow(4, "SHIFT Gebï¿½udemanagement",
+				"erledigt", "10.02.2015", "Wasser"));
+		tableModel.addRow(new AuftragsRow(5, "SHIFT Gebï¿½udemanagement",
+				"offen", "26.03.2015", "Hecke schneiden"));
+		tableModel.addRow(new AuftragsRow(6, "SHIFT Gebï¿½udemanagement",
+				"offen", "01.04.2015", "Treppenreinigung"));
+		// }
 		return auftragsTable;
 	}
 
@@ -118,21 +120,50 @@ public class AuftragsUebersichtView extends JXPanel {
 				Object value, boolean isSelected, boolean hasFocus, int row,
 				int col) {
 
-			setForeground(Color.BLACK);
-			setBackground(Color.white);
-			if (value != null)
-				setText(value.toString());
+			setFont(new Font("Arial", Font.PLAIN, 14));
+			setHorizontalAlignment(SwingUtilities.CENTER);
+			setIcon(null);
 
 			if (hasFocus || isSelected) {
-				Font font = new Font(this.getFont().getFamily(), Font.BOLD,
-						this.getFont().getSize());
-				this.setFont(font);
+				setBackground(UIUtil.getStandardColor());
+				setForeground(Color.WHITE);
 			} else {
-				Font font = new Font(this.getFont().getFamily(), Font.PLAIN,
-						this.getFont().getSize());
-				this.setFont(font);
+				if (row % 2 == 0)
+					setBackground(UIUtil.getSecondColor());
+				else
+					setBackground(Color.WHITE);
+				setForeground(Color.BLACK);
 			}
 
+			switch (col) {
+			case 0:
+				setHorizontalAlignment(SwingUtilities.LEFT);
+				setHorizontalTextPosition(SwingUtilities.LEFT);
+				setText(" " + String.valueOf((long) value));
+				System.out.println("test");
+				break;
+			case 1:
+				setHorizontalAlignment(SwingUtilities.LEFT);
+				setText((String) value);
+				break;
+			case 2:
+				setHorizontalAlignment(SwingUtilities.LEFT);
+				setText((String) value);
+				break;
+			case 3:
+				setHorizontalAlignment(SwingUtilities.LEFT);
+				setText((String) value);
+				break;
+			case 4:
+				setHorizontalAlignment(SwingUtilities.LEFT);
+				setText((String) value);
+				break;
+
+			default:
+				System.out.println("Spalte nicht gefunden und Ã¼bersprungen: " + col);
+				break;
+			}
+			System.out.println(col);
 			return this;
 		}
 	}
@@ -209,7 +240,7 @@ public class AuftragsUebersichtView extends JXPanel {
 			this.auftragsstatus = auftragsstatus;
 			this.auftragsdatum = auftragsdatum;
 			this.dienstleistung = dienstleistung;
-			
+
 		}
 
 		public long getId() {
