@@ -52,15 +52,15 @@ public static String getFaktortyp(Faktortyp f)
 public static Mitarbeiterstatus getMStatus(String s)
 {
 	Mitarbeiterstatus erg = null;
-	if(s == "Verfügbar")
+	if(s == "verfuegbar")
 	{
 		erg = Mitarbeiterstatus.VERFUEGBAR;
 	}
-	if(s == "Arbeitet")
+	if(s == "arbeitet")
 	{
 		erg = Mitarbeiterstatus.ARBEITET;
 	}
-	if(s == "Unverfügbar")
+	if(s == "unverfuegbar")
 	{
 		erg = Mitarbeiterstatus.UNVERFUEGBAR;
 	}
@@ -72,15 +72,15 @@ public static String getMStatus(Mitarbeiterstatus m)
 	String erg = null;
 	if(m == Mitarbeiterstatus.VERFUEGBAR)
 	{
-		erg = "Verfügbar";
+		erg = "verfuegbar";
 	}
 	if(m == Mitarbeiterstatus.ARBEITET)
 	{
-		erg = "Arbeitet";
+		erg = "arbeitet";
 	}
 	if(m == Mitarbeiterstatus.UNVERFUEGBAR)
 	{
-		erg = "Unverfügbar";
+		erg = "unverfuegbar";
 	}
 	return erg;
 }

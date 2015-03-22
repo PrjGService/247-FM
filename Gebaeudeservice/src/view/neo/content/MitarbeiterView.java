@@ -177,7 +177,7 @@ public class MitarbeiterView extends JXPanel {
 				break;
 
 			default:
-				System.out.println("Spalte nicht gefunden und Ã¼bersprungen: "
+				System.out.println("Spalte nicht gefunden und übersprungen: "
 						+ col);
 				break;
 			}
