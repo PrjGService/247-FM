@@ -162,18 +162,22 @@ public class MitarbeiterView extends JXPanel {
 							.ordinal()) {
 						setIcon(icon3);
 						setText("");
+						setSize(getPreferredSize());
 					} else if (status.ordinal() == Mitarbeiterstatus.VERFUEGBAR
 							.ordinal()) {
 						setIcon(icon2);
 						setText("");
+						setSize(getPreferredSize());
 					} else if (status.ordinal() == Mitarbeiterstatus.UNVERFUEGBAR
 							.ordinal()) {
 						setIcon(icon1);
 						setText("");
+						setSize(getPreferredSize());
 					}
 				} else {
 					setText("");
 					setIcon(icon1);
+					setSize(getPreferredSize());
 				}
 				break;
 
