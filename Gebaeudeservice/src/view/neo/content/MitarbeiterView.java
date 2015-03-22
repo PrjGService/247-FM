@@ -24,6 +24,8 @@ import model.Mitarbeiter;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
 
+import com.mysql.jdbc.RowDataDynamic;
+
 import util.UIUtil;
 import util.table.IRow;
 import util.table.TableModel;
@@ -163,17 +165,14 @@ public class MitarbeiterView extends JXPanel {
 							.ordinal()) {
 						setIcon(icon3);
 						setText("");
-						setSize(getPreferredSize());
 					} else if (status.ordinal() == Mitarbeiterstatus.VERFUEGBAR
 							.ordinal()) {
 						setIcon(icon2);
 						setText("");
-						setSize(getPreferredSize());
 					} else if (status.ordinal() == Mitarbeiterstatus.UNVERFUEGBAR
 							.ordinal()) {
 						setIcon(icon1);
 						setText("");
-						setSize(getPreferredSize());
 					}
 				} else {
 					setText("");
