@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -116,6 +118,10 @@ public class MitarbeiterView extends JXPanel {
 			this.tableModel = tableModel;
 			setOpaque(true);
 		}
+		
+		Icon icon1 = new ImageIcon(("res/attention1.png"));
+		Icon icon2 = new ImageIcon(("res/construction2.png"));
+		Icon icon3 = new ImageIcon(("res/contruction3.png"));
 
 		@Override
 		public Component getTableCellRendererComponent(JTable table,
@@ -154,18 +160,18 @@ public class MitarbeiterView extends JXPanel {
 				if (status != null) {
 					if (status.ordinal() == Mitarbeiterstatus.ARBEITET
 							.ordinal()) {
-						setIcon(null);
+						setIcon(icon3);
 						setText("");
 					} else if (status.ordinal() == Mitarbeiterstatus.VERFUEGBAR
 							.ordinal()) {
-						setIcon(null);
+						setIcon(icon2);
 						setText("");
 					} else if (status.ordinal() == Mitarbeiterstatus.UNVERFUEGBAR
 							.ordinal()) {
-						setIcon(null);
+						setIcon(icon1);
 						setText("");
 					}
-				}else{
+				} else {
 					setText("");
 				}
 				break;
