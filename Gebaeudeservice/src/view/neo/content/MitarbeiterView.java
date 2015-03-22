@@ -162,6 +162,8 @@ public class MitarbeiterView extends JXPanel {
 							.ordinal()) {
 						setIcon(null);
 					}
+				}else{
+					setText("");
 				}
 				break;
 
