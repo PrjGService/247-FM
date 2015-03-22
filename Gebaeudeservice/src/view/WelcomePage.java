@@ -23,14 +23,15 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import controller.LoginWindowController;
+import controller.MainWindowController;
 import controller.Verwaltung;
 
 public class WelcomePage extends JFrame {
 
 	private static final long serialVersionUID = 3557864012470377221L;
 
-	JFrame WelcomePage;
-	JFrame welcome;
+	JFrame thisPage;
 	String username;
 	String pwname;
 	JPasswordField pw;
@@ -40,13 +41,13 @@ public class WelcomePage extends JFrame {
 	public WelcomePage() {
 
 		verwaltung = new Verwaltung();
-		final JFrame welcome = new JFrame("24/7 - Facility Management");
+		this.setTitle("24/7 - Facility Management");
 		Image icon = new ImageIcon("res/logo.png").getImage();
 		Image logo1 = new ImageIcon("res/logo1.png").getImage();
 
-		welcome.setResizable(false);
-		welcome.setIconImage(icon);
-		welcome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
+		this.setIconImage(icon);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Hintergrund ImagePanel
 
@@ -58,8 +59,8 @@ public class WelcomePage extends JFrame {
 			e.printStackTrace();
 		}
 
-		welcome.setContentPane(new ImagePanel(myImage));
-		welcome.setLayout(new BorderLayout());
+		this.setContentPane(new ImagePanel(myImage));
+		this.setLayout(new BorderLayout());
 
 		JLabel logo = new JLabel();
 		logo.setHorizontalAlignment(SwingConstants.HORIZONTAL);
@@ -97,19 +98,8 @@ public class WelcomePage extends JFrame {
 			public void keyTyped(KeyEvent e) {
 
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-
-					if (verwaltung.login(user.getText(), pw.getText())) {
-						System.out.println("Login succesfull.");
-						new Masterframe();
-					} else {
-
-						System.out.println("Login failed.");
-						new LoginWarning();
-					}
-
-				} else {
-
-					// no need
+					LoginWindowController.getInstance().handleLogin(
+							user.getText(), pw.getPassword().toString());
 
 				}
 
@@ -130,22 +120,12 @@ public class WelcomePage extends JFrame {
 
 		LayoutButton button1 = new LayoutButton("Anmelden");
 		button1.setLayout(new BorderLayout());
-		
+
 		button1.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-				if (verwaltung.login(user.getText(), pw.getText())) {
-
-					System.out.println("Login succesfull.");
-
-					new Masterframe();
-					welcome.dispose();
-				} else {
-
-					System.out.println("Login failed.");
-
-					new LoginWarning();
-				}
+				LoginWindowController.getInstance().handleLogin(user.getText(),
+						pw.getPassword().toString());
 			}
 		});
 
@@ -165,18 +145,21 @@ public class WelcomePage extends JFrame {
 		south.add(login, BorderLayout.CENTER);
 		south.add(button1, BorderLayout.SOUTH);
 		south.add(new JLabel("      "), BorderLayout.WEST);
-		south.add(new JLabel("      "), BorderLayout.EAST);		
+		south.add(new JLabel("      "), BorderLayout.EAST);
 		south.setBackground(new Color(19, 123, 64));
 
-		welcome.add(logo, BorderLayout.CENTER);
-		welcome.add(south, BorderLayout.SOUTH);
+		this.add(logo, BorderLayout.CENTER);
+		this.add(south, BorderLayout.SOUTH);
 
-		welcome.pack();
-		welcome.setVisible(true);
-		welcome.setLocationRelativeTo(getParent());
-		welcome.setExtendedState(Frame.NORMAL);
+		this.pack();
+		this.setLocationRelativeTo(getParent());
+		this.setExtendedState(Frame.NORMAL);
 
 		System.out.println("Loginpage generated.");
 
+	}
+
+	public void showError() {
+		new LoginWarning();
 	}
 }

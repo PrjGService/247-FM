@@ -75,7 +75,7 @@ public class LoginWarning extends JFrame {
 
 		loginwarning.add(label1, BorderLayout.CENTER);
 		loginwarning.add(close, BorderLayout.SOUTH);
-
+		loginwarning.setLocationRelativeTo(loginwarning.getOwner());
 		loginwarning.setVisible(true);
 		System.out.println("Warning generated.");
 

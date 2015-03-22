@@ -51,6 +51,13 @@ public class Verwaltung {
 	public int tag;
 	public int zieltag;
 	
+	public static Verwaltung getInstance(){
+		if(verwaltung == null){
+			verwaltung = new Verwaltung();
+		}
+		return verwaltung;
+	}
+	
 	//TODO Startinitialisierung
 	public Verwaltung()
 	{
