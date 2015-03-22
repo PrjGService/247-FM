@@ -16,12 +16,15 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 import javax.swing.table.TableCellRenderer;
 
 import model.Mitarbeiter;
 
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
+
+import com.mysql.jdbc.RowDataDynamic;
 
 import util.UIUtil;
 import util.table.IRow;
@@ -120,7 +123,7 @@ public class MitarbeiterView extends JXPanel {
 		}
 		
 		Icon icon1 = new ImageIcon(("res/attention1.png"));
-		Icon icon2 = new ImageIcon(("res/construction2.png"));
+		Icon icon2 = new ImageIcon(("res/constructor2.png"));
 		Icon icon3 = new ImageIcon(("res/contruction3.png"));
 
 		@Override
@@ -173,6 +176,7 @@ public class MitarbeiterView extends JXPanel {
 					}
 				} else {
 					setText("");
+					setIcon(icon1);
 				}
 				break;
 
