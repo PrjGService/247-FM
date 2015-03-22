@@ -73,23 +73,21 @@ public class AuftragsUebersichtView extends JXPanel {
 		DBManager dbmanager = new DBManager();
 		// List<Auftrag> l = dbmanager.getAllAuftrag();
 		// for (Auftrag auftrag : l) {
-<<<<<<< HEAD
 		tableModel.addRow(new AuftragsRow(1, "SHIFT Gebï¿½udemanagement",
 				"bezahlt", "12.01.2015", "Rasen mahen"));
 		tableModel.addRow(new AuftragsRow(2, "SHIFT Gebï¿½udemanagement",
-=======
-		tableModel.addRow(new AuftragsRow(1, "SHIFT Gebäudemanagement",
 				"bezahlt", "12.01.2015", "Rasen mï¿½hen"));
-		tableModel.addRow(new AuftragsRow(2, "SHIFT Gebäudemanagement",
->>>>>>> branch 'master' of https://github.com/PrjGService/247-FM
+		tableModel.addRow(new AuftragsRow(1, "SHIFT Gebï¿½udemanagement",
+				"bezahlt", "12.01.2015", "Rasen mï¿½hen"));
+		tableModel.addRow(new AuftragsRow(2, "SHIFT Gebï¿½udemanagement",
 				"bezahlt", "23.01.2015", "Reparatur"));
-		tableModel.addRow(new AuftragsRow(3, "SHIFT Gebäudemanagement",
+		tableModel.addRow(new AuftragsRow(3, "SHIFT Gebï¿½udemanagement",
 				"erledigt", "08.02.2015", "Gas"));
-		tableModel.addRow(new AuftragsRow(4, "SHIFT Gebäudemanagement",
+		tableModel.addRow(new AuftragsRow(4, "SHIFT Gebï¿½udemanagement",
 				"erledigt", "10.02.2015", "Wasser"));
-		tableModel.addRow(new AuftragsRow(5, "SHIFT Gebäudemanagement",
+		tableModel.addRow(new AuftragsRow(5, "SHIFT Gebï¿½udemanagement",
 				"offen", "26.03.2015", "Hecke schneiden"));
-		tableModel.addRow(new AuftragsRow(6, "SHIFT Gebäudemanagement",
+		tableModel.addRow(new AuftragsRow(6, "SHIFT Gebï¿½udemanagement",
 				"offen", "01.04.2015", "Treppenreinigung"));
 		// }
 		return auftragsTable;
