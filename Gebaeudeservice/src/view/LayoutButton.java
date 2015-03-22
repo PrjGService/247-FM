@@ -16,7 +16,7 @@ public class LayoutButton extends JButton {
 
 		this.title = title;
 		this.setText(title);
-		this.setFont(new Font("ARIAL", Font.BOLD, 22));
+		this.setFont(new Font("ARIAL", Font.BOLD, 16));
 		this.setForeground(new Color(19, 123, 64));
 
 	}

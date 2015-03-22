@@ -44,7 +44,7 @@ public class WelcomePage extends JFrame {
 		Image icon = new ImageIcon("res/logo.png").getImage();
 		Image logo1 = new ImageIcon("res/logo1.png").getImage();
 
-		welcome.setResizable(false);
+		welcome.setResizable(true);
 		welcome.setIconImage(icon);
 		welcome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -70,25 +70,25 @@ public class WelcomePage extends JFrame {
 		JPanel login = new JPanel();
 		login.setLayout(loginmask);
 
-		JLabel name = new JLabel("Name:   ");
-		name.setFont(new Font("ARIAL", Font.PLAIN, 22));
-		name.setForeground(new Color(19, 123, 64));
-		name.setBackground(Color.WHITE);
+		JLabel name = new JLabel("Benutzername:");
+		name.setFont(new Font("ARIAL", Font.PLAIN, 16));
+		name.setForeground(Color.white);
+		name.setBackground(new Color(19, 123, 64));
 
-		JLabel password = new JLabel("Passwort:   ");
-		password.setFont(new Font("ARIAL", Font.PLAIN, 22));
-		password.setForeground(new Color(19, 123, 64));
-		password.setBackground(Color.WHITE);
+		JLabel password = new JLabel("Passwort:");
+		password.setFont(new Font("ARIAL", Font.PLAIN, 16));
+		password.setForeground(Color.white);
+		password.setBackground(new Color(19, 123, 64));
 
 		user = new JTextField();
-		user.setFont(new Font("ARIAL", Font.PLAIN, 22));
-		user.setForeground(new Color(19, 123, 64));
-		user.setBackground(Color.WHITE);
+		user.setFont(new Font("ARIAL", Font.PLAIN, 16));
+		user.setForeground(Color.white);
+		user.setBackground(new Color(19, 123, 64));
 
 		pw = new JPasswordField();
-		pw.setFont(new Font("ARIAL", Font.PLAIN, 22));
-		pw.setForeground(new Color(19, 123, 64));
-		pw.setBackground(Color.WHITE);
+		pw.setFont(new Font("ARIAL", Font.PLAIN, 16));
+		pw.setForeground(Color.white);
+		pw.setBackground(new Color(19, 123, 64));
 
 		pw.addKeyListener(new KeyListener() {
 
@@ -158,13 +158,15 @@ public class WelcomePage extends JFrame {
 		login.add(user);
 		login.add(password);
 		login.add(pw);
-		login.setBackground(Color.WHITE);
+		login.setBackground(new Color(19, 123, 64));
 
 		JPanel south = new JPanel();
 		south.setLayout(new BorderLayout());
 		south.add(login, BorderLayout.CENTER);
 		south.add(button1, BorderLayout.SOUTH);
-		south.setBackground(Color.WHITE);
+		south.add(new JLabel("      "), BorderLayout.WEST);
+		south.add(new JLabel("      "), BorderLayout.EAST);		
+		south.setBackground(new Color(19, 123, 64));
 
 		welcome.add(logo, BorderLayout.CENTER);
 		welcome.add(south, BorderLayout.SOUTH);

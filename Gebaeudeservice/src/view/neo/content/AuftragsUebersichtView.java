@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JLabel;
@@ -12,25 +13,28 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.TableCellRenderer;
 
+import model.Auftrag;
+
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
 
 import util.UIUtil;
 import util.table.IRow;
 import util.table.TableModel;
+import database.DBManager;
 
-public class AuftragsUebersichtView extends JXPanel{
+public class AuftragsUebersichtView extends JXPanel {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8971106081242840060L;
-	
+
 	private JScrollPane mainTablePane;
 	private AuftragsModel tableModel;
 	private JXTable mainTable;
-	
-	public AuftragsUebersichtView(){
+
+	public AuftragsUebersichtView() {
 		super();
 		initUI();
 	}
@@ -38,13 +42,13 @@ public class AuftragsUebersichtView extends JXPanel{
 	private void initUI() {
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
-		
+
 		mainTable = createAuftragsTable();
 		mainTablePane = new JScrollPane(mainTable);
 		this.add(mainTablePane, BorderLayout.CENTER);
 	}
-	
-	private JXTable createAuftragsTable(){
+
+	private JXTable createAuftragsTable() {
 		tableModel = new AuftragsModel();
 		JXTable auftragsTable = new JXTable(tableModel);
 		auftragsTable.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -60,34 +64,51 @@ public class AuftragsUebersichtView extends JXPanel{
 		auftragsTable.setSelectionForeground(Color.WHITE);
 
 		auftragsTable.getColumnModel().getColumn(0).setPreferredWidth(25);
-		
+
 		auftragsTable.getTableHeader().resizeAndRepaint();
-		auftragsTable.setDefaultRenderer(Object.class, new TableRowRenderer(tableModel));
+		auftragsTable.setDefaultRenderer(Object.class, new TableRowRenderer(
+				tableModel));
+		DBManager dbmanager = new DBManager();
+//		List<Auftrag> l = dbmanager.getAllAuftrag();
+//		for (Auftrag auftrag : l) {
+			tableModel.addRow(new AuftragsRow(1, "SHIFT GM",
+					"bezahlt", "12.01.2015", "Rasen mähen"));
+			tableModel.addRow(new AuftragsRow(2, "SHIFT GM",
+					"bezahlt", "23.01.2015", "Reparatur"));
+			tableModel.addRow(new AuftragsRow(3, "SHIFT GM",
+					"erledigt", "08.02.2015", "Gas"));
+			tableModel.addRow(new AuftragsRow(4, "SHIFT GM",
+					"erledigt", "10.02.2015", "Wasser"));
+			tableModel.addRow(new AuftragsRow(5, "SHIFT GM",
+					"offen", "26.03.2015", "Hecke schneiden"));
+			tableModel.addRow(new AuftragsRow(6, "SHIFT GM",
+					"offen", "01.04.2015", "Treppenreinigung"));
+//		}
 		return auftragsTable;
 	}
-	
-	public void addAuftrag(long id, String auftraggeber, String auftragsstatus, String auftragsdatum,
-			String dienstleistung){
-		tableModel.addRow(new AuftragsRow(id, auftraggeber, auftragsstatus, auftragsdatum,
-				dienstleistung));
+
+	public void addAuftrag(long id, String auftraggeber, String auftragsstatus,
+			String auftragsdatum, String dienstleistung) {
+		tableModel.addRow(new AuftragsRow(id, auftraggeber, auftragsstatus,
+				auftragsdatum, dienstleistung));
 		tableModel.fireTableDataChanged();
 	}
-	
-	public void deleteAuftrag(long id){
-		for(int i = 0; i < tableModel.getRowCount(); i++){
+
+	public void deleteAuftrag(long id) {
+		for (int i = 0; i < tableModel.getRowCount(); i++) {
 			AuftragsRow r = (AuftragsRow) tableModel.getRow(i);
-			if(r.getId() == id)
+			if (r.getId() == id)
 				tableModel.removeRow(i);
 		}
 		tableModel.fireTableDataChanged();
 	}
-	
-	class TableRowRenderer extends JLabel implements TableCellRenderer{
+
+	class TableRowRenderer extends JLabel implements TableCellRenderer {
 
 		private static final long serialVersionUID = 1L;
 		private AuftragsModel tableModel;
 
-		public TableRowRenderer(AuftragsModel tableModel){
+		public TableRowRenderer(AuftragsModel tableModel) {
 			this.tableModel = tableModel;
 			setOpaque(true);
 		}
@@ -95,11 +116,11 @@ public class AuftragsUebersichtView extends JXPanel{
 		@Override
 		public Component getTableCellRendererComponent(JTable table,
 				Object value, boolean isSelected, boolean hasFocus, int row,
-				int col){
+				int col) {
 
 			setForeground(Color.BLACK);
 			setBackground(Color.white);
-			if(value != null)
+			if (value != null)
 				setText(value.toString());
 
 			if (hasFocus || isSelected) {
@@ -115,40 +136,30 @@ public class AuftragsUebersichtView extends JXPanel{
 			return this;
 		}
 	}
-	
-	static class AuftragsModel extends TableModel{
+
+	static class AuftragsModel extends TableModel {
 
 		private static final long serialVersionUID = -5574999980921824807L;
-		
-		private static Class[] columnClass = {
-			Long.class,
-			String.class,
-			String.class,
-			String.class,
-			String.class,
-		};
-		
-		private static String[] columnNames = {
-			"Auftrags-ID",
-			"Auftraggeber",
-			"Auftragsstatus",
-			"Auftragsdatum",
-			"Dienstleistung"
-		};
-		
-		public AuftragsModel(){
+
+		private static Class[] columnClass = { Long.class, String.class,
+				String.class, String.class, String.class, };
+
+		private static String[] columnNames = { "Auftrags-ID", "Auftraggeber",
+				"Auftragsstatus", "Auftragsdatum", "Dienstleistung" };
+
+		public AuftragsModel() {
 			super(columnClass, columnNames);
 		}
-		
-		public boolean isCellEditable(int rowIndex, int columnIndex){
+
+		public boolean isCellEditable(int rowIndex, int columnIndex) {
 			return false;
 		}
 
 		@Override
-		public Object getValueAt(int rowIndex, int columnIndex){
+		public Object getValueAt(int rowIndex, int columnIndex) {
 			AuftragsRow row = (AuftragsRow) dataVector.elementAt(rowIndex);
-			
-			switch(columnIndex){
+
+			switch (columnIndex) {
 			case 0:
 				return row.getId();
 			case 1:
@@ -157,49 +168,48 @@ public class AuftragsUebersichtView extends JXPanel{
 				return row.getAuftragsstatus();
 			case 3:
 				return row.getAuftragsdatum();
-			case 4: 
+			case 4:
 				return row.getDienstleistung();
 			}
 			return null;
 		}
 
-		public void setValue(Object value, int rowIndex, int columnIndex){
+		public void setValue(Object value, int rowIndex, int columnIndex) {
 			AuftragsRow row = (AuftragsRow) dataVector.elementAt(rowIndex);
-			
-			switch(columnIndex){
+
+			switch (columnIndex) {
 			case 0:
-				row.setId((long)value);
+				row.setId((long) value);
 			case 1:
-				row.setAuftraggeber((String)value);
+				row.setAuftraggeber((String) value);
 			case 2:
-				row.setAuftragsstatus((String)value);
+				row.setAuftragsstatus((String) value);
 			case 3:
-				row.setAuftragsdatum((String)value);
+				row.setAuftragsdatum((String) value);
 			case 4:
-				row.setDienstleistung((String)value);
-			
-			fireTableCellUpdated(rowIndex, columnIndex);
+				row.setDienstleistung((String) value);
+
+				fireTableCellUpdated(rowIndex, columnIndex);
+			}
 		}
 	}
-	}
-	
-	class AuftragsRow implements IRow{
-		
+
+	class AuftragsRow implements IRow {
+
 		private long id;
 		private String auftraggeber;
 		private String auftragsstatus;
 		private String auftragsdatum;
 		private String dienstleistung;
-		
-		public AuftragsRow(long id, String auftraggeber, String auftragsstatus, String auftragsdatum,
-				String dienstleistung){
+
+		public AuftragsRow(long id, String auftraggeber, String auftragsstatus,
+				String auftragsdatum, String dienstleistung) {
 			this.id = id;
 			this.auftraggeber = auftraggeber;
 			this.auftragsstatus = auftragsstatus;
 			this.auftragsdatum = auftragsdatum;
 			this.dienstleistung = dienstleistung;
 		}
-
 
 		public long getId() {
 			return id;
@@ -242,12 +252,12 @@ public class AuftragsUebersichtView extends JXPanel{
 		}
 
 		@Override
-		public IRow copyRow(){
+		public IRow copyRow() {
 			return null;
 		}
 
 		@Override
-		public Vector <Object> toVector(){
+		public Vector<Object> toVector() {
 			return null;
 		}
 

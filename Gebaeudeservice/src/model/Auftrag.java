@@ -7,73 +7,117 @@ import java.util.List;
 import controller.Verwaltung;
 import enums.Enums;
 
-
 public class Auftrag {
-	
-	 public int auftragID;
-	 public Auftraggeber auftraggeber;
-	 public Enums.Auftragsstatus auftragstatus;
-	 public Date auftragdatum;
-	 public List<Position> positionen;
-	
-	
-	//TODO
-	public Auftrag(Auftraggeber auftraggeber, int auftragID, Enums.Auftragsstatus auftragstatus, Date auftragdatum, Dienstleistung dienstleistung, int menge)
-	{
+
+	public int auftragID;
+	public Auftraggeber auftraggeber;
+	public Enums.Auftragsstatus auftragstatus;
+	public Dienstleistung dienstleistung;
+
+	public Dienstleistung getDienstleistung() {
+		return dienstleistung;
+	}
+
+	public void setDienstleistung(Dienstleistung dienstleistung) {
+		this.dienstleistung = dienstleistung;
+	}
+
+	public int getAuftragID() {
+		return auftragID;
+	}
+
+	public void setAuftragID(int auftragID) {
+		this.auftragID = auftragID;
+	}
+
+	public Auftraggeber getAuftraggeber() {
+		return auftraggeber;
+	}
+
+	public void setAuftraggeber(Auftraggeber auftraggeber) {
+		this.auftraggeber = auftraggeber;
+	}
+
+	public Enums.Auftragsstatus getAuftragstatus() {
+		return auftragstatus;
+	}
+
+	public void setAuftragstatus(Enums.Auftragsstatus auftragstatus) {
+		this.auftragstatus = auftragstatus;
+	}
+
+	public Date getAuftragdatum() {
+		return auftragdatum;
+	}
+
+	public void setAuftragdatum(Date auftragdatum) {
 		this.auftragdatum = auftragdatum;
-		this.auftraggeber  = auftraggeber;
+	}
+
+	public List<Position> getPositionen() {
+		return positionen;
+	}
+
+	public void setPositionen(List<Position> positionen) {
+		this.positionen = positionen;
+	}
+
+	public Date auftragdatum;
+	public List<Position> positionen;
+
+	// TODO
+	public Auftrag(Auftraggeber auftraggeber, int auftragID,
+			Enums.Auftragsstatus auftragstatus, Date auftragdatum,
+			Dienstleistung dienstleistung, int menge) {
+		this.auftragdatum = auftragdatum;
+		this.auftraggeber = auftraggeber;
 		this.auftragID = auftragID;
 		this.auftragstatus = auftragstatus;
 		positionen = new ArrayList<Position>();
-		//erzeugt einzelposition falls keine Positionsliste
-		positionErzeugen(dienstleistung,menge);
+		// erzeugt einzelposition falls keine Positionsliste
+		positionErzeugen(dienstleistung, menge);
 	}
-	
-	public Auftrag(Auftraggeber auftraggeber, int auftragID, Enums.Auftragsstatus auftragstatus, Date auftragdatum, ArrayList<Position> positionen)
-	{
+
+	public Auftrag(Auftraggeber auftraggeber, int auftragID,
+			Enums.Auftragsstatus auftragstatus, Date auftragdatum,
+			ArrayList<Position> positionen) {
 		this.auftragdatum = auftragdatum;
-		this.auftraggeber  = auftraggeber;
+		this.auftraggeber = auftraggeber;
 		this.auftragID = auftragID;
 		this.auftragstatus = auftragstatus;
-		//es gibt mehrere positionen
+		// es gibt mehrere positionen
 		this.positionen = positionen;
 	}
-	
-	
-	//TODO
-	public void positionErzeugen(Dienstleistung dienstleistung, int menge)
-	{
+
+	// TODO
+	public void positionErzeugen(Dienstleistung dienstleistung, int menge) {
 		Date zieldatum = Verwaltung.verwaltung.getZieldatum(this);
-		positionen.add(new Position(dienstleistung, this, null, menge, zieldatum, auftragstatus));
+		positionen.add(new Position(dienstleistung, this, null, menge,
+				zieldatum, auftragstatus));
 	}
-	
-	public boolean checkForReady()
-	{
+
+	public boolean checkForReady() {
 		boolean isOK = true;
-		for(int i = 0; i < positionen.size();i++)
-		{
-			if(positionen.get(i).positionStatus != Enums.Auftragsstatus.ERLEDIGT)
-			{
+		for (int i = 0; i < positionen.size(); i++) {
+			if (positionen.get(i).positionStatus != Enums.Auftragsstatus.ERLEDIGT) {
 				isOK = false;
 				break;
 			}
 		}
-			return isOK;
+		return isOK;
 	}
-	
-	public float getCost()
-	{
+
+	public float getCost() {
 		float preis = 0f;
-		for(int i = 0; i < positionen.size();i++)
-		{
-			preis+=positionen.get(i).positionMenge*positionen.get(i).dienstleistung.dienstleistungspreis;
+		for (int i = 0; i < positionen.size(); i++) {
+			preis += positionen.get(i).positionMenge
+					* positionen.get(i).dienstleistung.dienstleistungspreis;
 		}
 		return preis;
 	}
-	
-	public void suchePositionen()
-	{
-		//TODO positionen zu auftrag suchen
+
+	public void suchePositionen() {
+		// TODO positionen zu auftrag suchen
 	}
 
 }

@@ -25,6 +25,7 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 
+import controller.Verwaltung;
 import util.UIUtil;
 import view.neo.content.AuftragsUebersichtView;
 import view.neo.content.ImpressumView;
@@ -77,6 +78,8 @@ public class MainWindowView extends JXFrame{
 	private JXPanel impressumPanel;
 	
 	private AbstractAction logoutAction;
+	
+	Verwaltung verwaltung;
 
 	/**
 	 * 
@@ -84,6 +87,7 @@ public class MainWindowView extends JXFrame{
 	private static final long serialVersionUID = -8730460158991620638L;
 	
 	public MainWindowView(){
+		verwaltung = new Verwaltung();
 		UIManager.put("TaskPane.titleBackgroundGradientStart", Color.gray);
 		UIManager.put("TaskPane.titleBackgroundGradientEnd", Color.gray);
 		UIManager.put("TaskPane.background", Color.white);
@@ -91,10 +95,11 @@ public class MainWindowView extends JXFrame{
 		UIManager.put("TaskPane.titleForeground", Color.black);
 		UIManager.put("TaskPane.titleOver", UIUtil.getStandardColor());
 		initUI();
+		
 	}
 
 	private void initUI() {
-		this.setTitle("Geb√§udeservice");
+		this.setTitle("24/7 FM - Facility Management");
 		this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		this.setExtendedState(MAXIMIZED_BOTH);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -104,7 +109,7 @@ public class MainWindowView extends JXFrame{
 		contentPanel.setBackground(Color.white);
 		this.setContentPane(contentPanel);
 		
-		header = new JXHeader("Geb√§udeservice","Hier wird Ihnen geholfen!");
+		header = new JXHeader("24/7 FM - Facility Management","Hier wird Ihnen geholfen!");
 		header.setTitleFont(new Font("Arial", Font.BOLD, 22));
 		header.setTitleForeground(Color.white);
 		header.setDescriptionFont(new Font("Arial", Font.PLAIN, 16));
@@ -134,11 +139,11 @@ public class MainWindowView extends JXFrame{
 		centerPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, centerNavigator, centerContent);
 		centerPanel.setOpaque(true);
 		centerPanel.setEnabled(false);
-		centerPanel.setDividerLocation(250);
+		centerPanel.setDividerLocation(300);
 		centerPanel.setDividerSize(0);
 		mainPanel.add(centerPanel, BorderLayout.CENTER);
 		
-		auftraegeTaskPane = new JXTaskPane("Auftr√§ge");
+		auftraegeTaskPane = new JXTaskPane("Auftr‰ge");
 		
 		auftreageUebersichtPanel = new AuftragsUebersichtView();
 		centerContentData.add(auftreageUebersichtPanel, auftreageUebersichtPanel.getClass().getName());
@@ -147,8 +152,8 @@ public class MainWindowView extends JXFrame{
 			private static final long serialVersionUID = -1035106393148369106L;
 
 			{
-			    putValue(Action.NAME, "√úbersicht");
-			    putValue(Action.SHORT_DESCRIPTION, "√úbersichtsseite Auftr√§ge");
+			    putValue(Action.NAME, "‹bersicht");
+			    putValue(Action.SHORT_DESCRIPTION, "‹bersichtsseite Auftr‰ge");
 			  }
 
 			  public void actionPerformed(ActionEvent e) {
@@ -167,7 +172,7 @@ public class MainWindowView extends JXFrame{
 
 			{
 			    putValue(Action.NAME, "Status abfragen");
-			    putValue(Action.SHORT_DESCRIPTION, "Status der Azuftr√§ge abfragen");
+			    putValue(Action.SHORT_DESCRIPTION, "Status der Auftr‰ge abfragen");
 			  }
 
 			  public void actionPerformed(ActionEvent e) {
@@ -208,8 +213,8 @@ public class MainWindowView extends JXFrame{
 			private static final long serialVersionUID = -1035106393148369106L;
 
 			{
-			    putValue(Action.NAME, "√úbersicht");
-			    putValue(Action.SHORT_DESCRIPTION, "Rechnungs√ºbersicht anzeigen");
+			    putValue(Action.NAME, "‹bersicht");
+			    putValue(Action.SHORT_DESCRIPTION, "Rechnungs¸bersicht anzeigen");
 			  }
 
 			  public void actionPerformed(ActionEvent e) {
@@ -284,7 +289,7 @@ public class MainWindowView extends JXFrame{
 
 			{
 			    putValue(Action.NAME, "Abmelden");
-			    putValue(Action.SHORT_DESCRIPTION, "Abmelden von der Sessions.");
+			    putValue(Action.SHORT_DESCRIPTION, "Abmelden von der Session.");
 			  }
 
 			  public void actionPerformed(ActionEvent e) {
