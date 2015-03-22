@@ -155,12 +155,15 @@ public class MitarbeiterView extends JXPanel {
 					if (status.ordinal() == Mitarbeiterstatus.ARBEITET
 							.ordinal()) {
 						setIcon(null);
+						setText("");
 					} else if (status.ordinal() == Mitarbeiterstatus.VERFUEGBAR
 							.ordinal()) {
 						setIcon(null);
+						setText("");
 					} else if (status.ordinal() == Mitarbeiterstatus.UNVERFUEGBAR
 							.ordinal()) {
 						setIcon(null);
+						setText("");
 					}
 				}else{
 					setText("");
