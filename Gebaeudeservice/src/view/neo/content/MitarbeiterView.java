@@ -169,17 +169,17 @@ public class MitarbeiterView extends JXPanel {
 					if (status.ordinal() == Mitarbeiterstatus.ARBEITET
 							.ordinal()) {
 						setIcon(icon3);
-						setText("   Arbeitet.   ");
+						setText("   Arbeitet.");
 						break;
 					} else if (status.ordinal() == Mitarbeiterstatus.VERFUEGBAR
 							.ordinal()) {
 						setIcon(icon2);
-						setText("   Verfügbar.   ");
+						setText("   Verfügbar.");
 						break;
 					} else if (status.ordinal() == Mitarbeiterstatus.UNVERFUEGBAR
 							.ordinal()) {
 						setIcon(icon1);
-						setText("   Unverfügbar.   ");
+						setText("   Unverfügbar.");
 						break;
 					}
 				} else {
