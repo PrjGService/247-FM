@@ -99,7 +99,7 @@ public class WelcomePage extends JFrame {
 
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
 					LoginWindowController.getInstance().handleLogin(
-							user.getText(), pw.getPassword().toString());
+							user.getText(), pw.getText().toString());
 
 				}
 
