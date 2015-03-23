@@ -81,13 +81,16 @@ public class AuftragsUebersichtView extends JXPanel {
 		auftragsTable.setDefaultRenderer(Object.class, renderer);
 		auftragsTable.setDefaultRenderer(Long.class, renderer);
 
-		DBManager dbmanager = new DBManager();
 		List<Auftrag> l = Verwaltung.getInstance().auftragList;
 		for (Auftrag auftrag : l) {
-			tableModel.addRow(new AuftragsRow(auftrag.getAuftragID(), " "
-					+ auftrag.getAuftraggeber().auftraggeberName, " "
-					+ Enums.getAStatus(auftrag.getAuftragstatus()), " "
-					+ auftrag.auftragdatum.toString(), " " + "aa"));
+			tableModel
+					.addRow(new AuftragsRow(
+							auftrag.getAuftragID(),
+							" " + auftrag.getAuftraggeber().auftraggeberName,
+							" " + Enums.getAStatus(auftrag.getAuftragstatus()),
+							" " + auftrag.auftragdatum.toString(),
+							" "
+									+ auftrag.getPositionen().get(0).dienstleistung.dienstleistungsName));
 		}
 		return auftragsTable;
 	}
@@ -161,6 +164,7 @@ public class AuftragsUebersichtView extends JXPanel {
 				setHorizontalAlignment(SwingUtilities.LEFT);
 				setText((String) value);
 				break;
+				
 
 			default:
 				System.out.println("Spalte nicht gefunden und übersprungen: "

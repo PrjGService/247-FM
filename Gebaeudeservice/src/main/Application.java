@@ -2,6 +2,7 @@ package main;
 
 import javax.swing.UIManager;
 
+import util.Publisher;
 import controller.LoginWindowController;
 
 public class Application {
@@ -15,8 +16,11 @@ public class Application {
 	    }  catch (Exception e){
 	    	
 	    }
-		
+		 
+		Publisher.getInstance();
 		LoginWindowController.getInstance();
+	
+
 		
 	}
 

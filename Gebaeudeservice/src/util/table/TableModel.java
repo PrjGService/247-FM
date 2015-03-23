@@ -7,7 +7,7 @@ import javax.swing.table.AbstractTableModel;
 
 public abstract class TableModel extends AbstractTableModel{
 
-	protected Vector<IRow> dataVector;
+	public Vector<IRow> dataVector;
 	private Class[] columnClass;
 	private String[] columnNames;
 	
