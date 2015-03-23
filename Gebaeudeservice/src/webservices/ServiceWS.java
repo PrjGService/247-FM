@@ -7,8 +7,7 @@ import javax.jws.soap.SOAPBinding.Style;
 @WebService
 @SOAPBinding(style = Style.RPC)
 
-public interface ServiceWS extends InvoicesWS,OrderWS,StatusWS,TimeWS{
+public interface ServiceWS extends InvoicesWS,OrderWS,StatusWS,TimeWS,ValueWS{
 
-	String sendOrderToFm(String name, String apartmentID, int size, long orderID);
 
 }

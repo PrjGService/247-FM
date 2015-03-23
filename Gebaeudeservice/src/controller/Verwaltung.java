@@ -189,6 +189,7 @@ public class Verwaltung {
 	public Auftrag addAuftrag(String name, int size, int orderID)
 	{
 		Auftrag a = new Auftrag(auftraggeber, orderID, Enums.Auftragsstatus.ANGEKOMMEN, new Date(), getDienstleistung(name), size);
+		auftragList.add(a);
 		return a;
 		
 	}

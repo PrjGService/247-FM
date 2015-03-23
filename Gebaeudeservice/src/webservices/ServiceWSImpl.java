@@ -1,5 +1,7 @@
 package webservices;
 
+import java.util.Random;
+
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
@@ -24,7 +26,7 @@ public class ServiceWSImpl  implements ServiceWS{
 	 * The states that can possibly be returned are:
 	 * Angekommen, In Arbeit, Erledigt, Abgelehnt, Bezahlt
 	 * 
-	 * @param  orderID  an Integer that can identify an Order clearly 
+	 * @param  orderID  an Long that can identify an Order clearly 
 	 * @return      the state of the order belonging to the orderID passed as String
 	 * @see         sendOrderToFM
 	 */
@@ -44,9 +46,44 @@ public class ServiceWSImpl  implements ServiceWS{
 	}
 
 	
-	//wasser 3000-5000
-	//strom 200-300
-	//gas 1000-1500
+	/**
+	 * Returns a value for the requested type of order
+	 *  
+	 * <p>
+	 * This method always returns immediately.
+	 * It returns a value for the requested type of order as an Integer
+	 * 
+	 * @param  type	The type if value you want to retrieve there are 3 kinds:
+	 * 			0 = Wasser (value between 3000 and 5000)
+	 * 			1 = Strom (value between 200 and 300)
+	 * 			2 = Gas (value between 1000 and 1500)
+	 * @return      The Value of the type as an Integer
+	 */
+	@Override
+	@WebMethod
+	public
+	int getValue(int type) {
+		int i = 0;
+		if(type == 0)
+		{
+			Random rand = new Random();
+			int zahl = rand.nextInt(2000)+3001;
+		}
+		if(type == 1)
+		{
+			Random rand = new Random();
+			int zahl = rand.nextInt(100)+201;
+		}
+		if(type == 2)
+		{
+			Random rand = new Random();
+			int zahl = rand.nextInt(500)+1001;
+		}
+		
+		
+		return i;
+	}
+
 	
 	/**
 	 * Returns a Date as String in case the Order will be accepted
@@ -68,7 +105,7 @@ public class ServiceWSImpl  implements ServiceWS{
 	 *                      clearly. This Information will be droped internally
 	 * @param  size         an Integer that will be used to quantify the order.
 	 * 						For example when you pass 10 for Rasen mähen it means the size is 10 square meters
-	 * @param  orderID      an Integer that can identify an Order clearly 
+	 * @param  orderID      an Long that can identify an Order clearly 
 	 * 						The orderID can be used to get the state of an Order
 	 * @return      the date of the expected execution date wrapped into a string (its a string)
 	 * @see         getState

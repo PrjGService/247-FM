@@ -28,7 +28,7 @@ public static String getFaktortyp(Faktortyp f)
 	}
 	if(f == Faktortyp.LAENGE)
 	{
-		erg = "Länge";
+		erg = "Laenge";
 	}
 	if(f == Faktortyp.ANZAHLWOHNUNG)
 	{
