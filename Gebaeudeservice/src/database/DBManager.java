@@ -59,7 +59,7 @@ public class DBManager {
 	            statement = conn.prepareStatement("SELECT * FROM auftrag WHERE id = " + id + ";");
 	            result = statement.executeQuery(); 
 	            result.next();
-	            return new Auftrag(Verwaltung.verwaltung.auftraggeber, id, Enums.getAStatus(result.getString(2)),result.getDate(3),null);
+	            return new Auftrag(Verwaltung.getInstance().auftraggeber, id, Enums.getAStatus(result.getString(3)),result.getDate(4),null);
 	        } catch (SQLException e) {
 	            //  Auto-generated catch block
 	            e.printStackTrace();
@@ -372,7 +372,7 @@ public class DBManager {
 	            statement = conn.prepareStatement("SELECT * FROM position WHERE dienstleistung.ID = " + id1 + "AND auftrag.ID = "+id2+ "AND mitarbeiter.ID = "+id3+";");
 	            result = statement.executeQuery();
 	            result.next();
-	            return new Position(Verwaltung.verwaltung.getDienstleistung(id1), Verwaltung.verwaltung.getAuftrag(id2), Verwaltung.verwaltung.getMitarbeiter(id3),result.getFloat(4),result.getDate(5),Enums.getAStatus(result.getString(6)));
+	            return new Position(Verwaltung.getInstance().getDienstleistung(id1), Verwaltung.getInstance().getAuftrag(id2), Verwaltung.getInstance().getMitarbeiter(id3),result.getFloat(4),result.getDate(5),Enums.getAStatus(result.getString(6)));
 	        } catch (SQLException e) {
 	            // Auto-generated catch block
 	            e.printStackTrace();
@@ -435,7 +435,7 @@ public class DBManager {
 	            statement = conn.prepareStatement("SELECT * FROM rechnung WHERE id = " + id + ";");
 	            result = statement.executeQuery();
 	            result.next();
-	            return new Rechnung(Verwaltung.verwaltung.auftraggeber,id, result.getDate(4),Verwaltung.verwaltung.getAuftrag(result.getInt(3)),result.getFloat(5),result.getDate(6),result.getString(7));
+	            return new Rechnung(Verwaltung.getInstance().auftraggeber,id, result.getDate(4),Verwaltung.getInstance().getAuftrag(result.getInt(3)),result.getFloat(5),result.getDate(6),result.getString(7));
 	        } catch (SQLException e) {
 	            // Auto-generated catch block
 	            e.printStackTrace();

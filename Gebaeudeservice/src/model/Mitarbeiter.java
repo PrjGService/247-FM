@@ -70,7 +70,7 @@ public class Mitarbeiter {
 					aktuellePosition.auftrag,
 					aktuellePosition.auftrag.getCost(), ziel, verwendungszweck);
 			r.versenden();
-			Verwaltung.verwaltung.rechnungList.add(r);
+			Verwaltung.getInstance().rechnungList.add(r);
 		}
 
 	}

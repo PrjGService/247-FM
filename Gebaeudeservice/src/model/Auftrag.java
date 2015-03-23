@@ -40,7 +40,7 @@ public class Auftrag {
 	
 	public void positionErzeugen(Dienstleistung dienstleistung, int menge)
 	{
-		Date zieldatum = Verwaltung.verwaltung.getZieldatum(this);
+		Date zieldatum = Verwaltung.getInstance().getZieldatum(this);
 		positionen.add(new Position(dienstleistung, this, null, menge, zieldatum, auftragstatus));
 	}
 	

@@ -34,7 +34,7 @@ public class ServiceWSImpl  implements ServiceWS{
 	String getState(long orderID) {
 		String s = "";
 		try {
-			s= Enums.getAStatus(Verwaltung.verwaltung.getAuftrag((int)orderID).auftragstatus);
+			s= Enums.getAStatus(Verwaltung.getInstance().getAuftrag((int)orderID).auftragstatus);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		} 
@@ -81,7 +81,7 @@ public class ServiceWSImpl  implements ServiceWS{
 
 		String s = "";
 		try {
-			s= Verwaltung.verwaltung.addAuftrag(name, size, orderID).getZieldatum().toString();
+			s= Verwaltung.getInstance().addAuftrag(name, size, (int) orderID).getZieldatum().toString();
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		} 
@@ -112,7 +112,7 @@ public class ServiceWSImpl  implements ServiceWS{
 	@WebMethod
 	public
 	String getUnpaidBills() {
-		return Verwaltung.verwaltung.unbezahlteRechnungen();
+		return Verwaltung.getInstance().unbezahlteRechnungen();
 	}
 
 
@@ -121,21 +121,21 @@ public class ServiceWSImpl  implements ServiceWS{
 	public
 	int pushDate(int year, int month, int day) {
 
-		if(Verwaltung.verwaltung.tag == null)
+		if(Verwaltung.getInstance().tag == null)
 		{
-			Verwaltung.verwaltung.tag = new java.util.Date();
-			Verwaltung.verwaltung.tag.setMonth(month);
-			Verwaltung.verwaltung.tag.setDate(day);
-			Verwaltung.verwaltung.tag.setYear(year);
+			Verwaltung.getInstance().tag = new java.util.Date();
+			Verwaltung.getInstance().tag.setMonth(month);
+			Verwaltung.getInstance().tag.setDate(day);
+			Verwaltung.getInstance().tag.setYear(year);
 		}
 		else
 		{
-		Verwaltung.verwaltung.zieltag.setMonth(month);
-		Verwaltung.verwaltung.zieltag.setDate(day);
-		Verwaltung.verwaltung.zieltag.setYear(year);
-		Verwaltung.verwaltung.timestep();
-        System.out.println("localDate - zu Beginn der Methode: "+Verwaltung.verwaltung.tag.toString() );
-        System.out.println("Zieltag: "+Verwaltung.verwaltung.zieltag.toString() );
+		Verwaltung.getInstance().zieltag.setMonth(month);
+		Verwaltung.getInstance().zieltag.setDate(day);
+		Verwaltung.getInstance().zieltag.setYear(year);
+		Verwaltung.getInstance().timestep();
+        System.out.println("localDate - zu Beginn der Methode: "+Verwaltung.getInstance().tag.toString() );
+        System.out.println("Zieltag: "+Verwaltung.getInstance().zieltag.toString() );
 		}
    
 
@@ -144,6 +144,14 @@ public class ServiceWSImpl  implements ServiceWS{
 
 
         return 100;
+	}
+
+
+	@Override
+	public String sendOrderToFm(String name, String apartmentID, int size,
+			int orderID) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -31,7 +31,7 @@ import model.User;
 public class Verwaltung {
 
 
-	public static Verwaltung verwaltung;
+	private static Verwaltung verwaltung;
 	
 	//startmethode um schnittstellen zu publishen und anwendung zu starten
 	public static void main(String[] args) {
@@ -56,38 +56,9 @@ public class Verwaltung {
 	public Date zieltag;
 	
 	//TODO Startinitialisierung
-	public Verwaltung()
+	private Verwaltung()
 	{
-		System.out.println("Gebaeudeserviceanwendung wurde gestartet");
-		conn = new DBManager();
-		userList = conn.getAllUser();
-		auftraggeber = conn.readAuftraggeber(1);
-		mitarbeiterList = conn.getAllMitarbeiter();
-		dienstleistungList = conn.getAllDienstleistung();
-		auftragList = conn.getAllAuftrag();
-		rechnungList = conn.getAllRechnung();
-		positionList = conn.getAllPosition();
-		positionQueue = new ArrayDeque<Position>();
-		//TODO positionen im auftrag füllen
-		for(int i = 0; i < positionList.size(); i ++)
-		{
-			//TODO vorher nach datum sortieren?
-			if(positionList.get(i).mitarbeiter == null)
-			{
-				positionQueue.add(positionList.get(i));
-			}
-		}
 		
-		
-		Runtime.getRuntime().addShutdownHook(new Thread()
-		{
-		    @Override
-		    public void run()
-		    {
-		        //TODO Daten zurück in die Datenbank schreiben
-		    	conn.close();
-		    }
-		});
 	}
 	
 	
@@ -382,10 +353,41 @@ public class Verwaltung {
 		}
 	}
 
-
-	public static Verwaltung getInstance() {
-		// TODO Auto-generated method stub
-		return null;
+	public synchronized static Verwaltung getInstance() {
+		if(verwaltung == null) {
+			verwaltung = new Verwaltung();
+			System.out.println("Gebaeudeserviceanwendung wurde gestartet");
+			verwaltung.conn = new DBManager();
+			verwaltung.userList = verwaltung.conn.getAllUser();
+			verwaltung.auftraggeber = verwaltung.conn.readAuftraggeber(1);
+			verwaltung.mitarbeiterList = verwaltung.conn.getAllMitarbeiter();
+			verwaltung.dienstleistungList = verwaltung.conn.getAllDienstleistung();
+			verwaltung.auftragList = verwaltung.conn.getAllAuftrag();
+			verwaltung.rechnungList = verwaltung.conn.getAllRechnung();
+			verwaltung.positionList = verwaltung.conn.getAllPosition();
+			verwaltung.positionQueue = new ArrayDeque<Position>();
+			//TODO positionen im auftrag füllen
+			for(int i = 0; i < verwaltung.positionList.size(); i ++)
+			{
+				//TODO vorher nach datum sortieren?
+				if(verwaltung.positionList.get(i).mitarbeiter == null)
+				{
+					verwaltung.positionQueue.add(verwaltung.positionList.get(i));
+				}
+			}
+			
+			
+			Runtime.getRuntime().addShutdownHook(new Thread()
+			{
+			    @Override
+			    public void run()
+			    {
+			        //TODO Daten zurück in die Datenbank schreiben
+			    	verwaltung.conn.close();
+			    }
+			});
+		}
+		return verwaltung;
 	}
 	
 	

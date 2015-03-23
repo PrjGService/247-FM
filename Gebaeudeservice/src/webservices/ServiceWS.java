@@ -9,4 +9,6 @@ import javax.jws.soap.SOAPBinding.Style;
 
 public interface ServiceWS extends InvoicesWS,OrderWS,StatusWS,TimeWS{
 
+	String sendOrderToFm(String name, String apartmentID, int size, long orderID);
+
 }

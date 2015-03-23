@@ -34,7 +34,7 @@ public class Rechnung {
 	//versenden methode
 	public void versenden()
 	{
-		Verwaltung.verwaltung.sendInvoice(rechnungVerwendungszweck, "GS","GS", auftraggeber.auftraggeberName, (double)auftrag.getCost(), rechnungDatum.toString(), rechnungZahlungsziel.toString());
+		Verwaltung.getInstance().sendInvoice(rechnungVerwendungszweck, "GS","GS", auftraggeber.auftraggeberName, (double)auftrag.getCost(), rechnungDatum.toString(), rechnungZahlungsziel.toString());
 	}
 
 }

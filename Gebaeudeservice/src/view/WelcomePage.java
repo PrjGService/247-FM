@@ -31,7 +31,6 @@ public class WelcomePage extends JFrame {
 
 	private static final long serialVersionUID = 3557864012470377221L;
 
-	JFrame thisPage;
 	String username;
 	String pwname;
 	JPasswordField pw;
@@ -40,7 +39,7 @@ public class WelcomePage extends JFrame {
 
 	public WelcomePage() {
 
-		verwaltung = new Verwaltung();
+		verwaltung = Verwaltung.getInstance();
 		this.setTitle("24/7 - Facility Management");
 		Image icon = new ImageIcon("res/logo.png").getImage();
 		Image logo1 = new ImageIcon("res/logo1.png").getImage();
