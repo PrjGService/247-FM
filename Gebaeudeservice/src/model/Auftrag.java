@@ -64,7 +64,7 @@ public class Auftrag {
 		this.auftragID = auftragID;
 		this.auftragstatus = auftragstatus;
 		positionen = new ArrayList<Position>();
-		positionErzeugen(dienstleistung, menge);
+		//positionErzeugen(dienstleistung, menge);
 	}
 
 	public Auftrag(Auftraggeber auftraggeber, int auftragID,

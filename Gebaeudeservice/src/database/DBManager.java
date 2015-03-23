@@ -233,7 +233,7 @@ public class DBManager {
 						result.getFloat(3), result.getInt(5),
 						"Einsatzabrechnung", Enums.Faktortyp.ANZAHLEINSATZ);
 				break;
-			case "Länge":
+			case "Laenge":
 				d = new Laengenabrechnung(id, result.getString(2),
 						result.getFloat(3), result.getInt(5),
 						"Längenabrechnung", Enums.Faktortyp.LAENGE);

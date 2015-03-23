@@ -184,11 +184,5 @@ public class ServiceWSImpl  implements ServiceWS{
 	}
 
 
-	@Override
-	public String sendOrderToFm(String name, String apartmentID, int size,
-			int orderID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

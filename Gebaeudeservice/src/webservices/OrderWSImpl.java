@@ -13,7 +13,7 @@ public class OrderWSImpl implements OrderWS {
 	@Override
 	@WebMethod
 	public
-	String sendOrderToFm(String name, String apartmentID, int size, int orderID) {
+	String sendOrderToFm(String name, String apartmentID, int size, long orderID) {
 		// TODO Auto-generated method stub
 		//Verwaltung.verwaltung.auftraggeber.auftragErhalten(name, apartmentID, size, orderID);
 		//return datum

@@ -87,7 +87,7 @@ public class MainWindowView extends JXFrame{
 	private static final long serialVersionUID = -8730460158991620638L;
 	
 	public MainWindowView(){
-		verwaltung = new Verwaltung();
+		verwaltung = Verwaltung.getInstance();
 		UIManager.put("TaskPane.titleBackgroundGradientStart", Color.gray);
 		UIManager.put("TaskPane.titleBackgroundGradientEnd", Color.gray);
 		UIManager.put("TaskPane.background", Color.white);
@@ -143,7 +143,7 @@ public class MainWindowView extends JXFrame{
 		centerPanel.setDividerSize(0);
 		mainPanel.add(centerPanel, BorderLayout.CENTER);
 		
-		auftraegeTaskPane = new JXTaskPane("Aufträge");
+		auftraegeTaskPane = new JXTaskPane("Auftrï¿½ge");
 		
 		auftreageUebersichtPanel = new AuftragsUebersichtView();
 		centerContentData.add(auftreageUebersichtPanel, auftreageUebersichtPanel.getClass().getName());
@@ -152,8 +152,8 @@ public class MainWindowView extends JXFrame{
 			private static final long serialVersionUID = -1035106393148369106L;
 
 			{
-			    putValue(Action.NAME, "Übersicht");
-			    putValue(Action.SHORT_DESCRIPTION, "Übersichtsseite Aufträge");
+			    putValue(Action.NAME, "ï¿½bersicht");
+			    putValue(Action.SHORT_DESCRIPTION, "ï¿½bersichtsseite Auftrï¿½ge");
 			  }
 
 			  public void actionPerformed(ActionEvent e) {
@@ -172,7 +172,7 @@ public class MainWindowView extends JXFrame{
 
 			{
 			    putValue(Action.NAME, "Status abfragen");
-			    putValue(Action.SHORT_DESCRIPTION, "Status der Aufträge abfragen");
+			    putValue(Action.SHORT_DESCRIPTION, "Status der Auftrï¿½ge abfragen");
 			  }
 
 			  public void actionPerformed(ActionEvent e) {
@@ -213,8 +213,8 @@ public class MainWindowView extends JXFrame{
 			private static final long serialVersionUID = -1035106393148369106L;
 
 			{
-			    putValue(Action.NAME, "Übersicht");
-			    putValue(Action.SHORT_DESCRIPTION, "Rechnungsübersicht anzeigen");
+			    putValue(Action.NAME, "ï¿½bersicht");
+			    putValue(Action.SHORT_DESCRIPTION, "Rechnungsï¿½bersicht anzeigen");
 			  }
 
 			  public void actionPerformed(ActionEvent e) {

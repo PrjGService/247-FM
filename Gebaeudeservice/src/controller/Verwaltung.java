@@ -161,6 +161,7 @@ public class Verwaltung {
 				Enums.Auftragsstatus.ANGEKOMMEN, new Date(),
 				getDienstleistung(name), size);
 		auftragList.add(a);
+		a.positionErzeugen(getDienstleistung(name), size);
 		return a;
 
 	}
@@ -318,7 +319,11 @@ public class Verwaltung {
 			verwaltung.rechnungList = verwaltung.conn.getAllRechnung();
 			verwaltung.positionList = verwaltung.conn.getAllPosition();
 			verwaltung.positionQueue = new ArrayDeque<Position>();
-			// TODO positionen im auftrag füllen
+			for (int i = 0; i < verwaltung.positionList.size(); i++) {
+				// TODO vorher nach datum sortieren?
+				verwaltung.positionList.get(i).auftrag.positionen.add(verwaltung.positionList.get(i));
+
+			}
 			for (int i = 0; i < verwaltung.positionList.size(); i++) {
 				// TODO vorher nach datum sortieren?
 				if (verwaltung.positionList.get(i).mitarbeiter == null) {
