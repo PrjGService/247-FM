@@ -6,7 +6,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -17,8 +16,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
@@ -27,14 +24,10 @@ import model.Mitarbeiter;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
 
-import com.mysql.jdbc.RowDataDynamic;
-
 import util.UIUtil;
 import util.table.IRow;
 import util.table.TableModel;
-import view.neo.content.AuftragsUebersichtView.AuftragsModel;
 import view.neo.content.AuftragsUebersichtView.AuftragsRow;
-import view.neo.content.AuftragsUebersichtView.TableRowRenderer;
 import database.DBManager;
 import enums.Enums.Mitarbeiterstatus;
 
@@ -97,8 +90,8 @@ public class MitarbeiterView extends JXPanel {
 		for (Mitarbeiter mitarbeiter : m) {
 			IRow MitarbeiterRow;
 			tableModel.addRow(new MitarbeiterRow(
-					mitarbeiter.getMitarbeiterID(), "  " + mitarbeiter
-							.getMitarbeiterName(), mitarbeiter
+					mitarbeiter.getMitarbeiterID(), "  "
+							+ mitarbeiter.getMitarbeiterName(), mitarbeiter
 							.getMitarbeiterStatus()));
 		}
 
