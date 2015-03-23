@@ -233,7 +233,12 @@ public class DBManager {
 						result.getFloat(3), result.getInt(5),
 						"Einsatzabrechnung", Enums.Faktortyp.ANZAHLEINSATZ);
 				break;
-			case "Laenge":
+			case "10 Meter":
+				d = new Laengenabrechnung(id, result.getString(2),
+						result.getFloat(3), result.getInt(5),
+						"Längenabrechnung", Enums.Faktortyp.LAENGE);
+				break;
+			case "Quadratmeter":
 				d = new Laengenabrechnung(id, result.getString(2),
 						result.getFloat(3), result.getInt(5),
 						"Längenabrechnung", Enums.Faktortyp.LAENGE);
@@ -243,7 +248,7 @@ public class DBManager {
 						result.getFloat(3), result.getInt(5),
 						"Materialabrechnung", Enums.Faktortyp.MATERIALPREIS);
 				break;
-			case "Anzahlmonat":
+			case "Monat":
 				d = new Pauschalabrechnung(id, result.getString(2),
 						result.getFloat(3), result.getInt(5),
 						"Pauschalabrechnung", Enums.Faktortyp.ANZAHLMONAT);
@@ -253,7 +258,7 @@ public class DBManager {
 						result.getFloat(3), result.getInt(5),
 						"Reparaturabrechnung", Enums.Faktortyp.MATERIALKOSTEN);
 				break;
-			case "Stunden":
+			case "Stunde":
 				d = new Stundenabrechnung(id, result.getString(2),
 						result.getFloat(3), result.getInt(5),
 						"Stundenabrechnung", Enums.Faktortyp.ANZAHLSTUNDE);
