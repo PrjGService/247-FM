@@ -164,19 +164,16 @@ public class MitarbeiterView extends JXPanel {
 			case 2:
 				setHorizontalAlignment(SwingUtilities.CENTER);
 				Mitarbeiterstatus status = (Mitarbeiterstatus) value;
-				if (status != null) {
-					if (status.ordinal() == Mitarbeiterstatus.ARBEITET
-							.ordinal()) {
+				if (value != null) {
+					if (value == Mitarbeiterstatus.ARBEITET) {
 						setIcon(icon3);
 						setText("   Arbeitet.   ");
 						break;
-					} else if (status.ordinal() == Mitarbeiterstatus.VERFUEGBAR
-							.ordinal()) {
+					} else if (value == Mitarbeiterstatus.VERFUEGBAR) {
 						setIcon(icon2);
 						setText("   Verfügbar.   ");
 						break;
-					} else if (status.ordinal() == Mitarbeiterstatus.UNVERFUEGBAR
-							.ordinal()) {
+					} else if (value == Mitarbeiterstatus.UNVERFUEGBAR) {
 						setIcon(icon1);
 						setText("   Unverfügbar.   ");
 						break;
