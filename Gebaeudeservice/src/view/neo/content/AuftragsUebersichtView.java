@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JLabel;
@@ -15,13 +16,17 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
+import model.Auftrag;
+
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
 
+import controller.Verwaltung;
 import util.UIUtil;
 import util.table.IRow;
 import util.table.TableModel;
 import database.DBManager;
+import enums.Enums;
 
 public class AuftragsUebersichtView extends JXPanel {
 
@@ -68,7 +73,7 @@ public class AuftragsUebersichtView extends JXPanel {
 
 		auftragsTable.getColumnModel().getColumn(0).setPreferredWidth(25);
 
-		auftragsTable.getTableHeader().resizeAndRepaint();		
+		auftragsTable.getTableHeader().resizeAndRepaint();
 		JTableHeader header = auftragsTable.getTableHeader();
 		header.setPreferredSize(new Dimension(100, 50));
 		header.setFont(new Font("Arial", Font.BOLD, 16));
@@ -77,21 +82,13 @@ public class AuftragsUebersichtView extends JXPanel {
 		auftragsTable.setDefaultRenderer(Long.class, renderer);
 
 		DBManager dbmanager = new DBManager();
-		// List<Auftrag> l = dbmanager.getAllAuftrag();
-		// for (Auftrag auftrag : l) {
-		tableModel.addRow(new AuftragsRow(1, "SHIFT Gebäudemanagement",
-				"bezahlt", "12.01.2015", "Rasen mähen"));
-		tableModel.addRow(new AuftragsRow(2, "SHIFT Gebäudemanagement",
-				"bezahlt", "23.01.2015", "Reparatur"));
-		tableModel.addRow(new AuftragsRow(3, "SHIFT Gebäudemanagement",
-				"erledigt", "08.02.2015", "Gas"));
-		tableModel.addRow(new AuftragsRow(4, "SHIFT Gebäudemanagement",
-				"erledigt", "10.02.2015", "Wasser"));
-		tableModel.addRow(new AuftragsRow(5, "SHIFT Gebäudemanagement",
-				"offen", "26.03.2015", "Hecke schneiden"));
-		tableModel.addRow(new AuftragsRow(6, "SHIFT Gebäudemanagement",
-				"offen", "01.04.2015", "Treppenreinigung"));
-		// }
+		List<Auftrag> l = Verwaltung.getInstance().auftragList;
+		for (Auftrag auftrag : l) {
+			tableModel.addRow(new AuftragsRow(auftrag.getAuftragID(), " "
+					+ auftrag.getAuftraggeber().auftraggeberName, " "
+					+ Enums.getAStatus(auftrag.getAuftragstatus()), " "
+					+ auftrag.auftragdatum.toString(), " " + "aa"));
+		}
 		return auftragsTable;
 	}
 

@@ -122,11 +122,11 @@ public class MitarbeiterView extends JXPanel {
 			setOpaque(true);
 		}
 
-		Icon icon1 = new ImageIcon(new ImageIcon(("res/attention1.png"))
+		Icon icon1 = new ImageIcon(new ImageIcon(("res/attention1.gif"))
 				.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
-		Icon icon2 = new ImageIcon(new ImageIcon(("res/constructor2.png"))
+		Icon icon2 = new ImageIcon(new ImageIcon(("res/constructor2.gif"))
 				.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
-		Icon icon3 = new ImageIcon(new ImageIcon(("res/construction3.png"))
+		Icon icon3 = new ImageIcon(new ImageIcon(("res/construction3.gif"))
 				.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 
 		@Override
@@ -168,23 +168,23 @@ public class MitarbeiterView extends JXPanel {
 				if (status != null) {
 					if (status.ordinal() == Mitarbeiterstatus.ARBEITET
 							.ordinal()) {
-						setIcon(icon3);
-						setText("   Arbeitet.");
+						setIcon(icon2);
+						setText("Arbeitet.       ");
 						break;
 					} else if (status.ordinal() == Mitarbeiterstatus.VERFUEGBAR
 							.ordinal()) {
-						setIcon(icon2);
-						setText("   Verfügbar.");
+						setIcon(icon3);
+						setText("Verfügbar.      ");
 						break;
 					} else if (status.ordinal() == Mitarbeiterstatus.UNVERFUEGBAR
 							.ordinal()) {
 						setIcon(icon1);
-						setText("   Unverfügbar.");
-						break;
+						setText("Unverfügbar.    ");
+						break; 
 					}
 				} else {
 					setIcon(icon2);
-					setText("   Arbeitet.   ");
+					setText("   Arbeitet.     ");
 				}
 				break;
 
