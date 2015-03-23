@@ -51,7 +51,6 @@ public class Verwaltung {
 	public Date tag;
 	public Date zieltag;
 
-	// TODO Startinitialisierung
 	private Verwaltung() {
 
 	}
@@ -111,7 +110,7 @@ public class Verwaltung {
 	// verarbeitungen nach jeden timestep
 	@SuppressWarnings("deprecation")
 	public void timestep() {
-		// TODO verarbeitungen per step
+		// TODO verarbeitungen per step db aktualisieren
 		while (tag.before(zieltag)) {
 			int alt = tag.getMonth();
 			tag();
