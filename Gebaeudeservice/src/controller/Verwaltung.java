@@ -321,6 +321,7 @@ public class Verwaltung {
 			verwaltung.positionQueue = new ArrayDeque<Position>();
 			for (int i = 0; i < verwaltung.positionList.size(); i++) {
 				// TODO vorher nach datum sortieren?
+				//System.out.println(""+verwaltung.positionList.get(i).auftrag.positionen);
 				verwaltung.positionList.get(i).auftrag.positionen.add(verwaltung.positionList.get(i));
 
 			}

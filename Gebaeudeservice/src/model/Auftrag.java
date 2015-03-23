@@ -54,7 +54,7 @@ public class Auftrag {
 	public Auftraggeber auftraggeber;
 	public Enums.Auftragsstatus auftragstatus;
 	public Date auftragdatum;
-	public List<Position> positionen;
+	public List<Position> positionen = new ArrayList<Position>();;
 
 	public Auftrag(Auftraggeber auftraggeber, int auftragID,
 			Enums.Auftragsstatus auftragstatus, Date auftragdatum,
@@ -75,7 +75,11 @@ public class Auftrag {
 		this.auftragID = auftragID;
 		this.auftragstatus = auftragstatus;
 		// es gibt mehrere positionen
-		this.positionen = positionen;
+		positionen = new ArrayList<Position>();
+		if(this.positionen == null)
+		{
+			positionen = new ArrayList<Position>();
+		}
 	}
 
 	public void positionErzeugen(Dienstleistung dienstleistung, int menge) {
