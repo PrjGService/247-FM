@@ -3,6 +3,7 @@ package view.neo.content;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.util.Vector;
 
@@ -11,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
 import org.jdesktop.swingx.JXPanel;
@@ -66,7 +68,11 @@ public class AuftragsUebersichtView extends JXPanel {
 
 		auftragsTable.getColumnModel().getColumn(0).setPreferredWidth(25);
 
-		auftragsTable.getTableHeader().resizeAndRepaint();
+		auftragsTable.getTableHeader().resizeAndRepaint();		
+		JTableHeader header = auftragsTable.getTableHeader();
+		header.setPreferredSize(new Dimension(100, 50));
+		header.setFont(new Font("Arial", Font.BOLD, 16));
+		auftragsTable.setTableHeader(header);
 		auftragsTable.setDefaultRenderer(Object.class, renderer);
 		auftragsTable.setDefaultRenderer(Long.class, renderer);
 
@@ -140,6 +146,7 @@ public class AuftragsUebersichtView extends JXPanel {
 				setHorizontalAlignment(SwingUtilities.LEFT);
 				setHorizontalTextPosition(SwingUtilities.LEFT);
 				setText(" " + String.valueOf((long) value));
+				setFont(new Font("ARIAL", Font.BOLD, 15));
 				break;
 			case 1:
 				setHorizontalAlignment(SwingUtilities.LEFT);
@@ -159,7 +166,7 @@ public class AuftragsUebersichtView extends JXPanel {
 				break;
 
 			default:
-				System.out.println("Spalte nicht gefunden und Ã¼bersprungen: "
+				System.out.println("Spalte nicht gefunden und übersprungen: "
 						+ col);
 				break;
 			}

@@ -3,6 +3,7 @@ package view.neo.content;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.util.Iterator;
@@ -18,6 +19,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
 import model.Mitarbeiter;
@@ -83,6 +85,10 @@ public class MitarbeiterView extends JXPanel {
 		mitarbeiterTable.getColumnModel().getColumn(0).setPreferredWidth(25);
 
 		mitarbeiterTable.getTableHeader().resizeAndRepaint();
+		JTableHeader header = mitarbeiterTable.getTableHeader();
+		header.setPreferredSize(new Dimension(100, 50));
+		header.setFont(new Font("Arial", Font.BOLD, 16));
+		mitarbeiterTable.setTableHeader(header);
 		mitarbeiterTable.setDefaultRenderer(Object.class, renderer);
 		mitarbeiterTable.setDefaultRenderer(Long.class, renderer);
 
@@ -157,6 +163,7 @@ public class MitarbeiterView extends JXPanel {
 				setHorizontalAlignment(SwingUtilities.LEFT);
 				setHorizontalTextPosition(SwingUtilities.LEFT);
 				setText(" " + String.valueOf((long) value));
+				setFont(new Font("ARIAL", Font.BOLD, 15));
 				break;
 			case 1:
 				setHorizontalAlignment(SwingUtilities.LEFT);
