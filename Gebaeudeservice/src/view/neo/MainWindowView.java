@@ -116,7 +116,7 @@ public class MainWindowView extends JXFrame{
 		header.setDescriptionForeground(Color.white);
 		header.setBackground(UIUtil.getStandardColor());
 		header.setIcon(new ImageIcon(new ImageIcon("res/logo.png").getImage().
-				getScaledInstance(-1, 60, Image.SCALE_SMOOTH)));
+				getScaledInstance(-1, 100, Image.SCALE_SMOOTH)));
 		contentPanel.add(header, BorderLayout.NORTH);
 		
 		mainPanel = new JXPanel(new BorderLayout());
