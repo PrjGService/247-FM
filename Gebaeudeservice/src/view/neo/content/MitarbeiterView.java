@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -15,6 +16,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 import javax.swing.table.TableCellRenderer;
 
 import model.Mitarbeiter;
@@ -22,10 +25,14 @@ import model.Mitarbeiter;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
 
+import com.mysql.jdbc.RowDataDynamic;
+
 import util.UIUtil;
 import util.table.IRow;
 import util.table.TableModel;
+import view.neo.content.AuftragsUebersichtView.AuftragsModel;
 import view.neo.content.AuftragsUebersichtView.AuftragsRow;
+import view.neo.content.AuftragsUebersichtView.TableRowRenderer;
 import database.DBManager;
 import enums.Enums.Mitarbeiterstatus;
 
@@ -69,6 +76,7 @@ public class MitarbeiterView extends JXPanel {
 		mitarbeiterTable.setGridColor(Color.BLACK);
 		mitarbeiterTable.setSelectionBackground(UIUtil.getStandardColor());
 		mitarbeiterTable.setSelectionForeground(Color.WHITE);
+		mitarbeiterTable.setRowHeight(50);
 
 		TableRowRenderer renderer = new TableRowRenderer(tableModel);
 
@@ -81,8 +89,9 @@ public class MitarbeiterView extends JXPanel {
 		DBManager dbmanager = new DBManager();
 		List<Mitarbeiter> m = dbmanager.getAllMitarbeiter();
 		for (Mitarbeiter mitarbeiter : m) {
+			IRow MitarbeiterRow;
 			tableModel.addRow(new MitarbeiterRow(
-					mitarbeiter.getMitarbeiterID(), mitarbeiter
+					mitarbeiter.getMitarbeiterID(), "  " + mitarbeiter
 							.getMitarbeiterName(), mitarbeiter
 							.getMitarbeiterStatus()));
 		}
@@ -107,16 +116,19 @@ public class MitarbeiterView extends JXPanel {
 	class TableRowRenderer extends JLabel implements TableCellRenderer {
 
 		private static final long serialVersionUID = 1L;
+		private MitarbeiterModel tableModel;
+
 		public TableRowRenderer(MitarbeiterModel tableModel) {
+			this.tableModel = tableModel;
 			setOpaque(true);
 		}
 
 		Icon icon1 = new ImageIcon(new ImageIcon(("res/attention1.png"))
-				.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+				.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 		Icon icon2 = new ImageIcon(new ImageIcon(("res/constructor2.png"))
-				.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+				.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 		Icon icon3 = new ImageIcon(new ImageIcon(("res/construction3.png"))
-				.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+				.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 
 		@Override
 		public Component getTableCellRendererComponent(JTable table,
@@ -152,18 +164,25 @@ public class MitarbeiterView extends JXPanel {
 				break;
 			case 2:
 				setHorizontalAlignment(SwingUtilities.CENTER);
-				if (value != null) {
-					if (value == Mitarbeiterstatus.ARBEITET) {
+				Mitarbeiterstatus status = (Mitarbeiterstatus) value;
+				if (status != null) {
+					if (status.ordinal() == Mitarbeiterstatus.ARBEITET
+							.ordinal()) {
 						setIcon(icon3);
 						setText("   Arbeitet.   ");
+						System.out.println("case1");
 						break;
-					} else if (value == Mitarbeiterstatus.VERFUEGBAR) {
+					} else if (status.ordinal() == Mitarbeiterstatus.VERFUEGBAR
+							.ordinal()) {
 						setIcon(icon2);
 						setText("   Verfügbar.   ");
+						System.out.println("case2");
 						break;
-					} else if (value == Mitarbeiterstatus.UNVERFUEGBAR) {
+					} else if (status.ordinal() == Mitarbeiterstatus.UNVERFUEGBAR
+							.ordinal()) {
 						setIcon(icon1);
 						setText("   Unverfügbar.   ");
+						System.out.println("case3");
 						break;
 					}
 				} else {
@@ -185,7 +204,6 @@ public class MitarbeiterView extends JXPanel {
 
 		private static final long serialVersionUID = -5574999980921824807L;
 
-		@SuppressWarnings("rawtypes")
 		private static Class[] columnClass = { Long.class, String.class,
 				String.class };
 

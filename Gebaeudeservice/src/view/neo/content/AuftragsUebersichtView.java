@@ -60,6 +60,7 @@ public class AuftragsUebersichtView extends JXPanel {
 		auftragsTable.setGridColor(Color.BLACK);
 		auftragsTable.setSelectionBackground(UIUtil.getStandardColor());
 		auftragsTable.setSelectionForeground(Color.WHITE);
+		auftragsTable.setRowHeight(50);
 
 		TableRowRenderer renderer = new TableRowRenderer(tableModel);
 
@@ -139,7 +140,6 @@ public class AuftragsUebersichtView extends JXPanel {
 				setHorizontalAlignment(SwingUtilities.LEFT);
 				setHorizontalTextPosition(SwingUtilities.LEFT);
 				setText(" " + String.valueOf((long) value));
-				System.out.println("test");
 				break;
 			case 1:
 				setHorizontalAlignment(SwingUtilities.LEFT);
