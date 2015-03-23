@@ -57,8 +57,8 @@ public class AuftragsUebersichtView extends JXPanel {
 		auftragsTable.setRowSelectionAllowed(true);
 		auftragsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		auftragsTable.setShowGrid(true);
-		auftragsTable.setFillsViewportHeight(true);
-		auftragsTable.setDragEnabled(false);
+		auftragsTable.setFillsViewportHeight(false);
+		auftragsTable.setDragEnabled(true);
 		auftragsTable.setGridColor(Color.BLACK);
 		auftragsTable.setSelectionBackground(UIUtil.getStandardColor());
 		auftragsTable.setSelectionForeground(Color.WHITE);
