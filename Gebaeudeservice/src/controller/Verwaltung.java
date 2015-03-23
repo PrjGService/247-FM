@@ -381,6 +381,12 @@ public class Verwaltung {
 			System.err.println("Es ist ein Fehler beim Versenden des Mahnauftrages aufgetreten.");
 		}
 	}
+
+
+	public static Verwaltung getInstance() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 	//zum export der schnittstellenmethoden:
