@@ -126,6 +126,7 @@ public class ServiceWSImpl  implements ServiceWS{
 		
 		return s;
 	}
+	//TODO teste addauftrag sodass richtig formatier und dienstleistung zugeordnet
 
 	
 	/**
