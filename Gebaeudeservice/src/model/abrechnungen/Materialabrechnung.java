@@ -18,13 +18,13 @@ public class Materialabrechnung extends Stundenabrechnung {
 
 	public float preisermitteln(float wert, float wert2) {
 		// TODO Auto-generated method stub
-		return 0;
+		return dienstleistungspreis;
 	}
 
 
 	public float aufwandermitteln(float wert, float wert2) {
 		// TODO Auto-generated method stub
-		return 0;
+		return dienstleistungsaufwand;
 	}
 
 }

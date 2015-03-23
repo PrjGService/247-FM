@@ -9,5 +9,5 @@ import javax.jws.soap.SOAPBinding.Style;
 @SOAPBinding(style = Style.RPC)
 
 public interface OrderWS {
-	@WebMethod String sendOrderToFm(String name, int apartmentID, int size, int orderID);
+	@WebMethod String sendOrderToFm(String name, String apartmentID, int size, int orderID);
 }

@@ -10,7 +10,7 @@ public class StatusWSImpl implements StatusWS {
 	@Override
 	@WebMethod
 	public
-	String getState(int orderID) {
+	String getState(long orderID) {
 		// TODO Auto-generated method stub
 		
 		//verwaltung.statusliefern aufrufen

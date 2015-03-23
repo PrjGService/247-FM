@@ -9,6 +9,6 @@ import javax.jws.soap.SOAPBinding.Style;
 @SOAPBinding(style = Style.RPC)
 
 public interface StatusWS {
-	@WebMethod String getState(int orderID);
+	@WebMethod String getState(long orderID);
 }
 

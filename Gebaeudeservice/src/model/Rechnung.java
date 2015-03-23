@@ -8,13 +8,13 @@ import controller.Verwaltung;
 
 public class Rechnung {
 
-	Auftraggeber auftraggeber;
-	int rechnungID;
-	Date rechnungDatum;
-	Auftrag auftrag;
-	float rechnungPreis;
-	Date rechnungZahlungsziel;
-	String rechnungVerwendungszweck;
+	public Auftraggeber auftraggeber;
+	public int rechnungID;
+	public Date rechnungDatum;
+	public Auftrag auftrag;
+	public float rechnungPreis;
+	public Date rechnungZahlungsziel;
+	public String rechnungVerwendungszweck;
 	
 	
 	
@@ -34,8 +34,7 @@ public class Rechnung {
 	//versenden methode
 	public void versenden()
 	{
-		//TODO parameter an methode anpassen
-		Verwaltung.verwaltung.sendInvoice("GS", auftraggeber.auftraggeberName, "GS", (double)auftrag.getCost(), rechnungVerwendungszweck, rechnungDatum, rechnungZahlungsziel, auftraggeber.auftraggeberAdresse);
+		Verwaltung.verwaltung.sendInvoice(rechnungVerwendungszweck, "GS","GS", auftraggeber.auftraggeberName, (double)auftrag.getCost(), rechnungDatum.toString(), rechnungZahlungsziel.toString());
 	}
 
 }

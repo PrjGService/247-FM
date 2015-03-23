@@ -76,12 +76,13 @@ public class DBManager {
 	            statement.execute();
 	            statement = conn
 	                    .prepareStatement(
-	                            "INSERT INTO auftrag (ID, Status, Datum "
-	                                    + ") VALUES (?,?,?);",
+	                            "INSERT INTO auftrag (ID, auftraggeber.ID,Status, Datum "
+	                                    + ") VALUES (?,?,??);",
 	                            Statement.RETURN_GENERATED_KEYS);
 	            statement.setInt(1,a.auftragID);
-	            statement.setString(2, Enums.getAStatus(a.auftragstatus));
-	            statement.setDate(3, (Date) a.auftragdatum);
+	            statement.setInt(2,a.auftraggeber.auftraggeberID);
+	            statement.setString(3, Enums.getAStatus(a.auftragstatus));
+	            statement.setDate(4, (Date) a.auftragdatum);
 	            statement.execute();
 	            result = statement.getGeneratedKeys();   
 	        } catch (SQLException e) {
@@ -428,65 +429,69 @@ public class DBManager {
 		
 	}
 	
-//	public Rechnung readRechnung(int id)
-//	{
-//		 try {
-//	            statement = conn.prepareStatement("SELECT * FROM rechnung WHERE id = " + id + ";");
-//	            result = statement.executeQuery();
-//	            result.next();
-//	            return new Rechnung(Verwaltung.verwaltung.auftraggeber,id, result.getDate(4), Verwaltung.verwaltung.);
-//	        } catch (SQLException e) {
-//	            // Auto-generated catch block
-//	            e.printStackTrace();
-//	        }
-//		return null;
-//		
-//	}
-//	
-//	public void writeRechnung(Rechnung r)
-//	{
-//		 try {
-//			 statement = conn.prepareStatement("DELETE FROM mitarbeiter WHERE id = "
-//	                    + m.mitarbeiterID + ";");
-//	            statement.execute();
-//	            statement = conn
-//	                    .prepareStatement(
-//	                            "INSERT INTO mitarbeiter (ID, Name, Status"
-//	                                    + ") VALUES (?,?,?);",
-//	                            Statement.RETURN_GENERATED_KEYS);
-//	            statement.setInt(1,m.mitarbeiterID);
-//	            statement.setString(2, m.mitarbeiterName);
-//	            statement.setString(3, Enums.getMStatus(m.mitarbeiterStatus));
-//	            statement.execute();
-//	            result = statement.getGeneratedKeys();   
-//	        } catch (SQLException e) {
-//	            // Auto-generated catch block
-//	            e.printStackTrace();
-//	        }
-//		
-//	}
-//	
-//	public List<Rechnung> getAllRechnung()
-//	{
-//		List<Mitarbeiter> l = new ArrayList<Mitarbeiter>();
-//		List<Integer> helper = new ArrayList<Integer>();
-//		try {
-//			statement = conn.prepareStatement("SELECT * FROM mitarbeiter;");
-//			result = statement.executeQuery();    
-//			while(result.next()){
-//	        	helper.add(result.getInt(1));
-//	        	
-//	        }
-//	        for(int i = 0; i < helper.size();i++)
-//	        {	        	
-//	        	l.add(readRechnung(helper.get(i)));
-//	        }
-//		} catch (SQLException e) {
-//			// Auto-generated catch block
-//			e.printStackTrace();
-//		}  
-//		return l;
-//		
-//	}
+	public Rechnung readRechnung(int id)
+	{
+		 try {
+	            statement = conn.prepareStatement("SELECT * FROM rechnung WHERE id = " + id + ";");
+	            result = statement.executeQuery();
+	            result.next();
+	            return new Rechnung(Verwaltung.verwaltung.auftraggeber,id, result.getDate(4),Verwaltung.verwaltung.getAuftrag(result.getInt(3)),result.getFloat(5),result.getDate(6),result.getString(7));
+	        } catch (SQLException e) {
+	            // Auto-generated catch block
+	            e.printStackTrace();
+	        }
+		return null;
+		
+	}
+	
+	public void writeRechnung(Rechnung r)
+	{
+		 try {
+			 statement = conn.prepareStatement("DELETE FROM rechnung WHERE id = "
+	                    + r.rechnungID + ";");
+	            statement.execute();
+	            statement = conn
+	                    .prepareStatement(
+	                            "INSERT INTO rechnung (ID, auftraggeber.ID, auftrag.ID, Datum, Preis, Zahlungsziel, Verwendungszweck"
+	                                    + ") VALUES (?,?,?,?,?,?,?);",
+	                            Statement.RETURN_GENERATED_KEYS);
+	            statement.setInt(1,r.rechnungID);
+	            statement.setInt(2, r.auftraggeber.auftraggeberID);
+	            statement.setInt(3, r.auftrag.auftragID);
+	            statement.setDate(4, (Date) r.rechnungDatum);
+	            statement.setFloat(5, r.rechnungPreis);
+	            statement.setDate(6, (Date) r.rechnungZahlungsziel);
+	            statement.setString(7, r.rechnungVerwendungszweck);
+	            statement.execute();
+	            result = statement.getGeneratedKeys();   
+	        } catch (SQLException e) {
+	            // Auto-generated catch block
+	            e.printStackTrace();
+	        }
+		
+	}
+	
+	public List<Rechnung> getAllRechnung()
+	{
+		List<Rechnung> l = new ArrayList<Rechnung>();
+		List<Integer> helper = new ArrayList<Integer>();
+		try {
+			statement = conn.prepareStatement("SELECT * FROM rechnung;");
+			result = statement.executeQuery();    
+			while(result.next()){
+	        	helper.add(result.getInt(1));
+	        	
+	        }
+	        for(int i = 0; i < helper.size();i++)
+	        {	        	
+	        	l.add(readRechnung(helper.get(i)));
+	        }
+		} catch (SQLException e) {
+			// Auto-generated catch block
+			e.printStackTrace();
+		}  
+		return l;
+		
+	}
 
 }

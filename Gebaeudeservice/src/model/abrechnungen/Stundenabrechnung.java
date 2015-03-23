@@ -18,13 +18,13 @@ public class Stundenabrechnung extends Dienstleistung {
 	@Override
 	public float preisermitteln(float wert) {
 		// TODO Auto-generated method stub
-		return 0;
+		return dienstleistungspreis;
 	}
 
 	@Override
 	public float aufwandermitteln(float wert) {
 		// TODO Auto-generated method stub
-		return 0;
+		return dienstleistungsaufwand;
 	}
 
 }

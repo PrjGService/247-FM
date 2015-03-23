@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Queue;
@@ -10,6 +11,8 @@ import javax.jws.WebMethod;
 import javax.swing.JOptionPane;
 
 import database.DBManager;
+import enums.Enums;
+import enums.Enums.Auftragsstatus;
 
 import util.Publisher;
 import webservices.impl.BVWSImplService;
@@ -22,13 +25,12 @@ import model.Auftraggeber;
 import model.Dienstleistung;
 import model.Mitarbeiter;
 import model.Position;
+import model.Rechnung;
 import model.User;
 
 public class Verwaltung {
 
-	/**
-	 * @param args
-	 */
+
 	public static Verwaltung verwaltung;
 	
 	//startmethode um schnittstellen zu publishen und anwendung zu starten
@@ -44,19 +46,14 @@ public class Verwaltung {
 	public List<Mitarbeiter> mitarbeiterList;
 	public List<Auftrag> auftragList;
 	public List<Dienstleistung> dienstleistungList;
+	public List<Position> positionList;
+	public List<Rechnung> rechnungList;
 	public Queue<Position> positionQueue;
 	public Auftraggeber auftraggeber;
 	public DBManager conn;
 	
-	public int tag;
-	public int zieltag;
-	
-	public static Verwaltung getInstance(){
-		if(verwaltung == null){
-			verwaltung = new Verwaltung();
-		}
-		return verwaltung;
-	}
+	public Date tag;
+	public Date zieltag;
 	
 	//TODO Startinitialisierung
 	public Verwaltung()
@@ -67,11 +64,19 @@ public class Verwaltung {
 		auftraggeber = conn.readAuftraggeber(1);
 		mitarbeiterList = conn.getAllMitarbeiter();
 		dienstleistungList = conn.getAllDienstleistung();
-		auftragList = new ArrayList<Auftrag>();
+		auftragList = conn.getAllAuftrag();
+		rechnungList = conn.getAllRechnung();
+		positionList = conn.getAllPosition();
 		positionQueue = new ArrayDeque<Position>();
-		//positionqueue und listen initial füllen 
-		//db einlesen
-		//listen füllen
+		//TODO positionen im auftrag füllen
+		for(int i = 0; i < positionList.size(); i ++)
+		{
+			//TODO vorher nach datum sortieren?
+			if(positionList.get(i).mitarbeiter == null)
+			{
+				positionQueue.add(positionList.get(i));
+			}
+		}
 		
 		
 		Runtime.getRuntime().addShutdownHook(new Thread()
@@ -104,52 +109,97 @@ public class Verwaltung {
 	
 	
 	
-	//TODO verarbeitung eines Tages
 	public void tag()
 	{
-		//positionen wenn zieldatum dann abschließen und ma freigeben
-		//ma position zuordnen falls unbelegt und status und zugeord. posi anpassen
-		tag++;
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(tag); 
+		c.add(Calendar.DATE, 1);
+		tag = c.getTime();
 		//TODO jeden tag vergeht zeit?
-		try {
-			//pausiert 1 sekunde
-			Thread.sleep(5*60);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		//monatsaufgaben beachten? und hier sonderfall eintragen?
+//		try {
+//			//pausiert 1 sekunde
+//			Thread.sleep(5*60);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		} 
+		for(int i = 0; i < positionList.size();i++)
+		{
+			if(positionList.get(i).positionAusfuehrungsdatum == tag)
+			{
+				if(positionList.get(i).mitarbeiter != null)
+				{
+					positionList.get(i).mitarbeiter.positionAusfuehren(positionList.get(i));
+				}
+				else
+				{
+					c = Calendar.getInstance(); 
+					c.setTime(positionList.get(i).positionAusfuehrungsdatum); 
+					c.add(Calendar.DATE, 1);
+					positionList.get(i).positionAusfuehrungsdatum = c.getTime();
+				}
+			}
+		}
+		for(int i = 0; i < mitarbeiterList.size();i++)
+		{
+			if(mitarbeiterList.get(i).mitarbeiterStatus == Enums.Mitarbeiterstatus.VERFUEGBAR)
+			{
+				positionVergeben(mitarbeiterList.get(i));
+			}
+		}
+
+		updateView();
+		
+	}
+	
+	public void updateView()
+	{
+		//TODO view updatemethode aufrufen?
 	}
 	
 	//verarbeitungen nach jeden timestep
+	@SuppressWarnings("deprecation")
 	public void timestep()
 	{
 		//TODO verarbeitungen per step
-		//1 = code für 1 step?
-		while(tag < zieltag)
+		while(tag.before(zieltag))
 		{
+			int alt = tag.getMonth();
 			tag();
+			int neu = tag.getMonth();
+			if(alt != neu)
+			{
+				
+			//TODO monatsverarbeitung--> rechnnungen verschicken statt von ma?
+				//TODO rechnung auch an gm
+				//TODO Rechnung erhalten
+				//TODO schnittstellen( ein und ausgehend) in try catch
+			}
 		}
 		instructTimepush(1);
 	}
 	
-	//TODO
-	public void auftragAbschliessen()
-	{
+
+	
+	
+	public String unbezahlteRechnungen() {
+		String s = "";
+		for(int i = 0; i < rechnungList.size();i++)
+		{
+			if(rechnungList.get(i).auftrag.auftragstatus != Enums.Auftragsstatus.BEZAHLT)
+			{
+				s += rechnungList.get(i).auftrag.auftragID + " ";
+			}
+		}
+		return s;
 		
 	}
 	
-	//TODO
-	public void positionVergeben()
+	public void positionVergeben(Mitarbeiter m)
 	{
-		
+		positionQueue.poll().mitarbeiter = m;
 	}
 	
-	//TODO
-	public String statusLiefern()
-	{
-		return null;
-	}
+
 	
 	public Dienstleistung getDienstleistung(int dienstleistungsID)
 	{
@@ -165,6 +215,13 @@ public class Verwaltung {
 		return erg;
 	}
 	
+	public Auftrag addAuftrag(String name, int size, int orderID)
+	{
+		Auftrag a = new Auftrag(auftraggeber, orderID, Enums.Auftragsstatus.ANGEKOMMEN, new Date(), getDienstleistung(name), size);
+		return a;
+		
+	}
+	
 	public Auftrag getAuftrag(int auftragsID)
 	{
 		Auftrag erg = null;
@@ -173,6 +230,20 @@ public class Verwaltung {
 			if( auftragList.get(i).auftragID == auftragsID)
 			{
 				erg = auftragList.get(i);
+				break;
+			}
+		}
+		return erg;
+	}
+	
+	public Dienstleistung getDienstleistung(String name)
+	{
+		Dienstleistung erg = null;
+		for(int i = 0; i < dienstleistungList.size(); i++)
+		{
+			if( dienstleistungList.get(i).dienstleistungsName == name)
+			{
+				erg = dienstleistungList.get(i);
 				break;
 			}
 		}
@@ -193,10 +264,27 @@ public class Verwaltung {
 		return erg;
 	}
 	
-	//TODO ausrechnen wenn auftrag ausgeführt sein wird
-	public Date getZieldatum(Auftrag auftrag)
+	int zaehl;
+	public Date getZieldatum(Auftrag a)
 	{
-		return null;
+		zaehl++;
+		Date d = null;
+		for(int i = 0; i<positionList.size();i++)
+		{
+			if(d == null || (positionList.get(i).positionAusfuehrungsdatum != null && positionList.get(i).positionAusfuehrungsdatum.after(d)))
+			{
+					d = positionList.get(i).positionAusfuehrungsdatum;
+			}
+		}
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(d);
+		if(mitarbeiterList.size()<= zaehl)
+		{
+			c.add(Calendar.DATE, 1);
+			zaehl = 0;
+		}
+		d= c.getTime();
+		return d;
 	}
 	
 	//TODO zusatzverarbeitung bei mahnung?
@@ -205,6 +293,7 @@ public class Verwaltung {
 		instructDunnning(verwendungszweck);
 	}
 	
+	//TODO an timepush anpassen da nicht in bank.jar drin
 	//versendet einen timepush wenn stepverarbeitung abgeschlossen ist
 	public void instructTimepush(int timestep)
 	{
@@ -229,9 +318,10 @@ public class Verwaltung {
 		}
 	}
 	
-	public void sendInvoice(String rechnungsersteller, String rechnungsempfaenger, String sender
-								,double betrag, String verwendungszweck, Date rechnungsdatum
-								, Date zahlungsdatum, String rechnungsadresse )
+	
+	//TODO
+	public void sendInvoice(String verwendungszweck, String sender, String rechnungsersteller, 
+			String rechnungsempfaenger, double betrag, String rechnungsdatum, String zahlungsdatum)
 	{
 		SchnittstellenimplService  InvoiceService = new SchnittstellenimplService();
 		SchnittstelleBH InvoiceWS = InvoiceService.getSchnittstellenimplPort();
@@ -291,6 +381,7 @@ public class Verwaltung {
 			System.err.println("Es ist ein Fehler beim Versenden des Mahnauftrages aufgetreten.");
 		}
 	}
+	
 	
 	//zum export der schnittstellenmethoden:
 	//Starten der eigenen Anwendung als Java Application

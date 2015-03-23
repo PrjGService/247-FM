@@ -7,6 +7,6 @@ import javax.jws.soap.SOAPBinding.Style;
 @WebService
 @SOAPBinding(style = Style.RPC)
 
-public interface ServiceWS extends InvoicesWS,OrderWS,StatusWS{
+public interface ServiceWS extends InvoicesWS,OrderWS,StatusWS,TimeWS{
 
 }
