@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Image;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -92,7 +93,6 @@ public class MitarbeiterView extends JXPanel {
 					mitarbeiter.getMitarbeiterID(), mitarbeiter
 							.getMitarbeiterName(), mitarbeiter
 							.getMitarbeiterStatus()));
-
 		}
 
 		return mitarbeiterTable;
@@ -121,10 +121,13 @@ public class MitarbeiterView extends JXPanel {
 			this.tableModel = tableModel;
 			setOpaque(true);
 		}
-		
-		Icon icon1 = new ImageIcon(("res/attention1.png"));
-		Icon icon2 = new ImageIcon(("res/constructor2.png"));
-		Icon icon3 = new ImageIcon(("res/contruction3.png"));
+
+		Icon icon1 = new ImageIcon(new ImageIcon(("res/attention1.png"))
+				.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+		Icon icon2 = new ImageIcon(new ImageIcon(("res/constructor2.png"))
+				.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+		Icon icon3 = new ImageIcon(new ImageIcon(("res/construction3.png"))
+				.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 
 		@Override
 		public Component getTableCellRendererComponent(JTable table,
@@ -147,36 +150,39 @@ public class MitarbeiterView extends JXPanel {
 			}
 
 			switch (col) {
+
 			case 0:
 				setHorizontalAlignment(SwingUtilities.LEFT);
 				setHorizontalTextPosition(SwingUtilities.LEFT);
 				setText(" " + String.valueOf((long) value));
-				System.out.println("test");
 				break;
 			case 1:
 				setHorizontalAlignment(SwingUtilities.LEFT);
 				setText((String) value);
 				break;
 			case 2:
-				setHorizontalAlignment(SwingUtilities.LEFT);
+				setHorizontalAlignment(SwingUtilities.CENTER);
 				Mitarbeiterstatus status = (Mitarbeiterstatus) value;
 				if (status != null) {
 					if (status.ordinal() == Mitarbeiterstatus.ARBEITET
 							.ordinal()) {
 						setIcon(icon3);
-						setText("");
+						setText("   Arbeitet.");
+						break;
 					} else if (status.ordinal() == Mitarbeiterstatus.VERFUEGBAR
 							.ordinal()) {
 						setIcon(icon2);
-						setText("");
+						setText("   Verfügbar.");
+						break;
 					} else if (status.ordinal() == Mitarbeiterstatus.UNVERFUEGBAR
 							.ordinal()) {
 						setIcon(icon1);
-						setText("");
+						setText("   Unverfügbar.");
+						break;
 					}
 				} else {
-					setText("");
 					setIcon(icon1);
+					setText("   Unverfügbar   ");
 				}
 				break;
 

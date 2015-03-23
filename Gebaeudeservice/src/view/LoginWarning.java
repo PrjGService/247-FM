@@ -21,16 +21,15 @@ public class LoginWarning extends JFrame {
 
 	public LoginWarning() {
 
-		final JFrame loginwarning = new JFrame("Login fehlgeschlagen.");
 
 		Image logo = new ImageIcon("res/logo.png").getImage();
 
-		loginwarning.setResizable(false);
-		loginwarning.setIconImage(logo);
-		loginwarning.setLocationRelativeTo(null);
-		loginwarning.setSize(300, 255);
-		loginwarning.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		loginwarning.setLayout(new BorderLayout());
+		this.setResizable(false);
+		this.setIconImage(logo);
+		this.setLocationRelativeTo(null);
+		this.setSize(300, 255);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setLayout(new BorderLayout());
 
 		JLabel label1 = new JLabel();
 		label1.setText("<html><body><center> Anmeldung nicht erfolgreich! <br><br> Benutzername oder Passwort nicht korrekt. </body></html>");
@@ -40,7 +39,7 @@ public class LoginWarning extends JFrame {
 		LayoutButton close = new LayoutButton("OK");
 		close.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				loginwarning.dispose();
+				dispose();
 			}
 		});
 		close.addKeyListener(new KeyListener() {
@@ -50,7 +49,7 @@ public class LoginWarning extends JFrame {
 
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
 
-					loginwarning.dispose();
+					dispose();
 					System.out.println("Warning closed.");
 
 				} else {
@@ -73,10 +72,10 @@ public class LoginWarning extends JFrame {
 
 		});
 
-		loginwarning.add(label1, BorderLayout.CENTER);
-		loginwarning.add(close, BorderLayout.SOUTH);
-		loginwarning.setLocationRelativeTo(loginwarning.getOwner());
-		loginwarning.setVisible(true);
+		this.add(label1, BorderLayout.CENTER);
+		this.add(close, BorderLayout.SOUTH);
+		this.setLocationRelativeTo(this.getOwner());
+		this.setVisible(true);
 		System.out.println("Warning generated.");
 
 	}

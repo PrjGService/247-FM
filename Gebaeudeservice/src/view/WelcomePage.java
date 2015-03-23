@@ -125,7 +125,7 @@ public class WelcomePage extends JFrame {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				LoginWindowController.getInstance().handleLogin(user.getText(),
-						pw.getPassword().toString());
+						pw.getText().toString());
 			}
 		});
 
