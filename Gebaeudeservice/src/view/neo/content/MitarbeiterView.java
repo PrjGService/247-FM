@@ -134,9 +134,10 @@ public class MitarbeiterView extends JXPanel {
 				Object value, boolean isSelected, boolean hasFocus, int row,
 				int col) {
 
-			setFont(new Font("Arial", Font.PLAIN, 14));
+			setFont(new Font("Arial", Font.PLAIN, 15));
 			setHorizontalAlignment(SwingUtilities.CENTER);
 			setIcon(null);
+			setSize(40000, 500);
 
 			if (hasFocus || isSelected) {
 				setBackground(UIUtil.getStandardColor());
@@ -167,22 +168,22 @@ public class MitarbeiterView extends JXPanel {
 					if (status.ordinal() == Mitarbeiterstatus.ARBEITET
 							.ordinal()) {
 						setIcon(icon3);
-						setText("   Arbeitet.");
+						setText("   Arbeitet.   ");
 						break;
 					} else if (status.ordinal() == Mitarbeiterstatus.VERFUEGBAR
 							.ordinal()) {
 						setIcon(icon2);
-						setText("   Verfügbar.");
+						setText("   Verfügbar.   ");
 						break;
 					} else if (status.ordinal() == Mitarbeiterstatus.UNVERFUEGBAR
 							.ordinal()) {
 						setIcon(icon1);
-						setText("   Unverfügbar.");
+						setText("   Unverfügbar.   ");
 						break;
 					}
 				} else {
-					setIcon(icon1);
-					setText("   Unverfügbar   ");
+					setIcon(icon2);
+					setText("   Arbeitet.   ");
 				}
 				break;
 

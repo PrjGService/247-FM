@@ -119,7 +119,7 @@ public class AuftragsUebersichtView extends JXPanel {
 				Object value, boolean isSelected, boolean hasFocus, int row,
 				int col) {
 
-			setFont(new Font("Arial", Font.PLAIN, 14));
+			setFont(new Font("Arial", Font.PLAIN, 15));
 			setHorizontalAlignment(SwingUtilities.CENTER);
 			setIcon(null);
 
