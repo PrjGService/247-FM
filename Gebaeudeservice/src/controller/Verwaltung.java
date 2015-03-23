@@ -32,12 +32,6 @@ public class Verwaltung {
 
 	private static Verwaltung verwaltung;
 
-	// startmethode um schnittstellen zu publishen und anwendung zu starten
-	public static void main(String[] args) {
-		Publisher.getInstance();
-
-	}
-
 	public List<User> userList;
 	public List<Mitarbeiter> mitarbeiterList;
 	public List<Auftrag> auftragList;
@@ -152,7 +146,7 @@ public class Verwaltung {
 				}
 			}
 		}
-		//System.out.println(erg);
+		// System.out.println(erg);
 		return erg;
 	}
 
@@ -162,6 +156,8 @@ public class Verwaltung {
 				getDienstleistung(name), size);
 		auftragList.add(a);
 		a.positionErzeugen(getDienstleistung(name), size);
+
+		MainWindowController.getInstance().addOrChangeAuftrag(a);
 		return a;
 
 	}
@@ -179,8 +175,10 @@ public class Verwaltung {
 
 	public Dienstleistung getDienstleistung(String name) {
 		Dienstleistung erg = null;
+		// System.out.println(name);
 		for (int i = 0; i < dienstleistungList.size(); i++) {
-			if (dienstleistungList.get(i).dienstleistungsName == name) {
+			System.out.println(dienstleistungList.get(i).dienstleistungsName);
+			if (dienstleistungList.get(i).dienstleistungsName.equals(name)) {
 				erg = dienstleistungList.get(i);
 				break;
 			}
@@ -321,10 +319,11 @@ public class Verwaltung {
 			verwaltung.positionQueue = new ArrayDeque<Position>();
 			for (int i = 0; i < verwaltung.positionList.size(); i++) {
 				// TODO vorher nach datum sortieren?
-				
-				verwaltung.positionList.get(i).auftrag.positionen.add(verwaltung.positionList.get(i));
-				
-				//System.out.println(""+verwaltung.positionList.get(i).auftrag.positionen.get(0).dienstleistung);
+
+				verwaltung.positionList.get(i).auftrag.positionen
+						.add(verwaltung.positionList.get(i));
+
+				// System.out.println(""+verwaltung.positionList.get(i).auftrag.positionen.get(0).dienstleistung);
 			}
 			for (int i = 0; i < verwaltung.positionList.size(); i++) {
 				// TODO vorher nach datum sortieren?
