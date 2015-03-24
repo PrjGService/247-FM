@@ -314,7 +314,7 @@ public class MainWindowView extends JXFrame{
 	
 	public void addOrChangeAuftrag(Auftrag auftrag){
 		auftreageUebersichtPanel.addAuftrag(Long.valueOf(auftrag.auftragID), auftrag.auftraggeber.auftraggeberName, 
-				auftrag.auftragstatus.toString(), auftrag.auftragdatum.toString(), "??");
+				auftrag.auftragstatus.toString(), auftrag.auftragdatum.toString(), auftrag.getPositionen().get(0).dienstleistung.dienstleistungsName);
 	}
 
 	public void deleteAuftrag(Auftrag auftrag) {
