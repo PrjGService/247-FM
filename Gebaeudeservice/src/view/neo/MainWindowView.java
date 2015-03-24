@@ -88,6 +88,8 @@ public class MainWindowView extends JXFrame{
 	
 	public MainWindowView(){
 		verwaltung = Verwaltung.getInstance();
+		Image icon = new ImageIcon("res/logo.png").getImage();
+		this.setIconImage(icon);
 		UIManager.put("TaskPane.titleBackgroundGradientStart", Color.gray);
 		UIManager.put("TaskPane.titleBackgroundGradientEnd", Color.gray);
 		UIManager.put("TaskPane.background", Color.white);

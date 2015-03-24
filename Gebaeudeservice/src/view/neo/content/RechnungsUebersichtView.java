@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -161,7 +162,8 @@ public class RechnungsUebersichtView extends JXPanel {
 				break;
 			case 3:
 				setHorizontalAlignment(SwingUtilities.CENTER);
-				setText(String.valueOf((Float) value));
+				DecimalFormat df = new DecimalFormat("0.00");
+				setText(String.valueOf(df.format((Float) value)));
 				break;
 			case 4:
 				setHorizontalAlignment(SwingUtilities.CENTER);
