@@ -83,7 +83,7 @@ public class DBManager {
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setInt(1, a.auftragID);
 			statement.setInt(2, a.auftraggeber.auftraggeberID);
-			statement.setString(3, Enums.getAStatus(a.auftragstatus));
+			statement.setString(3, Enums.getAStatus(a.getAuftragstatus()));
 			statement.setDate(4, (Date) a.auftragdatum);
 			statement.execute();
 			result = statement.getGeneratedKeys();
@@ -249,6 +249,11 @@ public class DBManager {
 						"Materialabrechnung", Enums.Faktortyp.MATERIALPREIS);
 				break;
 			case "Monat":
+				d = new Pauschalabrechnung(id, result.getString(2),
+						result.getFloat(3), result.getInt(5),
+						"Pauschalabrechnung", Enums.Faktortyp.ANZAHLMONAT);
+				break;
+			case "Haus":
 				d = new Pauschalabrechnung(id, result.getString(2),
 						result.getFloat(3), result.getInt(5),
 						"Pauschalabrechnung", Enums.Faktortyp.ANZAHLMONAT);

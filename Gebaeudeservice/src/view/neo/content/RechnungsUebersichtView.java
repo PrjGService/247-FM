@@ -93,7 +93,7 @@ public class RechnungsUebersichtView extends JXPanel {
 		for (Rechnung rechnung : r) {
 			tableModel.addRow(new RechRow(rechnung.rechnungID, " "
 					+ rechnung.auftraggeber.auftraggeberName, " "
-					+ Enums.getAStatus(rechnung.auftrag.auftragstatus),
+					+ Enums.getAStatus(rechnung.auftrag.getAuftragstatus()),
 					rechnung.rechnungPreis, rechnung.rechnungDatum.toString(),
 					rechnung.rechnungZahlungsziel.toString()));
 		}
@@ -175,7 +175,7 @@ public class RechnungsUebersichtView extends JXPanel {
 				break;
 
 			default:
-				System.out.println("Spalte nicht gefunden und übersprungen: "
+				System.out.println("Spalte nicht gefunden und ï¿½bersprungen: "
 						+ col);
 				break;
 			}

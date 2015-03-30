@@ -26,6 +26,7 @@ import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 
 import controller.Verwaltung;
+import enums.Enums;
 import util.UIUtil;
 import view.neo.content.AuftragsUebersichtView;
 import view.neo.content.ImpressumView;
@@ -145,7 +146,7 @@ public class MainWindowView extends JXFrame{
 		centerPanel.setDividerSize(0);
 		mainPanel.add(centerPanel, BorderLayout.CENTER);
 		
-		auftraegeTaskPane = new JXTaskPane("Aufträge");
+		auftraegeTaskPane = new JXTaskPane("Auftrï¿½ge");
 		
 		auftreageUebersichtPanel = new AuftragsUebersichtView();
 		centerContentData.add(auftreageUebersichtPanel, auftreageUebersichtPanel.getClass().getName());
@@ -154,8 +155,8 @@ public class MainWindowView extends JXFrame{
 			private static final long serialVersionUID = -1035106393148369106L;
 
 			{
-			    putValue(Action.NAME, "Übersicht");
-			    putValue(Action.SHORT_DESCRIPTION, "Übersichtsseite Aufträge");
+			    putValue(Action.NAME, "ï¿½bersicht");
+			    putValue(Action.SHORT_DESCRIPTION, "ï¿½bersichtsseite Auftrï¿½ge");
 			  }
 
 			  public void actionPerformed(ActionEvent e) {
@@ -174,7 +175,7 @@ public class MainWindowView extends JXFrame{
 
 			{
 			    putValue(Action.NAME, "Status abfragen");
-			    putValue(Action.SHORT_DESCRIPTION, "Status der Aufträge abfragen");
+			    putValue(Action.SHORT_DESCRIPTION, "Status der Auftrï¿½ge abfragen");
 			  }
 
 			  public void actionPerformed(ActionEvent e) {
@@ -215,8 +216,8 @@ public class MainWindowView extends JXFrame{
 			private static final long serialVersionUID = -1035106393148369106L;
 
 			{
-			    putValue(Action.NAME, "Übersicht");
-			    putValue(Action.SHORT_DESCRIPTION, "Rechnungsübersicht anzeigen");
+			    putValue(Action.NAME, "ï¿½bersicht");
+			    putValue(Action.SHORT_DESCRIPTION, "Rechnungsï¿½bersicht anzeigen");
 			  }
 
 			  public void actionPerformed(ActionEvent e) {
@@ -278,8 +279,10 @@ public class MainWindowView extends JXFrame{
 			    putValue(Action.SHORT_DESCRIPTION, "Impressum anzeigen");
 			  }
 
+			//TODO test rausnehmen
 			  public void actionPerformed(ActionEvent e) {
 				  showContent(impressumPanel.getClass().getName());
+				  Verwaltung.getInstance().test();
 			  }
 
 			};
@@ -315,8 +318,15 @@ public class MainWindowView extends JXFrame{
 	}
 	
 	public void addOrChangeAuftrag(Auftrag auftrag){
-		auftreageUebersichtPanel.addAuftrag(Long.valueOf(auftrag.auftragID), auftrag.auftraggeber.auftraggeberName, 
-				auftrag.auftragstatus.toString(), auftrag.auftragdatum.toString(), auftrag.getPositionen().get(0).dienstleistung.dienstleistungsName);
+		try
+		{
+			deleteAuftrag(auftrag);
+		}
+		finally
+		{
+			auftreageUebersichtPanel.addAuftrag(Long.valueOf(auftrag.auftragID), auftrag.auftraggeber.auftraggeberName, 
+					Enums.getAStatus(auftrag.getAuftragstatus()), auftrag.auftragdatum.toString(), auftrag.getPositionen().get(0).dienstleistung.dienstleistungsName);
+		}
 	}
 
 	public void deleteAuftrag(Auftrag auftrag) {

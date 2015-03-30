@@ -20,8 +20,8 @@ public abstract class Dienstleistung {
 			String mitgliedsName, Enums.Faktortyp dienstleistungFaktortyp) {
 		this.setDienstleistungsID(dienstleistungsID);
 		this.dienstleistungsName = dienstleistungsName;
-		this.dienstleistungspreis = preisermitteln(dienstleistungspreis);
-		this.dienstleistungsaufwand = aufwandermitteln(dienstleistungsaufwand);
+		this.dienstleistungspreis = dienstleistungspreis;
+		this.dienstleistungsaufwand = dienstleistungsaufwand;
 		this.mitgliedsName = mitgliedsName;
 		DienstleistungFaktortyp = dienstleistungFaktortyp;
 	}

@@ -26,12 +26,7 @@ public class Position {
 		this.positionStatus = positionStatus;
 	}
 	
-	//TODO notwendig?
-//	public float getDauer()
-//	{
-//		return positionMenge*dienstleistung.dienstleistungsaufwand;
-//		
-//	}
+
 	
 	
 }

@@ -55,7 +55,7 @@ public class Mitarbeiter {
 
 	public void positionAusfuehren(Position position) {
 		// Zahlungsziel = 30 Tage
-		Date ziel = new Date();
+		Date ziel = Verwaltung.getInstance().tag;
 		Calendar c = Calendar.getInstance();
 		c.setTime(ziel);
 		c.add(Calendar.DATE, 30);
@@ -63,7 +63,7 @@ public class Mitarbeiter {
 		mitarbeiterStatus = Enums.Mitarbeiterstatus.VERFUEGBAR;
 		aktuellePosition.positionStatus = Enums.Auftragsstatus.ERLEDIGT;
 		if (aktuellePosition.auftrag.checkForReady()) {
-			aktuellePosition.auftrag.auftragstatus = Enums.Auftragsstatus.ERLEDIGT;
+			aktuellePosition.auftrag.setAuftragstatus(Enums.Auftragsstatus.ERLEDIGT);
 			String verwendungszweck = "GS" + aktuellePosition.auftrag.auftragID;
 			Rechnung r = new Rechnung(aktuellePosition.auftrag.auftraggeber,
 					aktuellePosition.auftrag.auftragID, new Date(),

@@ -3,6 +3,7 @@ package model;
 import java.util.Date;
 
 import controller.Verwaltung;
+import enums.Enums;
 
 
 
@@ -35,6 +36,7 @@ public class Rechnung {
 	public void versenden()
 	{
 		Verwaltung.getInstance().sendInvoice(rechnungVerwendungszweck, "GS","GS", auftraggeber.auftraggeberName, (double)auftrag.getCost(), rechnungDatum.toString(), rechnungZahlungsziel.toString());
+		Verwaltung.getInstance().sendInvoiceGM(rechnungVerwendungszweck, "GS","GS", auftraggeber.auftraggeberName, (double)auftrag.getCost(), rechnungDatum.toString(), rechnungZahlungsziel.toString());
 	}
 
 }

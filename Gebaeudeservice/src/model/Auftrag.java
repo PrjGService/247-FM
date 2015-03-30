@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import controller.MainWindowController;
 import controller.Verwaltung;
 import enums.Enums;
 
 public class Auftrag {
 
 	public int auftragID;
+	
+	public Dienstleistung dienstleistung;
 
 	public int getAuftragID() {
 		return auftragID;
@@ -33,6 +36,7 @@ public class Auftrag {
 
 	public void setAuftragstatus(Enums.Auftragsstatus auftragstatus) {
 		this.auftragstatus = auftragstatus;
+		MainWindowController.getInstance().addOrChangeAuftrag(this);
 	}
 
 	public Date getAuftragdatum() {
@@ -52,7 +56,7 @@ public class Auftrag {
 	}
 
 	public Auftraggeber auftraggeber;
-	public Enums.Auftragsstatus auftragstatus;
+	private Enums.Auftragsstatus auftragstatus;
 	public Date auftragdatum;
 	public List<Position> positionen = new ArrayList<Position>();;
 
@@ -64,6 +68,7 @@ public class Auftrag {
 		this.auftragID = auftragID;
 		this.auftragstatus = auftragstatus;
 		positionen = new ArrayList<Position>();
+		this.dienstleistung = dienstleistung;
 		//positionErzeugen(dienstleistung, menge);
 	}
 
@@ -102,16 +107,12 @@ public class Auftrag {
 	public float getCost() {
 		float preis = 0f;
 		for (int i = 0; i < positionen.size(); i++) {
-			preis += positionen.get(i).positionMenge
-					* positionen.get(i).dienstleistung.dienstleistungspreis;
+			preis += positionen.get(i).dienstleistung.aufwandermitteln(positionen.get(i).positionMenge);
 		}
 		return preis;
 	}
 
-	public void suchePositionen() {
-		// TODO positionen zu auftrag suchen (nur fallsmehrere posis per
-		// auftrag)
-	}
+
 
 	public Date getZieldatum() {
 		return auftragdatum;

@@ -9,5 +9,9 @@
 	<classpathentry kind="lib" path="lib/gm-1_0.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.33-bin.jar"/>
 	<classpathentry kind="lib" path="lib/swingx-all-1.6.4.jar"/>
+	<classpathentry kind="lib" path="lib/bank0815-1_2.jar"/>
+	<classpathentry kind="lib" path="lib/gm-1_2.jar"/>
+	<classpathentry kind="lib" path="lib/project_util-1_2.jar"/>
+	<classpathentry kind="lib" path="lib/bh-1_6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

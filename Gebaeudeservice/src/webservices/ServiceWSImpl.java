@@ -36,7 +36,7 @@ public class ServiceWSImpl  implements ServiceWS{
 	String getState(long orderID) {
 		String s = "";
 		try {
-			s= Enums.getAStatus(Verwaltung.getInstance().getAuftrag((int)orderID).auftragstatus);
+			s= Enums.getAStatus(Verwaltung.getInstance().getAuftrag((int)orderID).getAuftragstatus());
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		} 
@@ -182,6 +182,28 @@ public class ServiceWSImpl  implements ServiceWS{
 
 
         return 100;
+	}
+
+
+	@Override
+	@WebMethod
+	public
+	String erfasseRechnung(String verwendungszweck, String sender,
+			String rechnungsersteller, String rechnungsempfaenger,
+			double betrag, String rechnungsdatum, String zahlungsdatum) {
+		// TODO Auto-generated method stub
+		System.out.println("Rechnung erhalten");
+		return "";
+	}
+
+
+	@Override
+	@WebMethod
+	public
+	int mahnungEmpfangen(String verwendungszweck) {
+		// TODO Auto-generated method stub
+		System.out.println("Mahnung erhalten");
+		return 0;
 	}
 
 

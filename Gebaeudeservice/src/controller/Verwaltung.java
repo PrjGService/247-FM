@@ -17,8 +17,10 @@ import enums.Enums.Auftragsstatus;
 import util.Publisher;
 import webservices.impl.BVWSImplService;
 import webservices.impl.BVWebService;
-import webservices.impl.SchnittstelleBH;
-import webservices.impl.SchnittstellenimplService;
+import webservices.impl.BuchhaltungWS;
+import webservices.impl.BuchhaltungWsImplService;
+import webservices.impl.GmWS;
+import webservices.impl.GmWSImplService;
 
 import model.Auftrag;
 import model.Auftraggeber;
@@ -46,7 +48,6 @@ public class Verwaltung {
 	public Date zieltag;
 
 	private Verwaltung() {
-
 	}
 
 	public boolean login(String user, String pw) {
@@ -65,6 +66,7 @@ public class Verwaltung {
 	public void tag() {
 		Calendar c = Calendar.getInstance();
 		c.setTime(tag);
+		System.out.println(c.getTime() + " ist vergangen");
 		c.add(Calendar.DATE, 1);
 		tag = c.getTime();
 		// TODO jeden tag vergeht zeit?
@@ -75,10 +77,9 @@ public class Verwaltung {
 		// e.printStackTrace();
 		// }
 		for (int i = 0; i < positionList.size(); i++) {
-			if (positionList.get(i).positionAusfuehrungsdatum == tag) {
-				if (positionList.get(i).mitarbeiter != null) {
-					positionList.get(i).mitarbeiter
-							.positionAusfuehren(positionList.get(i));
+			if (positionList.get(i).positionAusfuehrungsdatum.before(tag)) {
+				if (positionList.get(i).mitarbeiter != null && positionList.get(i).positionStatus == Enums.Auftragsstatus.INARBEIT) {
+					positionList.get(i).mitarbeiter.positionAusfuehren(positionList.get(i));
 				} else {
 					c = Calendar.getInstance();
 					c.setTime(positionList.get(i).positionAusfuehrungsdatum);
@@ -93,13 +94,25 @@ public class Verwaltung {
 			}
 		}
 
-		updateView();
 
 	}
-
-	public void updateView() {
-		// TODO view updatemethode aufrufen?
+	
+	public void test()
+	{
+//		tag = new java.util.Date();
+//		zieltag = new java.util.Date();
+//		Calendar c = Calendar.getInstance();
+//		c.setTime(zieltag);
+//		c.add(Calendar.DATE, 5);
+//		zieltag = c.getTime();
+//		for(int i = 20; i < 45; i++)
+//		  {
+//			  Verwaltung.getInstance().addAuftrag("Gartenpflege", 4, i);
+//		  }
+//		timestep();
 	}
+
+	//TODO updatemethoden für rechnung und ma
 
 	// verarbeitungen nach jeden timestep
 	@SuppressWarnings("deprecation")
@@ -110,11 +123,8 @@ public class Verwaltung {
 			tag();
 			int neu = tag.getMonth();
 			if (alt != neu) {
-
-				// TODO monatsverarbeitung--> rechnnungen verschicken statt von
-				// ma?
+				//TODO rechnung nur am monatsende?
 				// TODO rechnung auch an gm
-				// TODO Rechnung erhalten
 				// TODO schnittstellen( ein und ausgehend) in try catch
 			}
 		}
@@ -124,7 +134,7 @@ public class Verwaltung {
 	public String unbezahlteRechnungen() {
 		String s = "";
 		for (int i = 0; i < rechnungList.size(); i++) {
-			if (rechnungList.get(i).auftrag.auftragstatus != Enums.Auftragsstatus.BEZAHLT) {
+			if (rechnungList.get(i).auftrag.getAuftragstatus() != Enums.Auftragsstatus.BEZAHLT) {
 				s += rechnungList.get(i).auftrag.auftragID + " ";
 			}
 		}
@@ -133,13 +143,22 @@ public class Verwaltung {
 	}
 
 	public void positionVergeben(Mitarbeiter m) {
-		positionQueue.poll().mitarbeiter = m;
+		if(positionQueue.size() != 0)
+		{
+			Position p = positionQueue.poll();
+			p.mitarbeiter = m;
+			p.positionStatus = Enums.Auftragsstatus.INARBEIT;
+			p.auftrag.setAuftragstatus(Enums.Auftragsstatus.INARBEIT);
+			m.mitarbeiterStatus = Enums.Mitarbeiterstatus.ARBEITET;
+			m.aktuellePosition = p;
+		}
 	}
 
 	public Dienstleistung getDienstleistung(int dienstleistungsID) {
 		Dienstleistung erg = null;
 		for (int i = 0; i < dienstleistungList.size(); i++) {
 			if (dienstleistungList.get(i) != null) {
+				//System.out.println(dienstleistungList.get(i).dienstleistungsName);
 				if (dienstleistungList.get(i).getDienstleistungsID() == dienstleistungsID) {
 					erg = dienstleistungList.get(i);
 					break;
@@ -156,7 +175,8 @@ public class Verwaltung {
 				getDienstleistung(name), size);
 		auftragList.add(a);
 		a.positionErzeugen(getDienstleistung(name), size);
-
+		positionList.add(a.positionen.get(0));
+		positionQueue.add(a.positionen.get(0));
 		MainWindowController.getInstance().addOrChangeAuftrag(a);
 		return a;
 
@@ -177,7 +197,6 @@ public class Verwaltung {
 		Dienstleistung erg = null;
 		// System.out.println(name);
 		for (int i = 0; i < dienstleistungList.size(); i++) {
-			System.out.println(dienstleistungList.get(i).dienstleistungsName);
 			if (dienstleistungList.get(i).dienstleistungsName.equals(name)) {
 				erg = dienstleistungList.get(i);
 				break;
@@ -202,31 +221,39 @@ public class Verwaltung {
 	public Date getZieldatum(Auftrag a) {
 		zaehl++;
 		Date d = null;
+		Position p = null;
 		for (int i = 0; i < positionList.size(); i++) {
 			if (d == null
 					|| (positionList.get(i).positionAusfuehrungsdatum != null && positionList
 							.get(i).positionAusfuehrungsdatum.after(d))) {
-				d = positionList.get(i).positionAusfuehrungsdatum;
+				p = positionList.get(i);
+				d = positionList.get(i).positionAusfuehrungsdatum;				
 			}
+		}
+		if(tag != null && (d == null || d.before(tag)))
+		{
+			d = tag;
 		}
 		Calendar c = Calendar.getInstance();
 		c.setTime(d);
+		c.add(Calendar.DATE, -1*Math.round(p.dienstleistung.aufwandermitteln(p.positionMenge)));
+		c.add(Calendar.DATE, Math.round(a.dienstleistung.aufwandermitteln(p.positionMenge)));
 		if (mitarbeiterList.size() <= zaehl) {
-			c.add(Calendar.DATE, 1);
+			c.add(Calendar.DATE, Math.round(a.dienstleistung.aufwandermitteln(p.positionMenge)));
 			zaehl = 0;
 		}
 		d = c.getTime();
+		System.out.println(c.getTime().toString());
 		return d;
 	}
 
-	// TODO zusatzverarbeitung bei mahnung?
 	public void mahnen(String verwendungszweck) {
 		instructDunnning(verwendungszweck);
 	}
 
 	// TODO an timepush anpassen da nicht in bank.jar drin
 	// versendet einen timepush wenn stepverarbeitung abgeschlossen ist
-	public void instructTimepush(int timestep) {
+	public void instructTimepush(int timestep) { //oder als date?
 		BVWSImplService timeService = new BVWSImplService();
 		BVWebService timeWS = timeService.getBVWSImplPort();
 		try {
@@ -246,24 +273,46 @@ public class Verwaltung {
 		}
 	}
 
-	// TODO
 	public void sendInvoice(String verwendungszweck, String sender,
 			String rechnungsersteller, String rechnungsempfaenger,
 			double betrag, String rechnungsdatum, String zahlungsdatum) {
-		SchnittstellenimplService InvoiceService = new SchnittstellenimplService();
-		SchnittstelleBH InvoiceWS = InvoiceService.getSchnittstellenimplPort();
+		BuchhaltungWsImplService InvoiceService = new BuchhaltungWsImplService();
+		BuchhaltungWS InvoiceWS = InvoiceService.getBuchhaltungWsImplPort();
 		try {
-			// if(InvoiceWS.erfasseRechnung(verwendungszweck, sender,
-			// rechnungsersteller, rechnungsempfaenger, betrag
-			// , rechnungsdatum, zahlungsdatum) == "Rechnung wurde bearbeitet")
-			// {
-			// System.err.println("Rechnungsversand erfolgreich");
-			// }
-			// else
-			//
-			// {
-			// System.out.println("Rechnung abgelehnt");
-			// }
+			 if(InvoiceWS.erfasseRechnung(verwendungszweck, sender,
+			 rechnungsersteller, rechnungsempfaenger, betrag
+			 , rechnungsdatum, zahlungsdatum) == "Rechnung wurde bearbeitet")
+			 {
+			 System.err.println("Rechnungsversand erfolgreich");
+			 }
+			 else
+			
+			 {
+			 System.out.println("Rechnung abgelehnt");
+			 }
+		} catch (Exception e) {
+			System.err
+					.println("Es ist ein Fehler beim Versenden der Rechnung aufgetreten.");
+		}
+	}
+	
+	public void sendInvoiceGM(String verwendungszweck, String sender,
+			String rechnungsersteller, String rechnungsempfaenger,
+			double betrag, String rechnungsdatum, String zahlungsdatum) {
+		GmWSImplService InvoiceService = new GmWSImplService();
+		GmWS InvoiceWS = InvoiceService.getGmWSImplPort();
+		try {
+			 if(InvoiceWS.erfasseRechnung(verwendungszweck, sender,
+			 rechnungsersteller, rechnungsempfaenger, betrag
+			 , rechnungsdatum, zahlungsdatum) == "Rechnung wurde bearbeitet")
+			 {
+			 System.err.println("Rechnungsversand erfolgreich");
+			 }
+			 else
+			
+			 {
+			 System.out.println("Rechnung abgelehnt");
+			 }
 		} catch (Exception e) {
 			System.err
 					.println("Es ist ein Fehler beim Versenden der Rechnung aufgetreten.");
@@ -272,23 +321,22 @@ public class Verwaltung {
 
 	public List<String> getOpenitems(String sender) {
 		List<String> liste = null;
-		// OffenePostenWSImplService itemService = new
-		// OffenePostenWSImplService();
-		// OffenePostenWS itemWS = timeService.getOffenePostenWSImplPort();
-		// try
-		// {
-		// liste = itemWS.getOffenePosten(sender);
-		// }
-		// catch(Exception e)
-		// {
-		// System.err.println("Es ist ein Fehler beim anfragen der offenen Posten aufgetreten.");
-		// }
+		BuchhaltungWsImplService itemService = new BuchhaltungWsImplService();
+		BuchhaltungWS itemWS = itemService.getBuchhaltungWsImplPort();
+		 try
+		 {
+		 //liste = itemWS.getOffenePosten(sender);
+		 }
+		 catch(Exception e)
+		 {
+		 System.err.println("Es ist ein Fehler beim anfragen der offenen Posten aufgetreten.");
+		 }
 		return liste;
 	}
 
 	public void instructDunnning(String verwendungszweck) {
-		SchnittstellenimplService dunningService = new SchnittstellenimplService();
-		SchnittstelleBH dunningWS = dunningService.getSchnittstellenimplPort();
+		BuchhaltungWsImplService dunningService = new BuchhaltungWsImplService();
+		BuchhaltungWS dunningWS = dunningService.getBuchhaltungWsImplPort();
 		try {
 			if (dunningWS.uebergabeMahnauftrag(verwendungszweck) == "Mahnauftrag erhalten") {
 				System.err.println("Mahnauftrag erfolgreich");
@@ -318,7 +366,6 @@ public class Verwaltung {
 			verwaltung.positionList = verwaltung.conn.getAllPosition();
 			verwaltung.positionQueue = new ArrayDeque<Position>();
 			for (int i = 0; i < verwaltung.positionList.size(); i++) {
-				// TODO vorher nach datum sortieren?
 
 				verwaltung.positionList.get(i).auftrag.positionen
 						.add(verwaltung.positionList.get(i));
@@ -326,7 +373,6 @@ public class Verwaltung {
 				// System.out.println(""+verwaltung.positionList.get(i).auftrag.positionen.get(0).dienstleistung);
 			}
 			for (int i = 0; i < verwaltung.positionList.size(); i++) {
-				// TODO vorher nach datum sortieren?
 				if (verwaltung.positionList.get(i).mitarbeiter == null) {
 					verwaltung.positionQueue
 							.add(verwaltung.positionList.get(i));
@@ -346,7 +392,7 @@ public class Verwaltung {
 
 	// zum export der schnittstellenmethoden:
 	// Starten der eigenen Anwendung als Java Application
-	// Öffnen der Konsole um wsimport zu nutzen: wsimport -keep -clientjar
-	// Gebaeudeservice.jar http://10.10.10.25:1000/ws?wsdl
+	// Öffnen der Konsole um wsimport zu nutzen: 
+	// wsimport -keep -clientjar Gebaeudeservice.jar http://10.10.10.25:1000/ws?wsdl
 
 }
