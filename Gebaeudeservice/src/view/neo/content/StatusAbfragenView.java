@@ -1,6 +1,7 @@
 package view.neo.content;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
@@ -31,13 +32,17 @@ public class StatusAbfragenView extends JXPanel {
 	private JXPanel createStatusAbfragen() {
 
 		JXPanel statusPanel = new JXPanel();
-		statusPanel.setLayout(new BorderLayout());
+		statusPanel.setLayout(new GridLayout(2,4));
 		
 		JXLabel label1 = new JXLabel();
-		label1.setText("Hallo");
+		label1.setText("Status abfragen");
 		label1.setHorizontalAlignment(SwingConstants.HORIZONTAL);
 		
-		statusPanel.add(label1, BorderLayout.CENTER);
+		JXLabel label2 = new JXLabel();
+		label2.setText("Auftrags-ID");
+		
+		statusPanel.add(label1);
+		statusPanel.add(label2);
 		
 		return statusPanel;
 
