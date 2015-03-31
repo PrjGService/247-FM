@@ -164,7 +164,6 @@ public class AuftragsUebersichtView extends JXPanel {
 				setHorizontalAlignment(SwingUtilities.LEFT);
 				setText((String) value);
 				break;
-				
 
 			default:
 				System.out.println("Spalte nicht gefunden und übersprungen: "
