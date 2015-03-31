@@ -36,7 +36,6 @@ public class StatusAbfragenView extends JXPanel {
 		
 		JXLabel label1 = new JXLabel();
 		label1.setText("Status abfragen");
-		label1.setHorizontalAlignment(SwingConstants.HORIZONTAL);
 		
 		JXLabel label2 = new JXLabel();
 		label2.setText("Auftrags-ID");
