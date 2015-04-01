@@ -164,22 +164,32 @@ public class ServiceWSImpl  implements ServiceWS{
 
 		if(Verwaltung.getInstance().tag == null)
 		{
+			try{
 			Verwaltung.getInstance().tag = new java.util.Date();
 			Verwaltung.getInstance().tag.setMonth(month);
 			Verwaltung.getInstance().tag.setDate(day);
 			Verwaltung.getInstance().tag.setYear(year);
+			System.out.println("localDate wurde gesetzt: "+Verwaltung.getInstance().tag.toString() );
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
 		}
 		else
 		{
-		Verwaltung.getInstance().zieltag.setMonth(month);
-		Verwaltung.getInstance().zieltag.setDate(day);
-		Verwaltung.getInstance().zieltag.setYear(year);
-		Verwaltung.getInstance().timestep();
-        System.out.println("localDate - zu Beginn der Methode: "+Verwaltung.getInstance().tag.toString() );
-        System.out.println("Zieltag: "+Verwaltung.getInstance().zieltag.toString() );
+			try
+			{
+			Verwaltung.getInstance().zieltag = new java.util.Date();
+			Verwaltung.getInstance().zieltag.setMonth(month);
+			Verwaltung.getInstance().zieltag.setDate(day);
+			Verwaltung.getInstance().zieltag.setYear(year);
+			Verwaltung.getInstance().timestep();
+			System.out.println("localDate - zu Beginn der Methode: "+Verwaltung.getInstance().tag.toString() );
+			System.out.println("Zieltag: "+Verwaltung.getInstance().zieltag.toString() );
+			} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
-   
-
+		}
+		
 
        
 
