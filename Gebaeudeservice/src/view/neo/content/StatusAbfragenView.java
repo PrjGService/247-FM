@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.Icon;
@@ -68,7 +70,7 @@ public class StatusAbfragenView extends JXPanel {
 		tfname.setFont(new Font("Arial", Font.PLAIN, 16));
 		tfname.setForeground(Color.black);
 
-		JTextField auftragsid = new JTextField();
+		final JTextField auftragsid = new JTextField();
 		auftragsid.setHorizontalAlignment(SwingConstants.HORIZONTAL);
 		auftragsid.setFont(new Font("Arial", Font.PLAIN, 16));
 		auftragsid.setForeground(Color.black);
@@ -170,6 +172,22 @@ public class StatusAbfragenView extends JXPanel {
 
 		LayoutButton button = new LayoutButton("OK");
 		button.setPreferredSize(t);
+		button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				String eingabe = auftragsid.getText();
+				int realid = Integer.parseInt(eingabe);
+				
+				
+				
+				
+				
+			}
+		});{
+			
+		}
 		
 		
 
