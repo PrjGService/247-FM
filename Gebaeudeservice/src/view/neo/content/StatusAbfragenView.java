@@ -9,6 +9,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.Box;
 import javax.swing.Icon;
@@ -23,6 +25,7 @@ import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
 
+import controller.LoginWindowController;
 import database.DBManager;
 import enums.Enums.Mitarbeiterstatus;
 import util.UIUtil;
@@ -109,8 +112,6 @@ public class StatusAbfragenView extends JXPanel {
 
 		final JXLabel label3 = new JXLabel();
 		label3.setIcon(icon1);
-		label3.setFont(new Font("Arial", Font.PLAIN, 15));
-		label3.setForeground(Color.black);
 		label3.setHorizontalAlignment(SwingConstants.HORIZONTAL);
 
 		JXLabel label4 = new JXLabel();
@@ -121,8 +122,6 @@ public class StatusAbfragenView extends JXPanel {
 
 		final JXLabel label5 = new JXLabel();
 		label5.setIcon(icon1);
-		label5.setFont(new Font("Arial", Font.PLAIN, 15));
-		label5.setForeground(Color.black);
 		label5.setHorizontalAlignment(SwingConstants.HORIZONTAL);
 		label5.setBackground(Color.white);
 
@@ -133,8 +132,6 @@ public class StatusAbfragenView extends JXPanel {
 
 		final JXLabel label7 = new JXLabel();
 		label7.setIcon(icon1);
-		label7.setFont(new Font("Arial", Font.PLAIN, 15));
-		label7.setForeground(Color.black);
 		label7.setHorizontalAlignment(SwingConstants.HORIZONTAL);
 
 		JXLabel label8 = new JXLabel();
@@ -144,8 +141,6 @@ public class StatusAbfragenView extends JXPanel {
 
 		final JXLabel label9 = new JXLabel();
 		label9.setIcon(icon1);
-		label9.setFont(new Font("Arial", Font.PLAIN, 20));
-		label9.setForeground(new Color(19, 123, 64));
 		label9.setHorizontalAlignment(SwingConstants.HORIZONTAL);
 
 		JXLabel label10 = new JXLabel();
@@ -155,12 +150,8 @@ public class StatusAbfragenView extends JXPanel {
 
 		final JXLabel label11 = new JXLabel();
 		label11.setIcon(icon1);
-		label11.setFont(new Font("Arial", Font.PLAIN, 15));
-		label11.setForeground(new Color(19, 123, 64));
 		label11.setHorizontalAlignment(SwingConstants.HORIZONTAL);
 
-		// table.add(label1);
-		// table.add(text);
 		table.add(label2);
 		table.add(label3);
 		table.add(label4);
@@ -173,7 +164,7 @@ public class StatusAbfragenView extends JXPanel {
 		table.add(label11);
 
 		LayoutButton button = new LayoutButton("OK");
-		button.setPreferredSize(t);
+		button.setSize(100, 30);
 		button.addActionListener(new ActionListener() {
 
 			@Override
@@ -237,9 +228,85 @@ public class StatusAbfragenView extends JXPanel {
 				}
 			}
 		});
-		{
 
-		}
+		auftragsid.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+
+				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+
+					String eingabe = auftragsid.getText();
+					int realid = Integer.parseInt(eingabe);
+
+					DBManager dbmanager = new DBManager();
+					String status = dbmanager.getAuftragsstatus(realid);
+
+					if (status != null) {
+						if (status.equals("Abgelehnt")) {
+							label3.setIcon(icon2);
+							label5.setIcon(icon1);
+							label7.setIcon(icon1);
+							label9.setIcon(icon1);
+							label11.setIcon(icon1);
+							updateUI();
+							System.out.println("Abgelehnt");
+
+						} else if (status.equals("Angekommen")) {
+							label3.setIcon(icon1);
+							label5.setIcon(icon2);
+							label7.setIcon(icon1);
+							label9.setIcon(icon1);
+							label11.setIcon(icon1);
+							updateUI();
+							System.out.println("Angekommen");
+
+						} else if (status.equals("In Arbeit")) {
+							label3.setIcon(icon1);
+							label5.setIcon(icon2);
+							label7.setIcon(icon2);
+							label9.setIcon(icon1);
+							label11.setIcon(icon1);
+							updateUI();
+							System.out.println("In Arbeit");
+
+						} else if (status.equals("Erledigt")) {
+							label3.setIcon(icon1);
+							label5.setIcon(icon2);
+							label7.setIcon(icon2);
+							label9.setIcon(icon2);
+							label11.setIcon(icon1);
+							updateUI();
+							System.out.println("Erledigt");
+
+						} else if (status.equals("Bezahlt")) {
+							label3.setIcon(icon1);
+							label5.setIcon(icon2);
+							label7.setIcon(icon2);
+							label9.setIcon(icon2);
+							label11.setIcon(icon2);
+							updateUI();
+							System.out.println("Bezahlt");
+						}
+
+					} else {
+						System.out.println("...");
+					}
+
+				}
+
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+			}
+		});
 
 		updateUI();
 
