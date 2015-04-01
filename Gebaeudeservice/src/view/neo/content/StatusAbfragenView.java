@@ -2,15 +2,19 @@ package view.neo.content;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
+
+import view.LayoutButton;
 
 public class StatusAbfragenView extends JXPanel {
 
@@ -35,21 +39,35 @@ public class StatusAbfragenView extends JXPanel {
 	private JXPanel createStatusAbfragen() {
 
 		JXPanel statusPanel = new JXPanel();
-		statusPanel.setLayout(new GridLayout(6, 2));
+		statusPanel.setLayout(new BorderLayout());
+
+		Dimension d = new Dimension();
+		d.setSize(1000, 100);
+
+		Dimension t = new Dimension();
+		t.setSize(2000, 300);
+
+		JXLabel title = new JXLabel();
+		title.setText("Auftragsstatus abfragen");
+		title.setPreferredSize(d);
+		title.setHorizontalAlignment(SwingConstants.HORIZONTAL);
+		title.setFont(new Font("Arial", Font.PLAIN, 20));
+		title.setForeground(Color.black);
+
+		JXPanel table = new JXPanel();
+		table.setLayout(new GridLayout(6, 2));
 
 		JXLabel label1 = new JXLabel();
 		label1.setText("Auftrags-ID");
 		label1.setFont(new Font("Arial", Font.PLAIN, 20));
 		label1.setForeground(new Color(19, 123, 64));
 		label1.setHorizontalAlignment(SwingConstants.HORIZONTAL);
-		
+
 		JXTextField auftragid = new JXTextField();
 		auftragid.setFont(new Font("Arial", Font.PLAIN, 20));
 		auftragid.setForeground(new Color(19, 123, 64));
 		auftragid.setHorizontalAlignment(SwingConstants.HORIZONTAL);
-		//Feld auf normale Größe verkleinern + Action Listener bei ENTER!
 		
-
 		JXLabel label2 = new JXLabel();
 		label2.setText("Abgelehnt");
 		label2.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -103,26 +121,31 @@ public class StatusAbfragenView extends JXPanel {
 		label10.setFont(new Font("Arial", Font.PLAIN, 20));
 		label10.setForeground(new Color(19, 123, 64));
 		label10.setHorizontalAlignment(SwingConstants.HORIZONTAL);
-		
+
 		JXLabel label11 = new JXLabel();
 		label11.setText("BILDCHEN");
 		label11.setFont(new Font("Arial", Font.PLAIN, 20));
 		label11.setForeground(new Color(19, 123, 64));
 		label11.setHorizontalAlignment(SwingConstants.HORIZONTAL);
 
-		statusPanel.add(label1);
-		statusPanel.add(auftragid);
-		statusPanel.add(label2);
-		statusPanel.add(label3);
-		statusPanel.add(label4);
-		statusPanel.add(label5);
-		statusPanel.add(label6);
-		statusPanel.add(label7);
-		statusPanel.add(label8);
-		statusPanel.add(label9);
-		statusPanel.add(label10);
-		statusPanel.add(label11);
-	
+		table.add(label1);
+		table.add(auftragid);
+		table.add(label2);
+		table.add(label3);
+		table.add(label4);
+		table.add(label5);
+		table.add(label6);
+		table.add(label7);
+		table.add(label8);
+		table.add(label9);
+		table.add(label10);
+		table.add(label11);
+
+		LayoutButton button = new LayoutButton("OK");
+
+		statusPanel.add(title, BorderLayout.NORTH);
+		statusPanel.add(table, BorderLayout.CENTER);
+		statusPanel.add(button, BorderLayout.SOUTH);
 
 		return statusPanel;
 
