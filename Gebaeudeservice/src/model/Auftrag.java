@@ -115,7 +115,7 @@ public class Auftrag {
 
 
 	public Date getZieldatum() {
-		return auftragdatum;
+		return positionen.get(0).positionAusfuehrungsdatum;
 
 	}
 

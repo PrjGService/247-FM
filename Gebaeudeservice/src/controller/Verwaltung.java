@@ -99,17 +99,17 @@ public class Verwaltung {
 	
 	public void test()
 	{
-//		tag = new java.util.Date();
-//		zieltag = new java.util.Date();
-//		Calendar c = Calendar.getInstance();
-//		c.setTime(zieltag);
-//		c.add(Calendar.DATE, 5);
-//		zieltag = c.getTime();
-//		for(int i = 20; i < 45; i++)
-//		  {
-//			  Verwaltung.getInstance().addAuftrag("Gartenpflege", 4, i);
-//		  }
-//		timestep();
+		tag = new java.util.Date();
+		zieltag = new java.util.Date();
+		Calendar c = Calendar.getInstance();
+		c.setTime(zieltag);
+		c.add(Calendar.DATE, 5);
+		zieltag = c.getTime();
+		for(int i = 20; i < 45; i++)
+		  {
+			  System.out.println(Verwaltung.getInstance().addAuftrag("Gartenpflege", 4, i).getZieldatum());
+		  }
+		timestep();
 	}
 
 	//TODO updatemethoden für rechnung und ma
@@ -243,7 +243,6 @@ public class Verwaltung {
 			zaehl = 0;
 		}
 		d = c.getTime();
-		System.out.println(c.getTime().toString());
 		return d;
 	}
 

@@ -5,6 +5,8 @@ import java.util.Random;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
+import model.Auftrag;
+
 import controller.Verwaltung;
 import enums.Enums;
 
@@ -67,17 +69,17 @@ public class ServiceWSImpl  implements ServiceWS{
 		if(type == 0)
 		{
 			Random rand = new Random();
-			int zahl = rand.nextInt(2000)+3001;
+			i = rand.nextInt(2000)+3001;
 		}
 		if(type == 1)
 		{
 			Random rand = new Random();
-			int zahl = rand.nextInt(100)+201;
+			i = rand.nextInt(100)+201;
 		}
 		if(type == 2)
 		{
 			Random rand = new Random();
-			int zahl = rand.nextInt(500)+1001;
+			i = rand.nextInt(500)+1001;
 		}
 		
 		
@@ -118,7 +120,8 @@ public class ServiceWSImpl  implements ServiceWS{
 
 		String s = "";
 		try {
-			s= Verwaltung.getInstance().addAuftrag(name, size, (int) orderID).getZieldatum().toString();
+			Auftrag a = Verwaltung.getInstance().addAuftrag(name, size, (int) orderID);
+			s= a.getZieldatum().toString();
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		} 
