@@ -23,6 +23,8 @@ import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
 
+import database.DBManager;
+import enums.Enums.Mitarbeiterstatus;
 import util.UIUtil;
 import view.LayoutButton;
 
@@ -91,9 +93,9 @@ public class StatusAbfragenView extends JXPanel {
 		north.add(title, BorderLayout.NORTH);
 		north.add(id, BorderLayout.SOUTH);
 
-		Icon icon1 = new ImageIcon(new ImageIcon(("res/empty40.png"))
+		final Icon icon1 = new ImageIcon(new ImageIcon(("res/empty40.png"))
 				.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
-		Icon icon2 = new ImageIcon(new ImageIcon(("res/checked18.png"))
+		final Icon icon2 = new ImageIcon(new ImageIcon(("res/checked18.png"))
 				.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 
 		JXPanel table = new JXPanel();
@@ -105,8 +107,8 @@ public class StatusAbfragenView extends JXPanel {
 		label2.setFont(new Font("Arial", Font.PLAIN, 15));
 		label2.setForeground(Color.black);
 
-		JXLabel label3 = new JXLabel();
-		label3.setIcon(icon2);
+		final JXLabel label3 = new JXLabel();
+		label3.setIcon(icon1);
 		label3.setFont(new Font("Arial", Font.PLAIN, 15));
 		label3.setForeground(Color.black);
 		label3.setHorizontalAlignment(SwingConstants.HORIZONTAL);
@@ -117,7 +119,7 @@ public class StatusAbfragenView extends JXPanel {
 		label4.setForeground(Color.black);
 		label4.setBackground(Color.white);
 
-		JXLabel label5 = new JXLabel();
+		final JXLabel label5 = new JXLabel();
 		label5.setIcon(icon1);
 		label5.setFont(new Font("Arial", Font.PLAIN, 15));
 		label5.setForeground(Color.black);
@@ -129,7 +131,7 @@ public class StatusAbfragenView extends JXPanel {
 		label6.setFont(new Font("Arial", Font.PLAIN, 15));
 		label6.setForeground(Color.black);
 
-		JXLabel label7 = new JXLabel();
+		final JXLabel label7 = new JXLabel();
 		label7.setIcon(icon1);
 		label7.setFont(new Font("Arial", Font.PLAIN, 15));
 		label7.setForeground(Color.black);
@@ -140,7 +142,7 @@ public class StatusAbfragenView extends JXPanel {
 		label8.setFont(new Font("Arial", Font.PLAIN, 15));
 		label8.setForeground(Color.black);
 
-		JXLabel label9 = new JXLabel();
+		final JXLabel label9 = new JXLabel();
 		label9.setIcon(icon1);
 		label9.setFont(new Font("Arial", Font.PLAIN, 20));
 		label9.setForeground(new Color(19, 123, 64));
@@ -151,7 +153,7 @@ public class StatusAbfragenView extends JXPanel {
 		label10.setFont(new Font("Arial", Font.PLAIN, 15));
 		label10.setForeground(Color.black);
 
-		JXLabel label11 = new JXLabel();
+		final JXLabel label11 = new JXLabel();
 		label11.setIcon(icon1);
 		label11.setFont(new Font("Arial", Font.PLAIN, 15));
 		label11.setForeground(new Color(19, 123, 64));
@@ -173,28 +175,79 @@ public class StatusAbfragenView extends JXPanel {
 		LayoutButton button = new LayoutButton("OK");
 		button.setPreferredSize(t);
 		button.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				String eingabe = auftragsid.getText();
 				int realid = Integer.parseInt(eingabe);
-				
-				
-				
-				
-				
+
+				DBManager dbmanager = new DBManager();
+				String status = dbmanager.getAuftragsstatus(realid);
+
+				if (status != null) {
+					if (status.equals("Abgelehnt")) {
+						label3.setIcon(icon2);
+						label5.setIcon(icon1);
+						label7.setIcon(icon1);
+						label9.setIcon(icon1);
+						label11.setIcon(icon1);
+						updateUI();
+						System.out.println("Abgelehnt");
+
+					} else if (status.equals("Angekommen")) {
+						label3.setIcon(icon1);
+						label5.setIcon(icon2);
+						label7.setIcon(icon1);
+						label9.setIcon(icon1);
+						label11.setIcon(icon1);
+						updateUI();
+						System.out.println("Angekommen");
+
+					} else if (status.equals("In Arbeit")) {
+						label3.setIcon(icon1);
+						label5.setIcon(icon2);
+						label7.setIcon(icon2);
+						label9.setIcon(icon1);
+						label11.setIcon(icon1);
+						updateUI();
+						System.out.println("In Arbeit");
+
+					} else if (status.equals("Erledigt")) {
+						label3.setIcon(icon1);
+						label5.setIcon(icon2);
+						label7.setIcon(icon2);
+						label9.setIcon(icon2);
+						label11.setIcon(icon1);
+						updateUI();
+						System.out.println("Erledigt");
+
+					} else if (status.equals("Bezahlt")) {
+						label3.setIcon(icon1);
+						label5.setIcon(icon2);
+						label7.setIcon(icon2);
+						label9.setIcon(icon2);
+						label11.setIcon(icon2);
+						updateUI();
+						System.out.println("Bezahlt");
+					}
+
+				} else {
+					System.out.println("...");
+				}
 			}
-		});{
-			
+		});
+		{
+
 		}
-		
-		
+
+		updateUI();
 
 		statusPanel.add(north, BorderLayout.BEFORE_FIRST_LINE);
 		statusPanel.add(table, BorderLayout.CENTER);
 		statusPanel.add(button, BorderLayout.SOUTH);
 
+		statusPanel.updateUI();
 		return statusPanel;
 
 	}

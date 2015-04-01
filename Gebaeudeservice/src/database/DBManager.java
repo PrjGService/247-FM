@@ -11,8 +11,8 @@ import java.util.List;
 
 import controller.Verwaltung;
 import enums.Enums;
+import enums.Enums.Auftragsstatus;
 import enums.Enums.Faktortyp;
-
 import model.Auftrag;
 import model.Auftraggeber;
 import model.Dienstleistung;
@@ -71,6 +71,26 @@ public class DBManager {
 		return null;
 
 	}
+	
+	//TEST SK 01.04.2015
+	
+	public String getAuftragsstatus(int id) {
+		try {
+			statement = conn
+					.prepareStatement("SELECT status FROM auftrag WHERE id = " + id
+							+ ";");
+			result = statement.executeQuery();
+			result.next();
+			return result.getString(1);
+		} catch (SQLException e) {
+			// Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+	
+	//TEST SK 01.04.2015
 
 	public void writeAuftrag(Auftrag a) {
 		try {
