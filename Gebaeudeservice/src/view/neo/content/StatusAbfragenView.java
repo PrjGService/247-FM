@@ -224,7 +224,13 @@ public class StatusAbfragenView extends JXPanel {
 					}
 
 				} else {
-					System.out.println("...");
+					label3.setIcon(icon1);
+					label5.setIcon(icon1);
+					label7.setIcon(icon1);
+					label9.setIcon(icon1);
+					label11.setIcon(icon1);
+					updateUI();
+					System.out.println("Nicht vorhanden");
 				}
 			}
 		});
@@ -290,7 +296,14 @@ public class StatusAbfragenView extends JXPanel {
 						}
 
 					} else {
-						System.out.println("...");
+						label3.setIcon(icon1);
+						label5.setIcon(icon1);
+						label7.setIcon(icon1);
+						label9.setIcon(icon1);
+						label11.setIcon(icon1);
+						updateUI();
+						System.out.println("Nicht vorhanden");
+
 					}
 
 				}
