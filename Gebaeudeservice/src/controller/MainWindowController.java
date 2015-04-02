@@ -1,6 +1,8 @@
 package controller;
 
 import model.Auftrag;
+import model.Mitarbeiter;
+import model.Rechnung;
 import view.neo.MainWindowView;
 
 public class MainWindowController {
@@ -28,6 +30,22 @@ public class MainWindowController {
 	
 	public void deleteAuftrag(Auftrag auftrag){
 		view.deleteAuftrag(auftrag);
+	}
+	
+	public void addOrChangeRechnung(Rechnung rechnung){
+		view.addOrChangeRechnung(rechnung);
+	}
+	
+	public void deleteRechnung(Rechnung rechnung){
+		view.deleteRechnung(rechnung);
+	}
+	
+	public void addOrChangeMitarbeiter(Mitarbeiter mitarbeiter){
+		view.addOrChangeMitarbeiter(mitarbeiter);
+	}
+	
+	public void deleteMitarbeiter(Mitarbeiter mitarbeiter){
+		view.deleteMitarbeiter(mitarbeiter);
 	}
 
 }

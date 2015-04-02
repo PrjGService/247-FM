@@ -3,6 +3,7 @@ package model;
 import java.util.Calendar;
 import java.util.Date;
 
+import controller.MainWindowController;
 import controller.Verwaltung;
 import enums.Enums;
 import enums.Enums.Mitarbeiterstatus;
@@ -11,7 +12,7 @@ public class Mitarbeiter {
 
 	public int mitarbeiterID;
 	public String mitarbeiterName;
-	public Mitarbeiterstatus mitarbeiterStatus;
+	private Mitarbeiterstatus mitarbeiterStatus;
 	public Position aktuellePosition;
 
 	public int getMitarbeiterID() {
@@ -36,6 +37,7 @@ public class Mitarbeiter {
 
 	public void setMitarbeiterStatus(Mitarbeiterstatus mitarbeiterStatus) {
 		this.mitarbeiterStatus = mitarbeiterStatus;
+		MainWindowController.getInstance().addOrChangeMitarbeiter(this);
 	}
 
 	public Position getAktuellePosition() {
@@ -60,7 +62,7 @@ public class Mitarbeiter {
 		c.setTime(ziel);
 		c.add(Calendar.DATE, 30);
 		ziel = c.getTime();
-		mitarbeiterStatus = Enums.Mitarbeiterstatus.VERFUEGBAR;
+		setMitarbeiterStatus(Enums.Mitarbeiterstatus.VERFUEGBAR);
 		aktuellePosition.positionStatus = Enums.Auftragsstatus.ERLEDIGT;
 		if (aktuellePosition.auftrag.checkForReady()) {
 			aktuellePosition.auftrag.setAuftragstatus(Enums.Auftragsstatus.ERLEDIGT);
@@ -69,8 +71,9 @@ public class Mitarbeiter {
 					aktuellePosition.auftrag.auftragID, new Date(),
 					aktuellePosition.auftrag,
 					aktuellePosition.auftrag.getCost(), ziel, verwendungszweck);
-			r.versenden();
+			Verwaltung.getInstance().rechnungversendenList.add(r);
 			Verwaltung.getInstance().rechnungList.add(r);
+			MainWindowController.getInstance().addOrChangeRechnung(r);
 		}
 
 	}
