@@ -110,7 +110,7 @@ public class RechnungsUebersichtView extends JXPanel {
 
 	public void deleteRech(long id) {
 		for (int i = 0; i < tableModel.getRowCount(); i++) {
-			AuftragsRow r = (AuftragsRow) tableModel.getRow(i);
+			RechRow r = (RechRow) tableModel.getRow(i);
 			if (r.getId() == id)
 				tableModel.removeRow(i);
 		}

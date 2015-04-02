@@ -164,7 +164,7 @@ public class DBManager {
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setInt(1, m.mitarbeiterID);
 			statement.setString(2, m.mitarbeiterName);
-			statement.setString(3, Enums.getMStatus(m.mitarbeiterStatus));
+			statement.setString(3, Enums.getMStatus(m.getMitarbeiterStatus()));
 			statement.execute();
 			result = statement.getGeneratedKeys();
 		} catch (SQLException e) {

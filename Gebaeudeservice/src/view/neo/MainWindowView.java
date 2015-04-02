@@ -18,6 +18,8 @@ import javax.swing.ScrollPaneLayout;
 import javax.swing.UIManager;
 
 import model.Auftrag;
+import model.Mitarbeiter;
+import model.Rechnung;
 
 import org.jdesktop.swingx.JXFrame;
 import org.jdesktop.swingx.JXHeader;
@@ -60,12 +62,12 @@ public class MainWindowView extends JXFrame{
 	private JXTaskPane mitarbeiterTaskPane;
 	
 	private AbstractAction mitarbeiterAction;
-	private JXPanel mitarbeiterPanel;
+	private MitarbeiterView mitarbeiterPanel;
 	
 	private JXTaskPane rechnungTaskPane;
 	
 	private AbstractAction rechnungAction;
-	private JXPanel rechnungPanel;
+	private RechnungsUebersichtView rechnungPanel;
 	
 	private AbstractAction rechnungAnlegenAction;
 	private JXPanel rechnungAnlegenPanel;
@@ -325,11 +327,43 @@ public class MainWindowView extends JXFrame{
 		finally
 		{
 			auftreageUebersichtPanel.addAuftrag(Long.valueOf(auftrag.auftragID), auftrag.auftraggeber.auftraggeberName, 
-					Enums.getAStatus(auftrag.getAuftragstatus()), auftrag.auftragdatum.toString(), auftrag.getPositionen().get(0).dienstleistung.dienstleistungsName);
+					Enums.getAStatus(auftrag.getAuftragstatus()), auftrag.auftragdatum.toGMTString(), auftrag.getPositionen().get(0).dienstleistung.dienstleistungsName);
 		}
 	}
 
 	public void deleteAuftrag(Auftrag auftrag) {
 		auftreageUebersichtPanel.deleteAuftrag(auftrag.auftragID);	
+	}
+	
+	public void addOrChangeRechnung(Rechnung rechnung){
+		try
+		{
+			deleteRechnung(rechnung);
+		}
+		finally
+		{
+			rechnungPanel.addRechnung(Long.valueOf(rechnung.rechnungID), rechnung.auftraggeber.auftraggeberName, 
+					Enums.getAStatus(rechnung.auftrag.getAuftragstatus()), rechnung.rechnungPreis, rechnung.rechnungDatum.toGMTString(),rechnung.rechnungZahlungsziel.toGMTString());
+		}
+	}
+
+	public void deleteRechnung(Rechnung rechnung) {
+		rechnungPanel.deleteRech(rechnung.rechnungID);	
+	}
+	
+	public void addOrChangeMitarbeiter(Mitarbeiter mitarbeiter){
+		try
+		{
+			deleteMitarbeiter(mitarbeiter);
+		}
+		finally
+		{
+			mitarbeiterPanel.addMitarbeiter(Long.valueOf(mitarbeiter.mitarbeiterID), mitarbeiter.mitarbeiterName, 
+					mitarbeiter.getMitarbeiterStatus());
+		}
+	}
+
+	public void deleteMitarbeiter(Mitarbeiter mitarbeiter) {
+		mitarbeiterPanel.deleteMitarbeiter(mitarbeiter.mitarbeiterID);	
 	}
 }

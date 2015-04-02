@@ -103,9 +103,9 @@ public class MitarbeiterView extends JXPanel {
 		tableModel.fireTableDataChanged();
 	}
 
-	public void deleteAuftrag(long id) {
+	public void deleteMitarbeiter(long id) {
 		for (int i = 0; i < tableModel.getRowCount(); i++) {
-			AuftragsRow r = (AuftragsRow) tableModel.getRow(i);
+			MitarbeiterRow r = (MitarbeiterRow) tableModel.getRow(i);
 			if (r.getId() == id)
 				tableModel.removeRow(i);
 		}
@@ -174,12 +174,12 @@ public class MitarbeiterView extends JXPanel {
 					} else if (status.ordinal() == Mitarbeiterstatus.VERFUEGBAR
 							.ordinal()) {
 						setIcon(icon3);
-						setText("Verfügbar.      ");
+						setText("Verfuegbar.      ");
 						break;
 					} else if (status.ordinal() == Mitarbeiterstatus.UNVERFUEGBAR
 							.ordinal()) {
 						setIcon(icon1);
-						setText("Unverfügbar.    ");
+						setText("Unverfuegbar.    ");
 						break; 
 					}
 				} else {
@@ -189,7 +189,7 @@ public class MitarbeiterView extends JXPanel {
 				break;
 
 			default:
-				System.out.println("Spalte nicht gefunden und übersprungen: "
+				System.out.println("Spalte nicht gefunden und uebersprungen: "
 						+ col);
 				break;
 			}
