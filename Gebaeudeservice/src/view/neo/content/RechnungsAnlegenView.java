@@ -6,16 +6,26 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.util.Date;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
+import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
+
+import controller.Verwaltung;
+import database.DBManager;
+import view.LayoutButton;
 
 public class RechnungsAnlegenView extends JXPanel {
 
@@ -66,13 +76,7 @@ public class RechnungsAnlegenView extends JXPanel {
 
 		// Zeile Auftragsgeber ID
 
-		JXLabel geberid = new JXLabel();
-		geberid.setText("Auftragsgeber-ID: ");
-		geberid.setFont(new Font("Arial", Font.PLAIN, 16));
-		geberid.setForeground(Color.black);
-		geberid.setPreferredSize(t);
-
-		JXTextField textgeberid = new JXTextField("Auftragsgeber-ID");
+		final JXTextField textgeberid = new JXTextField("Auftragsgeber-ID");
 		textgeberid.setFont(new Font("Arial", Font.PLAIN, 16));
 		textgeberid.setForeground(Color.black);
 		textgeberid.setBackground(Color.WHITE);
@@ -80,13 +84,7 @@ public class RechnungsAnlegenView extends JXPanel {
 
 		// Zeile Auftrags ID
 
-		JXLabel auftragsid = new JXLabel();
-		auftragsid.setText("Auftrags-ID: ");
-		auftragsid.setFont(new Font("Arial", Font.PLAIN, 16));
-		auftragsid.setForeground(Color.black);
-		auftragsid.setPreferredSize(t);
-
-		JXTextField textauftragsid = new JXTextField("Auftrags-ID");
+		final JXTextField textauftragsid = new JXTextField("Auftrags-ID");
 		textauftragsid.setFont(new Font("Arial", Font.PLAIN, 16));
 		textauftragsid.setForeground(Color.black);
 		textauftragsid.setBackground(Color.WHITE);
@@ -94,13 +92,7 @@ public class RechnungsAnlegenView extends JXPanel {
 
 		// Zeile Datum
 
-		JXLabel datum = new JXLabel();
-		datum.setText("Datum: ");
-		datum.setFont(new Font("Arial", Font.PLAIN, 16));
-		datum.setForeground(Color.black);
-		datum.setPreferredSize(t);
-
-		JXTextField textdatum = new JXTextField("Datum");
+		final JXTextField textdatum = new JXTextField("Datum");
 		textdatum.setFont(new Font("Arial", Font.PLAIN, 16));
 		textdatum.setForeground(Color.black);
 		textdatum.setBackground(Color.WHITE);
@@ -108,13 +100,7 @@ public class RechnungsAnlegenView extends JXPanel {
 
 		// Zeile Preis
 
-		JXLabel preis = new JXLabel();
-		preis.setText("Preis: ");
-		preis.setFont(new Font("Arial", Font.PLAIN, 16));
-		preis.setForeground(Color.black);
-		preis.setPreferredSize(t);
-
-		JXTextField textpreis = new JXTextField("Preis");
+		final JXTextField textpreis = new JXTextField("Preis");
 		textpreis.setFont(new Font("Arial", Font.PLAIN, 16));
 		textpreis.setForeground(Color.black);
 		textpreis.setBackground(Color.WHITE);
@@ -122,13 +108,7 @@ public class RechnungsAnlegenView extends JXPanel {
 
 		// Zeile Zahlungsziel
 
-		JXLabel zahldat = new JXLabel();
-		zahldat.setText("Zahlungsziel: ");
-		zahldat.setFont(new Font("Arial", Font.PLAIN, 16));
-		zahldat.setForeground(Color.black);
-		zahldat.setPreferredSize(t);
-
-		JXTextField textzahldat = new JXTextField("Zahlungsziel");
+		final JXTextField textzahldat = new JXTextField("Zahlungsziel");
 		textzahldat.setFont(new Font("Arial", Font.PLAIN, 16));
 		textzahldat.setForeground(Color.black);
 		textzahldat.setBackground(Color.WHITE);
@@ -136,17 +116,50 @@ public class RechnungsAnlegenView extends JXPanel {
 
 		// Verwendungszweck
 
-		JXLabel verzwe = new JXLabel();
-		verzwe.setText("Verwendungszweck: ");
-		verzwe.setFont(new Font("Arial", Font.PLAIN, 16));
-		verzwe.setForeground(Color.black);
-		verzwe.setPreferredSize(t);
-
-		JXTextField textverzwe = new JXTextField("Verwendungszweck");
+		final JXTextField textverzwe = new JXTextField("Verwendungszweck");
 		textverzwe.setFont(new Font("Arial", Font.PLAIN, 16));
 		textverzwe.setForeground(Color.black);
 		textverzwe.setBackground(Color.WHITE);
 		textverzwe.setPreferredSize(t);
+
+		// Button
+
+		LayoutButton button = new LayoutButton("Neue Rechnung anlegen!");
+		button.setFont(new Font("Arial", Font.PLAIN, 16));
+		button.setHorizontalAlignment(SwingConstants.HORIZONTAL);
+		button.setPreferredSize(t);
+
+		button.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				if (textgeberid.getText().isEmpty()
+						|| textauftragsid.getText().isEmpty()
+						|| textpreis.getText().isEmpty()
+						|| textdatum.getText().isEmpty()
+						|| textzahldat.getText().isEmpty()
+						|| textverzwe.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null,
+							"Bitte füllen Sie alle Felder aus.");
+				} else {
+
+					DBManager stat = Verwaltung.getInstance().conn;
+					String geber = textgeberid.getText();
+					int realgeber = Integer.parseInt(geber);
+					String auftrag = textauftragsid.getText();
+					int realauftrag = Integer.parseInt(auftrag);
+					String preis = textpreis.getText();
+					double realpreis = Double.parseDouble(preis);
+					String datum = textdatum.getText();
+					long realdate = Date.parse(datum);
+					String zahldat = textzahldat.getText();
+					long realzahl = Date.parse(zahldat);
+					String verzwe = textverzwe.getText();
+
+				}
+			}
+		});
 
 		JXPanel fields = new JXPanel();
 		fields.setLayout(new BoxLayout(fields, BoxLayout.Y_AXIS));
@@ -162,10 +175,11 @@ public class RechnungsAnlegenView extends JXPanel {
 		fields.add(textzahldat);
 		fields.add(Box.createVerticalStrut(15));
 		fields.add(textverzwe);
+		fields.add(Box.createVerticalStrut(15));
+		fields.add(button);
 
 		JXPanel toge = new JXPanel();
 		toge.setBackground(Color.white);
-		toge.setLayout(new FlowLayout());
 		toge.add(fields);
 
 		rechPanel.add(header, BorderLayout.NORTH);
