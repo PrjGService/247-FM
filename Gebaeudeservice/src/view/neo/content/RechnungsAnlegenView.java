@@ -143,19 +143,22 @@ public class RechnungsAnlegenView extends JXPanel {
 					JOptionPane.showMessageDialog(null,
 							"Bitte füllen Sie alle Felder aus.");
 				} else {
+					
+					// BITTE HIER LOGIK EINBAUEN!
 
-					DBManager stat = Verwaltung.getInstance().conn;
-					String geber = textgeberid.getText();
-					int realgeber = Integer.parseInt(geber);
-					String auftrag = textauftragsid.getText();
-					int realauftrag = Integer.parseInt(auftrag);
-					String preis = textpreis.getText();
-					double realpreis = Double.parseDouble(preis);
-					String datum = textdatum.getText();
-					long realdate = Date.parse(datum);
-					String zahldat = textzahldat.getText();
-					long realzahl = Date.parse(zahldat);
-					String verzwe = textverzwe.getText();
+//					Verwaltung.getInstance().rechnungList.add(arg0)
+//					DBManager stat = Verwaltung.getInstance().conn;
+//					String geber = textgeberid.getText();
+//					int realgeber = Integer.parseInt(geber);
+//					String auftrag = textauftragsid.getText();
+//					int realauftrag = Integer.parseInt(auftrag);
+//					String preis = textpreis.getText();
+//					double realpreis = Double.parseDouble(preis);
+//					String datum = textdatum.getText();
+//					long realdate = Date.parse(datum);
+//					String zahldat = textzahldat.getText();
+//					long realzahl = Date.parse(zahldat);
+//					String verzwe = textverzwe.getText();
 
 				}
 			}

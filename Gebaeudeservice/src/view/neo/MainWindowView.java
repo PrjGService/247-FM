@@ -261,7 +261,7 @@ public class MainWindowView extends JXFrame{
 			  }
 
 			  public void actionPerformed(ActionEvent e) {
-				  showContent(mahnauftragAction.getClass().getName());
+				  showContent(mahnauftragPanel.getClass().getName());
 			  }
 
 			};
