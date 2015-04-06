@@ -4,15 +4,19 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
 
+import controller.Verwaltung;
 import view.LayoutButton;
 
 public class MahnauftragsView extends JXPanel {
@@ -21,7 +25,7 @@ public class MahnauftragsView extends JXPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 6053023156165973649L;
-	
+
 	JXPanel mainPanel;
 
 	public MahnauftragsView() {
@@ -71,8 +75,30 @@ public class MahnauftragsView extends JXPanel {
 		button.setFont(new Font("Arial", Font.PLAIN, 16));
 		button.setHorizontalAlignment(SwingConstants.HORIZONTAL);
 		button.setPreferredSize(t);
-		
+		button.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				if (verzwe.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null,
+							"Bitte füllen Sie alle Felder aus.");
+				} else {
+
+					String eingabe = verzwe.getText();
+					Verwaltung.getInstance().mahnen(eingabe);
+
+					JOptionPane.showMessageDialog(null,
+							"Mahnauftrag zur Rechnung mit dem Verwendungszweck "
+									+ eingabe + " wurde abgeschickt!");
+
+				}
+
+			}
+		});
+
 		JXPanel fields = new JXPanel();
+		fields.setBackground(Color.white);
 		fields.setLayout(new BoxLayout(fields, BoxLayout.Y_AXIS));
 		fields.add(verzwe);
 		fields.add(Box.createVerticalStrut(15));

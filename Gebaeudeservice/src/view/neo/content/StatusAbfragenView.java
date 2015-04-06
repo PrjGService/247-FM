@@ -87,7 +87,7 @@ public class StatusAbfragenView extends JXPanel {
 		JXPanel id = new JXPanel();
 		id.setLayout(new FlowLayout());
 		id.setPreferredSize(d);
-		//id.add(tfname);
+		// id.add(tfname);
 		id.add(auftragsid);
 		id.setBackground(Color.white);
 
@@ -175,11 +175,14 @@ public class StatusAbfragenView extends JXPanel {
 				String eingabe = auftragsid.getText();
 				int realid = Integer.parseInt(eingabe);
 
-				DBManager dbmanager = new DBManager();
-				String status = dbmanager.getAuftragsstatus(realid);
+				Enums.Auftragsstatus status = null;
+				if (Verwaltung.getInstance().getAuftrag(realid) != null) {
+					status = Verwaltung.getInstance().getAuftrag(realid)
+							.getAuftragstatus();
+				}
 
 				if (status != null) {
-					if (status.equals("Abgelehnt")) {
+					if (status == Enums.Auftragsstatus.ABGELEHNT) {
 						label3.setIcon(icon2);
 						label5.setIcon(icon1);
 						label7.setIcon(icon1);
@@ -188,7 +191,7 @@ public class StatusAbfragenView extends JXPanel {
 						updateUI();
 						System.out.println("Abgelehnt");
 
-					} else if (status.equals("Angekommen")) {
+					} else if (status == Enums.Auftragsstatus.ANGEKOMMEN) {
 						label3.setIcon(icon1);
 						label5.setIcon(icon2);
 						label7.setIcon(icon1);
@@ -197,7 +200,7 @@ public class StatusAbfragenView extends JXPanel {
 						updateUI();
 						System.out.println("Angekommen");
 
-					} else if (status.equals("In Arbeit")) {
+					} else if (status == Enums.Auftragsstatus.INARBEIT) {
 						label3.setIcon(icon1);
 						label5.setIcon(icon2);
 						label7.setIcon(icon2);
@@ -206,7 +209,7 @@ public class StatusAbfragenView extends JXPanel {
 						updateUI();
 						System.out.println("In Arbeit");
 
-					} else if (status.equals("Erledigt")) {
+					} else if (status == Enums.Auftragsstatus.ERLEDIGT) {
 						label3.setIcon(icon1);
 						label5.setIcon(icon2);
 						label7.setIcon(icon2);
@@ -215,7 +218,7 @@ public class StatusAbfragenView extends JXPanel {
 						updateUI();
 						System.out.println("Erledigt");
 
-					} else if (status.equals("Bezahlt")) {
+					} else if (status == Enums.Auftragsstatus.BEZAHLT) {
 						label3.setIcon(icon1);
 						label5.setIcon(icon2);
 						label7.setIcon(icon2);
@@ -246,10 +249,11 @@ public class StatusAbfragenView extends JXPanel {
 
 					String eingabe = auftragsid.getText();
 					int realid = Integer.parseInt(eingabe);
+
 					Enums.Auftragsstatus status = null;
-					if(Verwaltung.getInstance().getAuftrag(realid) != null)
-					{
-						status = Verwaltung.getInstance().getAuftrag(realid).getAuftragstatus();
+					if (Verwaltung.getInstance().getAuftrag(realid) != null) {
+						status = Verwaltung.getInstance().getAuftrag(realid)
+								.getAuftragstatus();
 					}
 
 					if (status != null) {
