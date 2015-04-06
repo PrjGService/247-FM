@@ -71,7 +71,7 @@ public class MahnauftragsView extends JXPanel {
 		verzwe.setBackground(Color.WHITE);
 		verzwe.setPreferredSize(t);
 
-		LayoutButton button = new LayoutButton("Mahnauftrag starten");
+		LayoutButton button = new LayoutButton("Mahnauftrag starten!");
 		button.setFont(new Font("Arial", Font.PLAIN, 16));
 		button.setHorizontalAlignment(SwingConstants.HORIZONTAL);
 		button.setPreferredSize(t);

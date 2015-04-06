@@ -103,7 +103,7 @@ public class RechnungsUebersichtView extends JXPanel {
 	public void addRechnung(long id, String auftraggeber,
 			String rechnungsstatus, Float preis, String rechnungsdatum,
 			String zahlungsziel) {
-		tableModel.addRow(new RechRow(id, auftraggeber, rechnungsstatus, preis,
+		tableModel.addRow(new RechRow(id, " " + auftraggeber, " " + rechnungsstatus, preis,
 				rechnungsdatum, zahlungsziel));
 		tableModel.fireTableDataChanged();
 	}

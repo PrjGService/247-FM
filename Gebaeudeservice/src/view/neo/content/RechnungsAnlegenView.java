@@ -145,9 +145,9 @@ public class RechnungsAnlegenView extends JXPanel {
 						|| textzahldat.getText().isEmpty()
 						|| textverzwe.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null,
-							"Bitte fï¿½llen Sie alle Felder aus.");
+							"Bitte füllen Sie alle Felder aus.");
 				} else {
-					
+
 					// BITTE HIER LOGIK EINBAUEN!
 					String geber = textgeberid.getText();
 					int realgeber = Integer.parseInt(geber);
@@ -173,9 +173,12 @@ public class RechnungsAnlegenView extends JXPanel {
 						System.err.println("Kann nicht in Datum umwandeln");
 						e1.printStackTrace();
 					}
-					
+
 					String verzwe = textverzwe.getText();
-					Rechnung r = new Rechnung(Verwaltung.getInstance().auftraggeber, realauftrag, realdate,Verwaltung.getInstance().getAuftrag(realauftrag), realpreis, realzahl, verzwe);
+					Rechnung r = new Rechnung(
+							Verwaltung.getInstance().auftraggeber, realauftrag,
+							realdate, Verwaltung.getInstance().getAuftrag(
+									realauftrag), realpreis, realzahl, verzwe);
 					Verwaltung.getInstance().rechnungList.add(r);
 					System.out.println("Rechnung angelegt");
 					MainWindowController.getInstance().addOrChangeRechnung(r);
