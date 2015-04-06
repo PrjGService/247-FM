@@ -12,25 +12,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
-
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
 
-import controller.LoginWindowController;
 import controller.Verwaltung;
-import database.DBManager;
 import enums.Enums;
-import enums.Enums.Mitarbeiterstatus;
-import util.UIUtil;
 import view.LayoutButton;
 
 public class StatusAbfragenView extends JXPanel {
@@ -331,10 +321,12 @@ public class StatusAbfragenView extends JXPanel {
 
 		updateUI();
 
+		
 		statusPanel.add(north, BorderLayout.BEFORE_FIRST_LINE);
 		statusPanel.add(table, BorderLayout.CENTER);
 		statusPanel.add(button, BorderLayout.SOUTH);
-
+		
+	
 		statusPanel.updateUI();
 		return statusPanel;
 

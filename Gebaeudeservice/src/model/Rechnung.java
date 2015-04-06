@@ -3,7 +3,6 @@ package model;
 import java.util.Date;
 
 import controller.Verwaltung;
-import enums.Enums;
 
 public class Rechnung {
 

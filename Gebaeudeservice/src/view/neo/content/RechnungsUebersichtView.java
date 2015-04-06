@@ -6,7 +6,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.text.DecimalFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -18,8 +17,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
-import model.Auftrag;
-import model.Auftraggeber;
 import model.Rechnung;
 
 import org.jdesktop.swingx.JXPanel;
@@ -28,11 +25,7 @@ import org.jdesktop.swingx.JXTable;
 import util.UIUtil;
 import util.table.IRow;
 import util.table.TableModel;
-import view.neo.content.AuftragsUebersichtView.AuftragsModel;
-import view.neo.content.AuftragsUebersichtView.AuftragsRow;
-import view.neo.content.AuftragsUebersichtView.TableRowRenderer;
 import controller.Verwaltung;
-import database.DBManager;
 import enums.Enums;
 
 public class RechnungsUebersichtView extends JXPanel {
@@ -103,8 +96,8 @@ public class RechnungsUebersichtView extends JXPanel {
 	public void addRechnung(long id, String auftraggeber,
 			String rechnungsstatus, Float preis, String rechnungsdatum,
 			String zahlungsziel) {
-		tableModel.addRow(new RechRow(id, " " + auftraggeber, " " + rechnungsstatus, preis,
-				rechnungsdatum, zahlungsziel));
+		tableModel.addRow(new RechRow(id, " " + auftraggeber, " "
+				+ rechnungsstatus, preis, rechnungsdatum, zahlungsziel));
 		tableModel.fireTableDataChanged();
 	}
 

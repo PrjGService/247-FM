@@ -8,14 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-import javax.jws.WebMethod;
-import javax.swing.JOptionPane;
-
 import database.DBManager;
 import enums.Enums;
-import enums.Enums.Auftragsstatus;
-
-import util.Publisher;
 import webservices.impl.BVWSImplService;
 import webservices.impl.BVWebService;
 import webservices.impl.BuchhaltungWS;
@@ -80,8 +74,10 @@ public class Verwaltung {
 		// }
 		for (int i = 0; i < positionList.size(); i++) {
 			if (positionList.get(i).positionAusfuehrungsdatum.before(tag)) {
-				if (positionList.get(i).mitarbeiter != null && positionList.get(i).positionStatus == Enums.Auftragsstatus.INARBEIT) {
-					positionList.get(i).mitarbeiter.positionAusfuehren(positionList.get(i));
+				if (positionList.get(i).mitarbeiter != null
+						&& positionList.get(i).positionStatus == Enums.Auftragsstatus.INARBEIT) {
+					positionList.get(i).mitarbeiter
+							.positionAusfuehren(positionList.get(i));
 				} else {
 					c = Calendar.getInstance();
 					c.setTime(positionList.get(i).positionAusfuehrungsdatum);
@@ -96,23 +92,23 @@ public class Verwaltung {
 			}
 		}
 		RechnungenZahlen();
-		//writedb();
+		// writedb();
 
 	}
-	
-	public void test()
-	{
-//		tag = new java.util.Date();
-//		zieltag = new java.util.Date();
-//		Calendar c = Calendar.getInstance();
-//		c.setTime(zieltag);
-//		c.add(Calendar.DATE, 30);
-//		zieltag = c.getTime();
-//		for(int i = 20000000; i < 20000002; i++)
-//		  {
-//			  System.out.println(Verwaltung.getInstance().addAuftrag("Gartenpflege", 4, +i).getZieldatum());
-//		  }
-//		timestep();
+
+	public void test() {
+		// tag = new java.util.Date();
+		// zieltag = new java.util.Date();
+		// Calendar c = Calendar.getInstance();
+		// c.setTime(zieltag);
+		// c.add(Calendar.DATE, 30);
+		// zieltag = c.getTime();
+		// for(int i = 20000000; i < 20000002; i++)
+		// {
+		// System.out.println(Verwaltung.getInstance().addAuftrag("Gartenpflege",
+		// 4, +i).getZieldatum());
+		// }
+		// timestep();
 	}
 
 	// verarbeitungen nach jeden timestep
@@ -126,8 +122,7 @@ public class Verwaltung {
 			c.add(Calendar.DATE, 1);
 			int neu = c.getTime().getMonth();
 			if (alt != neu) {
-				for(int i = 0; i <rechnungversendenList.size(); i++)
-				{
+				for (int i = 0; i < rechnungversendenList.size(); i++) {
 					rechnungversendenList.get(i).versenden();
 				}
 				rechnungversendenList = new ArrayList<Rechnung>();
@@ -149,8 +144,7 @@ public class Verwaltung {
 	}
 
 	public void positionVergeben(Mitarbeiter m) {
-		if(positionQueue.size() != 0)
-		{
+		if (positionQueue.size() != 0) {
 			Position p = positionQueue.poll();
 			p.mitarbeiter = m;
 			p.positionStatus = Enums.Auftragsstatus.INARBEIT;
@@ -164,7 +158,7 @@ public class Verwaltung {
 		Dienstleistung erg = null;
 		for (int i = 0; i < dienstleistungList.size(); i++) {
 			if (dienstleistungList.get(i) != null) {
-				//System.out.println(dienstleistungList.get(i).dienstleistungsName);
+				// System.out.println(dienstleistungList.get(i).dienstleistungsName);
 				if (dienstleistungList.get(i).getDienstleistungsID() == dienstleistungsID) {
 					erg = dienstleistungList.get(i);
 					break;
@@ -185,7 +179,7 @@ public class Verwaltung {
 		positionList.add(a.positionen.get(0));
 		positionQueue.add(a.positionen.get(0));
 		MainWindowController.getInstance().addOrChangeAuftrag(a);
-		
+
 		return a;
 
 	}
@@ -235,19 +229,23 @@ public class Verwaltung {
 					|| (positionList.get(i).positionAusfuehrungsdatum != null && positionList
 							.get(i).positionAusfuehrungsdatum.after(d))) {
 				p = positionList.get(i);
-				d = positionList.get(i).positionAusfuehrungsdatum;				
+				d = positionList.get(i).positionAusfuehrungsdatum;
 			}
 		}
-		if(tag != null && (d == null || d.before(tag)))
-		{
+		if (tag != null && (d == null || d.before(tag))) {
 			d = tag;
 		}
 		Calendar c = Calendar.getInstance();
 		c.setTime(d);
-		c.add(Calendar.DATE, -1*Math.round(p.dienstleistung.aufwandermitteln(p.positionMenge)));
-		c.add(Calendar.DATE, Math.round(a.dienstleistung.aufwandermitteln(p.positionMenge)));
+		c.add(Calendar.DATE,
+				-1
+						* Math.round(p.dienstleistung
+								.aufwandermitteln(p.positionMenge)));
+		c.add(Calendar.DATE,
+				Math.round(a.dienstleistung.aufwandermitteln(p.positionMenge)));
 		if (mitarbeiterList.size() <= zaehl) {
-			c.add(Calendar.DATE, Math.round(a.dienstleistung.aufwandermitteln(p.positionMenge)));
+			c.add(Calendar.DATE, Math.round(a.dienstleistung
+					.aufwandermitteln(p.positionMenge)));
 			zaehl = 0;
 		}
 		d = c.getTime();
@@ -260,7 +258,7 @@ public class Verwaltung {
 
 	// TODO an timepush anpassen da nicht in bank.jar drin
 	// versendet einen timepush wenn stepverarbeitung abgeschlossen ist
-	public void instructTimepush(int timestep) { //oder als date?
+	public void instructTimepush(int timestep) { // oder als date?
 		BVWSImplService timeService = new BVWSImplService();
 		BVWebService timeWS = timeService.getBVWSImplPort();
 		try {
@@ -287,41 +285,40 @@ public class Verwaltung {
 		BuchhaltungWsImplService InvoiceService = new BuchhaltungWsImplService();
 		BuchhaltungWS InvoiceWS = InvoiceService.getBuchhaltungWsImplPort();
 		try {
-			 if(InvoiceWS.erfasseRechnung(verwendungszweck, sender,
-			 rechnungsersteller, rechnungsempfaenger, betrag
-			 , rechnungsdatum, zahlungsdatum) == "rechnung empfangen")
-			 {
-			 System.err.println("Rechnungsversand erfolgreich");
-			 }
-			 else
-			
-			 {
-			 System.out.println("Rechnung abgelehnt");
-			 }
+			if (InvoiceWS.erfasseRechnung(verwendungszweck, sender,
+					rechnungsersteller, rechnungsempfaenger, betrag,
+					rechnungsdatum, zahlungsdatum) == "rechnung empfangen") {
+				System.err.println("Rechnungsversand erfolgreich");
+			} else
+
+			{
+				System.out.println("Rechnung abgelehnt");
+			}
 		} catch (Exception e) {
 			System.err
 					.println("Es ist ein Fehler beim Versenden der Rechnung an BH aufgetreten.");
 		}
 	}
-	
+
 	public void sendInvoiceGM(String verwendungszweck, String sender,
 			String rechnungsersteller, String rechnungsempfaenger,
 			Double betrag, String rechnungsdatum, String zahlungsdatum) {
 		GmWSImplService InvoiceService = new GmWSImplService();
 		GmWS InvoiceWS = InvoiceService.getGmWSImplPort();
-		System.out.println(verwendungszweck+ sender+rechnungsersteller+rechnungsempfaenger+betrag+rechnungsdatum+zahlungsdatum);
+		System.out
+				.println(verwendungszweck + sender + rechnungsersteller
+						+ rechnungsempfaenger + betrag + rechnungsdatum
+						+ zahlungsdatum);
 		try {
-			 if(InvoiceWS.erfasseRechnung(verwendungszweck, sender,
-			 rechnungsersteller, rechnungsempfaenger, betrag
-			 , rechnungsdatum, zahlungsdatum) == "Rechnung wurde bearbeitet")
-			 {
-			 System.err.println("Rechnungsversand erfolgreich");
-			 }
-			 else
-			
-			 {
-			 System.out.println("Rechnung abgelehnt");
-			 }
+			if (InvoiceWS.erfasseRechnung(verwendungszweck, sender,
+					rechnungsersteller, rechnungsempfaenger, betrag,
+					rechnungsdatum, zahlungsdatum) == "Rechnung wurde bearbeitet") {
+				System.err.println("Rechnungsversand erfolgreich");
+			} else
+
+			{
+				System.out.println("Rechnung abgelehnt");
+			}
 		} catch (Exception e) {
 			System.err
 					.println("Es ist ein Fehler beim Versenden der Rechnung an GM aufgetreten.");
@@ -333,36 +330,32 @@ public class Verwaltung {
 		List<Rechnung> r = new ArrayList<Rechnung>();
 		BuchhaltungWsImplService itemService = new BuchhaltungWsImplService();
 		BuchhaltungWS itemWS = itemService.getBuchhaltungWsImplPort();
-		 try
-		 {
-			 Map<String, String> m = baldoapp.ProjektXMLParser.XMLStringToMap(itemWS.gebeForderungsliste("GS"));
-			 for(int i = 0; i < m.size();i++)
-			 {
-				 s = baldoapp.ProjektXMLParser.XMLStringToMap(m.get(i)).get(4);
-				 for(int j = 0; j < rechnungList.size();j++)
-				 {
-					if(rechnungList.get(j).rechnungVerwendungszweck.equals(s))
-					{
+		try {
+			Map<String, String> m = baldoapp.ProjektXMLParser
+					.XMLStringToMap(itemWS.gebeForderungsliste("GS"));
+			for (int i = 0; i < m.size(); i++) {
+				s = baldoapp.ProjektXMLParser.XMLStringToMap(m.get(i)).get(4);
+				for (int j = 0; j < rechnungList.size(); j++) {
+					if (rechnungList.get(j).rechnungVerwendungszweck.equals(s)) {
 						r.add(rechnungList.get(j));
 					}
-				 }
-			 }
-			 for(int i = 0; i < rechnungList.size();i++)
-			 {
-				 if(!r.contains(rechnungList.get(i)) && !rechnungversendenList.contains(rechnungList.get(i)))
-				 {
-					 if(rechnungList.get(i).auftrag.getAuftragstatus() != Enums.Auftragsstatus.BEZAHLT)
-					 {
-						 rechnungList.get(i).auftrag.setAuftragstatus(Enums.Auftragsstatus.BEZAHLT);
-						 MainWindowController.getInstance().addOrChangeRechnung(rechnungList.get(i));
-					 }
-				 }
-			 }
-		 }
-		 catch(Exception e)
-		 {
-		 System.err.println("Es ist ein Fehler beim anfragen der offenen Posten aufgetreten.");
-		 }
+				}
+			}
+			for (int i = 0; i < rechnungList.size(); i++) {
+				if (!r.contains(rechnungList.get(i))
+						&& !rechnungversendenList.contains(rechnungList.get(i))) {
+					if (rechnungList.get(i).auftrag.getAuftragstatus() != Enums.Auftragsstatus.BEZAHLT) {
+						rechnungList.get(i).auftrag
+								.setAuftragstatus(Enums.Auftragsstatus.BEZAHLT);
+						MainWindowController.getInstance().addOrChangeRechnung(
+								rechnungList.get(i));
+					}
+				}
+			}
+		} catch (Exception e) {
+			System.err
+					.println("Es ist ein Fehler beim anfragen der offenen Posten aufgetreten.");
+		}
 	}
 
 	public void instructDunnning(String verwendungszweck) {
@@ -421,54 +414,39 @@ public class Verwaltung {
 		}
 		return verwaltung;
 	}
-	
-	public static void writedb()
-	{
-		for(int i = 0; i < verwaltung.mitarbeiterList.size();i++)
-		{
-			try
-			{
-			verwaltung.conn.writeMitarbeiter(verwaltung.mitarbeiterList.get(i));
-			}
-			catch(Exception ex)
-			{
+
+	public static void writedb() {
+		for (int i = 0; i < verwaltung.mitarbeiterList.size(); i++) {
+			try {
+				verwaltung.conn.writeMitarbeiter(verwaltung.mitarbeiterList
+						.get(i));
+			} catch (Exception ex) {
 			}
 		}
-		for(int i = 0; i < verwaltung.auftragList.size();i++)
-		{
-			try
-			{
-			verwaltung.conn.writeAuftrag(verwaltung.auftragList.get(i));
-			}
-			catch(Exception ex)
-			{
+		for (int i = 0; i < verwaltung.auftragList.size(); i++) {
+			try {
+				verwaltung.conn.writeAuftrag(verwaltung.auftragList.get(i));
+			} catch (Exception ex) {
 			}
 		}
-		for(int i = 0; i < verwaltung.positionList.size();i++)
-		{
-			try
-			{
-			verwaltung.conn.writePosition(verwaltung.positionList.get(i));
-			}
-			catch(Exception ex)
-			{
+		for (int i = 0; i < verwaltung.positionList.size(); i++) {
+			try {
+				verwaltung.conn.writePosition(verwaltung.positionList.get(i));
+			} catch (Exception ex) {
 			}
 		}
-		for(int i = 0; i < verwaltung.rechnungList.size();i++)
-		{
-			try
-			{
-			verwaltung.conn.writeRechnung(verwaltung.rechnungList.get(i));
-			}
-			catch(Exception ex)
-			{
+		for (int i = 0; i < verwaltung.rechnungList.size(); i++) {
+			try {
+				verwaltung.conn.writeRechnung(verwaltung.rechnungList.get(i));
+			} catch (Exception ex) {
 			}
 		}
 	}
 
 	// zum export der schnittstellenmethoden:
 	// Starten der eigenen Anwendung als Java Application
-	// Öffnen der Konsole um wsimport zu nutzen: 
-	// wsimport -keep -clientjar Gebaeudeservice.jar http://10.10.10.25:1000/ws?wsdl
+	// Öffnen der Konsole um wsimport zu nutzen:
+	// wsimport -keep -clientjar Gebaeudeservice.jar
+	// http://10.10.10.25:1000/ws?wsdl
 
 }
