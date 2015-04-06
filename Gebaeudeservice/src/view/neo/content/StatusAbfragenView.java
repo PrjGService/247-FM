@@ -77,7 +77,7 @@ public class StatusAbfragenView extends JXPanel {
 		tfname.setFont(new Font("Arial", Font.PLAIN, 16));
 		tfname.setForeground(Color.black);
 
-		final JTextField auftragsid = new JTextField();
+		final JXTextField auftragsid = new JXTextField("Auftrags-ID");
 		auftragsid.setHorizontalAlignment(SwingConstants.HORIZONTAL);
 		auftragsid.setFont(new Font("Arial", Font.PLAIN, 16));
 		auftragsid.setForeground(Color.black);
@@ -87,7 +87,7 @@ public class StatusAbfragenView extends JXPanel {
 		JXPanel id = new JXPanel();
 		id.setLayout(new FlowLayout());
 		id.setPreferredSize(d);
-		id.add(tfname);
+		//id.add(tfname);
 		id.add(auftragsid);
 		id.setBackground(Color.white);
 
