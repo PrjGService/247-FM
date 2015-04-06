@@ -98,18 +98,18 @@ public class DBManager {
 					+ a.auftragID + ";");
 			statement.execute();
 			statement = conn.prepareStatement(
-					"INSERT INTO auftrag (ID, auftraggeber.ID,Status, Datum "
-							+ ") VALUES (?,?,??);",
+					"INSERT INTO auftrag  "
+							+ " VALUES (?,?,?,?);",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setInt(1, a.auftragID);
 			statement.setInt(2, a.auftraggeber.auftraggeberID);
 			statement.setString(3, Enums.getAStatus(a.getAuftragstatus()));
-			statement.setDate(4, (Date) a.auftragdatum);
+			statement.setDate(4, new java.sql.Date( a.auftragdatum.getTime()));
 			statement.execute();
 			result = statement.getGeneratedKeys();
 		} catch (SQLException e) {
 			// Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 	}
@@ -169,7 +169,7 @@ public class DBManager {
 			result = statement.getGeneratedKeys();
 		} catch (SQLException e) {
 			// Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 	}
@@ -220,7 +220,7 @@ public class DBManager {
 							+ a.auftraggeberID + ";");
 			statement.execute();
 			statement = conn.prepareStatement(
-					"INSERT INTO dienstleistung (ID, PLZ, Strasse, Ort, Hausnummer, Name"
+					"INSERT INTO auftraggeber (ID, PLZ, Strasse, Ort, Hausnummer, Name"
 							+ ") VALUES (?,?,?,?,?,?);",
 					Statement.RETURN_GENERATED_KEYS);
 			statement.setInt(1, a.auftraggeberID);
@@ -234,7 +234,7 @@ public class DBManager {
 			result = statement.getGeneratedKeys();
 		} catch (SQLException e) {
 			// Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 	}
@@ -323,7 +323,7 @@ public class DBManager {
 			result = statement.getGeneratedKeys();
 		} catch (SQLException e) {
 			// Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 	}
@@ -441,26 +441,32 @@ public class DBManager {
 					.prepareStatement("DELETE FROM position WHERE `dienstleistung.ID` = "
 							+ p.dienstleistung.getDienstleistungsID()
 							+ " AND `auftrag.ID` = "
-							+ p.auftrag.auftragID
-							+ " AND `mitarbeiter.ID` = "
-							+ p.mitarbeiter.mitarbeiterID + ";");
+							+ p.auftrag.auftragID + ";");
 			statement.execute();
 			statement = conn
 					.prepareStatement(
-							"INSERT INTO position (dienstleistung.ID, auftrag.ID, mitarbeiter.ID, Menge, Ausführungsdatum, Status"
-									+ ") VALUES (?,?,?,?,?,?);",
+							"INSERT INTO position "
+									+ " VALUES (?,?,?,?,?,?);",
 							Statement.RETURN_GENERATED_KEYS);
 			statement.setInt(1, p.dienstleistung.getDienstleistungsID());
 			statement.setInt(2, p.auftrag.auftragID);
-			statement.setInt(3, p.mitarbeiter.mitarbeiterID);
+			if(p.mitarbeiter!= null)
+			{
+				statement.setInt(3, p.mitarbeiter.mitarbeiterID);
+			}
+			else
+			{
+				statement.setInt(3, 50190);
+			}
 			statement.setFloat(4, p.positionMenge);
-			statement.setDate(5, (Date) p.positionAusfuehrungsdatum);
+			statement.setDate(5, new java.sql.Date( p.positionAusfuehrungsdatum.getTime()));
 			statement.setString(6, Enums.getAStatus(p.positionStatus));
 			statement.execute();
 			result = statement.getGeneratedKeys();
 		} catch (SQLException e) {
 			// Auto-generated catch block
-			e.printStackTrace();
+			//System.err.println("kann position nicht erzeugen"+statement);
+			//e.printStackTrace();
 		}
 
 	}
@@ -515,21 +521,21 @@ public class DBManager {
 			statement.execute();
 			statement = conn
 					.prepareStatement(
-							"INSERT INTO rechnung (ID, auftraggeber.ID, auftrag.ID, Datum, Preis, Zahlungsziel, Verwendungszweck"
-									+ ") VALUES (?,?,?,?,?,?,?);",
+							"INSERT INTO rechnung "
+									+ " VALUES (?,?,?,?,?,?,?);",
 							Statement.RETURN_GENERATED_KEYS);
 			statement.setInt(1, r.rechnungID);
 			statement.setInt(2, r.auftraggeber.auftraggeberID);
 			statement.setInt(3, r.auftrag.auftragID);
-			statement.setDate(4, (Date) r.rechnungDatum);
+			statement.setDate(4, new java.sql.Date( r.rechnungDatum.getTime()));
 			statement.setFloat(5, r.rechnungPreis);
-			statement.setDate(6, (Date) r.rechnungZahlungsziel);
+			statement.setDate(6, new java.sql.Date(r.rechnungZahlungsziel.getTime()));
 			statement.setString(7, r.rechnungVerwendungszweck);
 			statement.execute();
 			result = statement.getGeneratedKeys();
 		} catch (SQLException e) {
 			// Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 	}

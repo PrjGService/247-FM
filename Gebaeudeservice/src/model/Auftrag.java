@@ -89,8 +89,10 @@ public class Auftrag {
 
 	public void positionErzeugen(Dienstleistung dienstleistung, int menge) {
 		Date zieldatum = Verwaltung.getInstance().getZieldatum(this);
-		positionen.add(new Position(dienstleistung, this, null, menge,
-				zieldatum, auftragstatus));
+		Position p = new Position(dienstleistung, this, null, menge,
+				zieldatum, auftragstatus);
+		positionen.add(p);
+		Verwaltung.getInstance().conn.writePosition(p);
 	}
 
 	public boolean checkForReady() {

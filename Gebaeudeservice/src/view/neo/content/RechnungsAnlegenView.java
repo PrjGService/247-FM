@@ -9,6 +9,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 
 import javax.swing.Box;
@@ -18,11 +19,14 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
+import model.Rechnung;
+
 import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
 
+import controller.MainWindowController;
 import controller.Verwaltung;
 import database.DBManager;
 import view.LayoutButton;
@@ -141,24 +145,41 @@ public class RechnungsAnlegenView extends JXPanel {
 						|| textzahldat.getText().isEmpty()
 						|| textverzwe.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null,
-							"Bitte füllen Sie alle Felder aus.");
+							"Bitte fï¿½llen Sie alle Felder aus.");
 				} else {
 					
 					// BITTE HIER LOGIK EINBAUEN!
-
-//					Verwaltung.getInstance().rechnungList.add(arg0)
-//					DBManager stat = Verwaltung.getInstance().conn;
-//					String geber = textgeberid.getText();
-//					int realgeber = Integer.parseInt(geber);
-//					String auftrag = textauftragsid.getText();
-//					int realauftrag = Integer.parseInt(auftrag);
-//					String preis = textpreis.getText();
-//					double realpreis = Double.parseDouble(preis);
-//					String datum = textdatum.getText();
-//					long realdate = Date.parse(datum);
-//					String zahldat = textzahldat.getText();
-//					long realzahl = Date.parse(zahldat);
-//					String verzwe = textverzwe.getText();
+					String geber = textgeberid.getText();
+					int realgeber = Integer.parseInt(geber);
+					String auftrag = textauftragsid.getText();
+					int realauftrag = Integer.parseInt(auftrag);
+					String preis = textpreis.getText();
+					float realpreis = Float.parseFloat(preis);
+					String datum = textdatum.getText();
+					Date realdate = new Date();
+					Date realzahl = new Date();
+					try {
+						realdate = DateFormat.getInstance().parse(datum);
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						System.err.println("Kann nicht in Datum umwandeln");
+						e1.printStackTrace();
+					}
+					String zahldat = textzahldat.getText();
+					try {
+						realzahl = DateFormat.getInstance().parse(zahldat);
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						System.err.println("Kann nicht in Datum umwandeln");
+						e1.printStackTrace();
+					}
+					
+					String verzwe = textverzwe.getText();
+					Rechnung r = new Rechnung(Verwaltung.getInstance().auftraggeber, realauftrag, realdate,Verwaltung.getInstance().getAuftrag(realauftrag), realpreis, realzahl, verzwe);
+					Verwaltung.getInstance().rechnungList.add(r);
+					System.out.println("Rechnung angelegt");
+					MainWindowController.getInstance().addOrChangeRechnung(r);
+					Verwaltung.getInstance().conn.writeRechnung(r);
 
 				}
 			}

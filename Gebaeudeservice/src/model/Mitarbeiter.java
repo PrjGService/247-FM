@@ -71,6 +71,7 @@ public class Mitarbeiter {
 					aktuellePosition.auftrag.auftragID, new Date(),
 					aktuellePosition.auftrag,
 					aktuellePosition.auftrag.getCost(), ziel, verwendungszweck);
+			Verwaltung.getInstance().conn.writeRechnung(r);
 			Verwaltung.getInstance().rechnungversendenList.add(r);
 			Verwaltung.getInstance().rechnungList.add(r);
 			MainWindowController.getInstance().addOrChangeRechnung(r);

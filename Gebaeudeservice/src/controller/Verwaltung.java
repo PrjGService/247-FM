@@ -95,10 +95,8 @@ public class Verwaltung {
 				positionVergeben(mitarbeiterList.get(i));
 			}
 		}
-		//TODO Forderungsliste funktioniert?
-		//TODO Rechnungen an bh senden funktioniert?
 		RechnungenZahlen();
-
+		//writedb();
 
 	}
 	
@@ -108,11 +106,11 @@ public class Verwaltung {
 //		zieltag = new java.util.Date();
 //		Calendar c = Calendar.getInstance();
 //		c.setTime(zieltag);
-//		c.add(Calendar.DATE, 6);
+//		c.add(Calendar.DATE, 30);
 //		zieltag = c.getTime();
-//		for(int i = 20; i < 45; i++)
+//		for(int i = 20000000; i < 20000002; i++)
 //		  {
-//			  System.out.println(Verwaltung.getInstance().addAuftrag("Gartenpflege", 4, i).getZieldatum());
+//			  System.out.println(Verwaltung.getInstance().addAuftrag("Gartenpflege", 4, +i).getZieldatum());
 //		  }
 //		timestep();
 	}
@@ -182,10 +180,12 @@ public class Verwaltung {
 				Enums.Auftragsstatus.ANGEKOMMEN, new Date(),
 				getDienstleistung(name), size);
 		auftragList.add(a);
+		conn.writeAuftrag(a);
 		a.positionErzeugen(getDienstleistung(name), size);
 		positionList.add(a.positionen.get(0));
 		positionQueue.add(a.positionen.get(0));
 		MainWindowController.getInstance().addOrChangeAuftrag(a);
+		
 		return a;
 
 	}
@@ -282,13 +282,14 @@ public class Verwaltung {
 
 	public void sendInvoice(String verwendungszweck, String sender,
 			String rechnungsersteller, String rechnungsempfaenger,
-			double betrag, String rechnungsdatum, String zahlungsdatum) {
+			Double betrag, String rechnungsdatum, String zahlungsdatum) {
+		System.out.println(verwendungszweck);
 		BuchhaltungWsImplService InvoiceService = new BuchhaltungWsImplService();
 		BuchhaltungWS InvoiceWS = InvoiceService.getBuchhaltungWsImplPort();
 		try {
 			 if(InvoiceWS.erfasseRechnung(verwendungszweck, sender,
 			 rechnungsersteller, rechnungsempfaenger, betrag
-			 , rechnungsdatum, zahlungsdatum) == "Rechnung wurde bearbeitet")
+			 , rechnungsdatum, zahlungsdatum) == "rechnung empfangen")
 			 {
 			 System.err.println("Rechnungsversand erfolgreich");
 			 }
@@ -305,9 +306,10 @@ public class Verwaltung {
 	
 	public void sendInvoiceGM(String verwendungszweck, String sender,
 			String rechnungsersteller, String rechnungsempfaenger,
-			double betrag, String rechnungsdatum, String zahlungsdatum) {
+			Double betrag, String rechnungsdatum, String zahlungsdatum) {
 		GmWSImplService InvoiceService = new GmWSImplService();
 		GmWS InvoiceWS = InvoiceService.getGmWSImplPort();
+		System.out.println(verwendungszweck+ sender+rechnungsersteller+rechnungsempfaenger+betrag+rechnungsdatum+zahlungsdatum);
 		try {
 			 if(InvoiceWS.erfasseRechnung(verwendungszweck, sender,
 			 rechnungsersteller, rechnungsempfaenger, betrag
@@ -347,7 +349,7 @@ public class Verwaltung {
 			 }
 			 for(int i = 0; i < rechnungList.size();i++)
 			 {
-				 if(!r.contains(rechnungList.get(i)))
+				 if(!r.contains(rechnungList.get(i)) && !rechnungversendenList.contains(rechnungList.get(i)))
 				 {
 					 if(rechnungList.get(i).auftrag.getAuftragstatus() != Enums.Auftragsstatus.BEZAHLT)
 					 {
@@ -367,7 +369,7 @@ public class Verwaltung {
 		BuchhaltungWsImplService dunningService = new BuchhaltungWsImplService();
 		BuchhaltungWS dunningWS = dunningService.getBuchhaltungWsImplPort();
 		try {
-			if (dunningWS.uebergabeMahnauftrag(verwendungszweck) == "Mahnauftrag erhalten") {
+			if (dunningWS.uebergabeMahnauftrag(verwendungszweck) != "Mahnauftrag fehlgeschlagen") {
 				System.err.println("Mahnauftrag erfolgreich");
 			} else
 
@@ -412,12 +414,56 @@ public class Verwaltung {
 			Runtime.getRuntime().addShutdownHook(new Thread() {
 				@Override
 				public void run() {
-					// TODO Daten zurück in die Datenbank schreiben
+					writedb();
 					verwaltung.conn.close();
 				}
 			});
 		}
 		return verwaltung;
+	}
+	
+	public static void writedb()
+	{
+		for(int i = 0; i < verwaltung.mitarbeiterList.size();i++)
+		{
+			try
+			{
+			verwaltung.conn.writeMitarbeiter(verwaltung.mitarbeiterList.get(i));
+			}
+			catch(Exception ex)
+			{
+			}
+		}
+		for(int i = 0; i < verwaltung.auftragList.size();i++)
+		{
+			try
+			{
+			verwaltung.conn.writeAuftrag(verwaltung.auftragList.get(i));
+			}
+			catch(Exception ex)
+			{
+			}
+		}
+		for(int i = 0; i < verwaltung.positionList.size();i++)
+		{
+			try
+			{
+			verwaltung.conn.writePosition(verwaltung.positionList.get(i));
+			}
+			catch(Exception ex)
+			{
+			}
+		}
+		for(int i = 0; i < verwaltung.rechnungList.size();i++)
+		{
+			try
+			{
+			verwaltung.conn.writeRechnung(verwaltung.rechnungList.get(i));
+			}
+			catch(Exception ex)
+			{
+			}
+		}
 	}
 
 	// zum export der schnittstellenmethoden:
