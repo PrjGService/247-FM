@@ -85,6 +85,7 @@ public class RechnungsAnlegenView extends JXPanel {
 		textgeberid.setForeground(Color.black);
 		textgeberid.setBackground(Color.WHITE);
 		textgeberid.setPreferredSize(t);
+		textgeberid.setText("1");
 
 		// Zeile Auftrags ID
 
@@ -101,6 +102,7 @@ public class RechnungsAnlegenView extends JXPanel {
 		textdatum.setForeground(Color.black);
 		textdatum.setBackground(Color.WHITE);
 		textdatum.setPreferredSize(t);
+		textdatum.setText(new Date().toLocaleString());
 
 		// Zeile Preis
 
@@ -117,6 +119,7 @@ public class RechnungsAnlegenView extends JXPanel {
 		textzahldat.setForeground(Color.black);
 		textzahldat.setBackground(Color.WHITE);
 		textzahldat.setPreferredSize(t);
+		textzahldat.setText(new Date().toLocaleString());
 
 		// Verwendungszweck
 
@@ -145,7 +148,7 @@ public class RechnungsAnlegenView extends JXPanel {
 						|| textzahldat.getText().isEmpty()
 						|| textverzwe.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null,
-							"Bitte füllen Sie alle Felder aus.");
+							"Bitte fï¿½llen Sie alle Felder aus.");
 				} else {
 
 					// BITTE HIER LOGIK EINBAUEN!

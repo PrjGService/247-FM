@@ -410,7 +410,7 @@ public class DBManager {
 	public Position readPosition(int id1, int id2, int id3) {
 		try {
 			statement = conn
-					.prepareStatement("SELECT * FROM position WHERE `dienstleistung.ID` = "
+					.prepareStatement("SELECT * FROM position WHERE `dienstleistungID` = "
 							+ id1
 							+ " AND `auftrag.ID` = "
 							+ id2
