@@ -443,6 +443,13 @@ public class DBManager {
 							+ " AND `auftrag.ID` = "
 							+ p.auftrag.auftragID + ";");
 			statement.execute();
+		}
+			catch (Exception ex)
+			{
+				
+			}
+		try
+		{
 			statement = conn
 					.prepareStatement(
 							"INSERT INTO position "

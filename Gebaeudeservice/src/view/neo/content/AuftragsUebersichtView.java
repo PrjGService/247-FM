@@ -83,6 +83,14 @@ public class AuftragsUebersichtView extends JXPanel {
 
 		List<Auftrag> l = Verwaltung.getInstance().auftragList;
 		for (Auftrag auftrag : l) {
+			String s = "";
+			try{
+			s = auftrag.getPositionen().get(0).dienstleistung.dienstleistungsName;
+			}
+			catch(Exception ex)
+			{
+				System.err.println("konnte eine Position nicht finden");
+			}
 			tableModel
 					.addRow(new AuftragsRow(
 							auftrag.getAuftragID(),
@@ -90,7 +98,8 @@ public class AuftragsUebersichtView extends JXPanel {
 							" " + Enums.getAStatus(auftrag.getAuftragstatus()),
 							" " + auftrag.auftragdatum.toString(),
 							" "
-									+ auftrag.getPositionen().get(0).dienstleistung.dienstleistungsName));
+									+ s));
+			
 		}
 		return auftragsTable;
 	}
@@ -166,7 +175,7 @@ public class AuftragsUebersichtView extends JXPanel {
 				break;
 
 			default:
-				System.out.println("Spalte nicht gefunden und übersprungen: "
+				System.out.println("Spalte nicht gefunden und ï¿½bersprungen: "
 						+ col);
 				break;
 			}

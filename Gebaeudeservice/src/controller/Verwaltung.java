@@ -395,7 +395,7 @@ public class Verwaltung {
 				verwaltung.positionList.get(i).auftrag.positionen
 						.add(verwaltung.positionList.get(i));
 
-				// System.out.println(""+verwaltung.positionList.get(i).auftrag.positionen.get(0).dienstleistung);
+				 //System.out.println(""+verwaltung.positionList.get(i).auftrag.positionen.get(0).dienstleistung.dienstleistungsName);
 			}
 			for (int i = 0; i < verwaltung.positionList.size(); i++) {
 				if (verwaltung.positionList.get(i).mitarbeiter == null) {
