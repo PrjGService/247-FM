@@ -38,7 +38,6 @@ public class AuftragsUebersichtView extends JXPanel {
 	private JScrollPane mainTablePane;
 	private AuftragsModel tableModel;
 	private JXTable mainTable;
-	int i;
 
 	public AuftragsUebersichtView() {
 		super();
