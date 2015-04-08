@@ -148,7 +148,7 @@ public class MainWindowView extends JXFrame{
 		centerPanel.setDividerSize(0);
 		mainPanel.add(centerPanel, BorderLayout.CENTER);
 		
-		auftraegeTaskPane = new JXTaskPane("Aufträge");
+		auftraegeTaskPane = new JXTaskPane("Auftraege");
 		
 		auftreageUebersichtPanel = new AuftragsUebersichtView();
 		centerContentData.add(auftreageUebersichtPanel, auftreageUebersichtPanel.getClass().getName());
@@ -157,8 +157,8 @@ public class MainWindowView extends JXFrame{
 			private static final long serialVersionUID = -1035106393148369106L;
 
 			{
-			    putValue(Action.NAME, "Übersicht");
-			    putValue(Action.SHORT_DESCRIPTION, "ï¿½bersichtsseite Auftrï¿½ge");
+			    putValue(Action.NAME, "Uebersicht");
+			    putValue(Action.SHORT_DESCRIPTION, "Uebersichtsseite Auftraege");
 			  }
 
 			  public void actionPerformed(ActionEvent e) {
@@ -177,7 +177,7 @@ public class MainWindowView extends JXFrame{
 
 			{
 			    putValue(Action.NAME, "Status abfragen");
-			    putValue(Action.SHORT_DESCRIPTION, "Status der Auftrï¿½ge abfragen");
+			    putValue(Action.SHORT_DESCRIPTION, "Status der Auftraege abfragen");
 			  }
 
 			  public void actionPerformed(ActionEvent e) {
@@ -218,8 +218,8 @@ public class MainWindowView extends JXFrame{
 			private static final long serialVersionUID = -1035106393148369106L;
 
 			{
-			    putValue(Action.NAME, "Übersicht");
-			    putValue(Action.SHORT_DESCRIPTION, "Rechnungsï¿½bersicht anzeigen");
+			    putValue(Action.NAME, "Uebersicht");
+			    putValue(Action.SHORT_DESCRIPTION, "Rechnungsuebersicht anzeigen");
 			  }
 
 			  public void actionPerformed(ActionEvent e) {
