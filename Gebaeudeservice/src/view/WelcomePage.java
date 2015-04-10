@@ -84,13 +84,13 @@ public class WelcomePage extends JFrame {
 		user.setFont(new Font("ARIAL", Font.PLAIN, 16));
 		user.setForeground(Color.white);
 		user.setBackground(new Color(19, 123, 64));
-		user.setText("Sven");
+		user.setText("");
 
 		pw = new JPasswordField();
 		pw.setFont(new Font("ARIAL", Font.PLAIN, 16));
 		pw.setForeground(Color.white);
 		pw.setBackground(new Color(19, 123, 64));
-		pw.setText("12345");
+		pw.setText("");
 
 		pw.addKeyListener(new KeyListener() {
 

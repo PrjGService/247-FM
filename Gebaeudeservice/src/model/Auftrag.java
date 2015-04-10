@@ -58,7 +58,8 @@ public class Auftrag {
 	public Auftraggeber auftraggeber;
 	private Enums.Auftragsstatus auftragstatus;
 	public Date auftragdatum;
-	public List<Position> positionen = new ArrayList<Position>();;
+	public List<Position> positionen = new ArrayList<Position>();
+	public int menge = 0;
 
 	public Auftrag(Auftraggeber auftraggeber, int auftragID,
 			Enums.Auftragsstatus auftragstatus, Date auftragdatum,
@@ -67,6 +68,7 @@ public class Auftrag {
 		this.auftraggeber = auftraggeber;
 		this.auftragID = auftragID;
 		this.auftragstatus = auftragstatus;
+		this.menge = menge;
 		positionen = new ArrayList<Position>();
 		this.dienstleistung = dienstleistung;
 		//positionErzeugen(dienstleistung, menge);
@@ -91,8 +93,19 @@ public class Auftrag {
 		Date zieldatum = Verwaltung.getInstance().getZieldatum(this);
 		Position p = new Position(dienstleistung, this, null, menge,
 				zieldatum, auftragstatus);
+		if(this.positionen == null)
+		{
+			positionen = new ArrayList<Position>();
+		}
 		positionen.add(p);
+		try
+		{
 		Verwaltung.getInstance().conn.writePosition(p);
+		}
+		catch (Exception ex)
+		{
+			System.err.println("Eine Position konnte nicht angelegt werden");
+		}
 	}
 
 	public boolean checkForReady() {

@@ -102,7 +102,14 @@ public class RechnungsAnlegenView extends JXPanel {
 		textdatum.setForeground(Color.black);
 		textdatum.setBackground(Color.WHITE);
 		textdatum.setPreferredSize(t);
-		textdatum.setText(new Date().toLocaleString());
+		if(Verwaltung.getInstance().tag != null)
+		{
+			textdatum.setText(Verwaltung.getInstance().tag.toLocaleString());
+		}
+		else
+		{
+			textdatum.setText((new Date()).toLocaleString());
+		}
 
 		// Zeile Preis
 
@@ -119,7 +126,14 @@ public class RechnungsAnlegenView extends JXPanel {
 		textzahldat.setForeground(Color.black);
 		textzahldat.setBackground(Color.WHITE);
 		textzahldat.setPreferredSize(t);
-		textzahldat.setText(new Date().toLocaleString());
+		if(Verwaltung.getInstance().tag != null)
+		{
+			textzahldat.setText(Verwaltung.getInstance().tag.toLocaleString());
+		}
+		else
+		{
+			textzahldat.setText((new Date()).toLocaleString());
+		}
 
 		// Verwendungszweck
 

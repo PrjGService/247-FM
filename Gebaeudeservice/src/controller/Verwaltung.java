@@ -52,6 +52,8 @@ public class Verwaltung {
 			User u = userList.get(i);
 			if (u.name.matches(user) && u.password.matches(pw)) {
 				login = true;
+				System.out.println("Login für User "+user+" erfolgreich. Willkommen!");
+				System.out.println("Anwendungsoberfläche wird geöffnet.");
 				break;
 			}
 		}
@@ -62,7 +64,7 @@ public class Verwaltung {
 	public void tag() {
 		Calendar c = Calendar.getInstance();
 		c.setTime(tag);
-		System.out.println(c.getTime() + " ist vergangen");
+		System.out.println(c.getTime().toLocaleString().split(" ")[0] + " ("+c.getTime().toString()+") ist vergangen");
 		c.add(Calendar.DATE, 1);
 		tag = c.getTime();
 		// TODO jeden tag vergeht zeit?
@@ -78,6 +80,7 @@ public class Verwaltung {
 						&& positionList.get(i).positionStatus == Enums.Auftragsstatus.INARBEIT) {
 					positionList.get(i).mitarbeiter
 							.positionAusfuehren(positionList.get(i));
+					
 				} else {
 					c = Calendar.getInstance();
 					c.setTime(positionList.get(i).positionAusfuehrungsdatum);
@@ -91,7 +94,6 @@ public class Verwaltung {
 				positionVergeben(mitarbeiterList.get(i));
 			}
 		}
-		RechnungenZahlen();
 		// writedb();
 
 	}
@@ -114,6 +116,8 @@ public class Verwaltung {
 	// verarbeitungen nach jeden timestep
 	@SuppressWarnings("deprecation")
 	public void timestep() {
+		zaehl = 0;
+		zieltag.setHours(tag.getHours()-1);
 		// TODO verarbeitungen per step db aktualisieren
 		while (tag.before(zieltag)) {
 			int alt = tag.getMonth();
@@ -122,13 +126,23 @@ public class Verwaltung {
 			c.add(Calendar.DATE, 1);
 			int neu = c.getTime().getMonth();
 			if (alt != neu) {
+				System.out.println("Monatsende: Eingegangene Zahlungen werden geprüft");
+				RechnungenZahlen();
+				System.out.println("Monatsende: Rechnungen werden an GM und BH versendet");
 				for (int i = 0; i < rechnungversendenList.size(); i++) {
 					rechnungversendenList.get(i).versenden();
+					//System.out.println("Die Rechnung "+rechnungversendenList.get(i).rechnungVerwendungszweck+ " wurde versendet.");
+				}
+				if(rechnungversendenList.size() == 0)
+				{
+					System.out.println("Es wurden keine zu versendenden Rechnungen gefunden.");
 				}
 				rechnungversendenList = new ArrayList<Rechnung>();
+				
 			}
 			tag();
 		}
+		System.out.println("Zeitsprung abgeschlossen, neues Localdate: "+tag.toLocaleString());
 		instructTimepush(1);
 	}
 
@@ -137,6 +151,7 @@ public class Verwaltung {
 		for (int i = 0; i < rechnungList.size(); i++) {
 			if (rechnungList.get(i).auftrag.getAuftragstatus() != Enums.Auftragsstatus.BEZAHLT) {
 				s += rechnungList.get(i).auftrag.auftragID + " ";
+				System.out.println("Rechnung "+rechnungList.get(i).rechnungVerwendungszweck+" ist bezahlt worden.");
 			}
 		}
 		return s;
@@ -151,6 +166,7 @@ public class Verwaltung {
 			p.auftrag.setAuftragstatus(Enums.Auftragsstatus.INARBEIT);
 			m.setMitarbeiterStatus(Enums.Mitarbeiterstatus.ARBEITET);
 			m.aktuellePosition = p;
+			System.out.println("Auftrag " +p.auftrag.auftragID+ " an Mitarbeiter vergeben: "+m.mitarbeiterName);
 		}
 	}
 
@@ -171,11 +187,13 @@ public class Verwaltung {
 
 	public Auftrag addAuftrag(String name, int size, int orderID) {
 		Auftrag a = new Auftrag(auftraggeber, orderID,
-				Enums.Auftragsstatus.ANGEKOMMEN, new Date(),
+				Enums.Auftragsstatus.ANGEKOMMEN, tag,
 				getDienstleistung(name), size);
 		auftragList.add(a);
 		conn.writeAuftrag(a);
 		a.positionErzeugen(getDienstleistung(name), size);
+
+
 		positionList.add(a.positionen.get(0));
 		positionQueue.add(a.positionen.get(0));
 		MainWindowController.getInstance().addOrChangeAuftrag(a);
@@ -225,9 +243,9 @@ public class Verwaltung {
 		Date d = null;
 		Position p = null;
 		for (int i = 0; i < positionList.size(); i++) {
-			if (d == null
+			if (positionQueue.contains(positionList.get(i)) && (d == null
 					|| (positionList.get(i).positionAusfuehrungsdatum != null && positionList
-							.get(i).positionAusfuehrungsdatum.after(d))) {
+							.get(i).positionAusfuehrungsdatum.after(d)))) {
 				p = positionList.get(i);
 				d = positionList.get(i).positionAusfuehrungsdatum;
 			}
@@ -237,16 +255,44 @@ public class Verwaltung {
 		}
 		Calendar c = Calendar.getInstance();
 		c.setTime(d);
+		if(p != null)
+		{
 		c.add(Calendar.DATE,
 				-1
 						* Math.round(p.dienstleistung
 								.aufwandermitteln(p.positionMenge)));
+		try
+		{
 		c.add(Calendar.DATE,
-				Math.round(a.dienstleistung.aufwandermitteln(p.positionMenge)));
+				Math.round(a.dienstleistung.aufwandermitteln(a.menge)));
+		}
+		catch(Exception ex)
+		{
+			try
+			{
+			c.add(Calendar.DATE,
+					1
+							+ Math.round(p.dienstleistung
+									.aufwandermitteln(p.positionMenge)));
+			}
+			catch(Exception ex2)
+			{
+				
+			}
+			System.err.println("Die Dienstleistung konnte nicht gefunden werden");
+		}
+		}
+		try
+		{
 		if (mitarbeiterList.size() <= zaehl) {
-			c.add(Calendar.DATE, Math.round(a.dienstleistung
+			c.add(Calendar.DATE, Math.round(zaehl/mitarbeiterList.size()*p.auftrag.dienstleistung
 					.aufwandermitteln(p.positionMenge)));
-			zaehl = 0;
+			
+		}
+		}
+		catch (Exception ex)
+		{
+			
 		}
 		d = c.getTime();
 		return d;
@@ -281,14 +327,14 @@ public class Verwaltung {
 	public void sendInvoice(String verwendungszweck, String sender,
 			String rechnungsersteller, String rechnungsempfaenger,
 			Double betrag, String rechnungsdatum, String zahlungsdatum) {
-		System.out.println(verwendungszweck);
+		System.out.println("Versenden einer Rechnung an BH: "+verwendungszweck);
 		BuchhaltungWsImplService InvoiceService = new BuchhaltungWsImplService();
 		BuchhaltungWS InvoiceWS = InvoiceService.getBuchhaltungWsImplPort();
 		try {
 			if (InvoiceWS.erfasseRechnung(verwendungszweck, sender,
 					rechnungsersteller, rechnungsempfaenger, betrag,
-					rechnungsdatum, zahlungsdatum) == "rechnung empfangen") {
-				System.err.println("Rechnungsversand erfolgreich");
+					rechnungsdatum, zahlungsdatum).equals("true")) {
+				System.out.println("Rechnungsversand erfolgreich");
 			} else
 
 			{
@@ -306,14 +352,14 @@ public class Verwaltung {
 		GmWSImplService InvoiceService = new GmWSImplService();
 		GmWS InvoiceWS = InvoiceService.getGmWSImplPort();
 		System.out
-				.println(verwendungszweck + sender + rechnungsersteller
-						+ rechnungsempfaenger + betrag + rechnungsdatum
-						+ zahlungsdatum);
+				.println("Versenden einer Rechnung mit folgenden Daten an GM:"+verwendungszweck +", "+ sender+", " + rechnungsersteller
+						+", "+ rechnungsempfaenger+", " + betrag +", "+ rechnungsdatum
+						+", "+ zahlungsdatum);
 		try {
 			if (InvoiceWS.erfasseRechnung(verwendungszweck, sender,
 					rechnungsersteller, rechnungsempfaenger, betrag,
-					rechnungsdatum, zahlungsdatum) == "Rechnung wurde bearbeitet") {
-				System.err.println("Rechnungsversand erfolgreich");
+					rechnungsdatum, zahlungsdatum).equals("true")) {
+				System.out.println("Rechnungsversand erfolgreich");
 			} else
 
 			{
@@ -327,6 +373,7 @@ public class Verwaltung {
 
 	public void RechnungenZahlen() {
 		String s;
+		int zaehl = 0;
 		List<Rechnung> r = new ArrayList<Rechnung>();
 		BuchhaltungWsImplService itemService = new BuchhaltungWsImplService();
 		BuchhaltungWS itemWS = itemService.getBuchhaltungWsImplPort();
@@ -347,11 +394,14 @@ public class Verwaltung {
 					if (rechnungList.get(i).auftrag.getAuftragstatus() != Enums.Auftragsstatus.BEZAHLT) {
 						rechnungList.get(i).auftrag
 								.setAuftragstatus(Enums.Auftragsstatus.BEZAHLT);
+						System.out.println("Rechnung "+rechnungList.get(i).rechnungVerwendungszweck+" wurde bezahlt;");
+						zaehl++;
 						MainWindowController.getInstance().addOrChangeRechnung(
 								rechnungList.get(i));
 					}
 				}
 			}
+			System.out.println("Es wurden insgesamt "+zaehl+" Zahlungen empfangen");
 		} catch (Exception e) {
 			System.err
 					.println("Es ist ein Fehler beim anfragen der offenen Posten aufgetreten.");
@@ -362,7 +412,7 @@ public class Verwaltung {
 		BuchhaltungWsImplService dunningService = new BuchhaltungWsImplService();
 		BuchhaltungWS dunningWS = dunningService.getBuchhaltungWsImplPort();
 		try {
-			if (dunningWS.uebergabeMahnauftrag(verwendungszweck) != "Mahnauftrag fehlgeschlagen") {
+			if (!dunningWS.uebergabeMahnauftrag(verwendungszweck).equals("Mahnauftrag fehlgeschlagen")) {
 				System.err.println("Mahnauftrag erfolgreich");
 			} else
 
@@ -390,6 +440,8 @@ public class Verwaltung {
 			verwaltung.positionList = verwaltung.conn.getAllPosition();
 			verwaltung.positionQueue = new ArrayDeque<Position>();
 			verwaltung.rechnungversendenList = new ArrayList<Rechnung>();
+			//TODO testdatum falls bank nicht verfügbar
+			//verwaltung.tag = new Date();
 			for (int i = 0; i < verwaltung.positionList.size(); i++) {
 
 				verwaltung.positionList.get(i).auftrag.positionen
@@ -403,12 +455,15 @@ public class Verwaltung {
 							.add(verwaltung.positionList.get(i));
 				}
 			}
-
+			System.out.println("Verbindung zur DB hergestellt");
 			Runtime.getRuntime().addShutdownHook(new Thread() {
 				@Override
 				public void run() {
-					writedb();
+					System.out.println("Anwendungsoberfläche wurde geschlossen.");
+					//writedb();
 					verwaltung.conn.close();
+					System.out.println("Verbindung zur Datenbank wurde geschlossen!");
+					System.out.println("Gebaeudeserviceanwendung wurde beendet!");
 				}
 			});
 		}
@@ -448,5 +503,24 @@ public class Verwaltung {
 	// Öffnen der Konsole um wsimport zu nutzen:
 	// wsimport -keep -clientjar Gebaeudeservice.jar
 	// http://10.10.10.25:1000/ws?wsdl
+	// Dann neu verpacken damit die jar richtige pfade verknüpft
+	
+	/*
+	 * SQL zum berreinigen DB:
+DELETE FROM `position` WHERE 1;
+Insert INTO `position` VALUES (1,1,50193,1,'2015-04-07','Bezahlt');
+Insert INTO `position` VALUES(5,2,50190,2,'2015-04-07','Bezahlt');
+Insert INTO `position` VALUES (11,3,50195,1,'2015-04-07','Bezahlt');
+Insert INTO `position` VALUES (1,4,50191,1,'2015-04-07','Bezahlt');
+Insert INTO `position` VALUES (7,5,50195,1,'2015-04-07','Bezahlt');
+Insert INTO `position` VALUES (11,6,50205,1,'2015-04-07','Bezahlt');
+Insert INTO `position` VALUES (6,7,50196,1,'2015-04-07','Bezahlt');
+Insert INTO `position` VALUES (14,8,50206,1,'2015-04-07','Bezahlt');
+Insert INTO `position` VALUES (3,9,50208,1,'2015-04-07','Bezahlt');
+Insert INTO `position` VALUES (11,10,50203,1,'2015-04-07','Bezahlt');
+Insert INTO `position` VALUES (6,11,50205,1,'2015-04-07','Bezahlt');
+DELETE FROM `rechnung` WHERE `ID` > 11;
+DELETE FROM `auftrag` WHERE `ID` > 11;
+*/
 
 }

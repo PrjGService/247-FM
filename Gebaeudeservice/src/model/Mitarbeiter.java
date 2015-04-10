@@ -64,16 +64,23 @@ public class Mitarbeiter {
 		ziel = c.getTime();
 		setMitarbeiterStatus(Enums.Mitarbeiterstatus.VERFUEGBAR);
 		aktuellePosition.positionStatus = Enums.Auftragsstatus.ERLEDIGT;
+		System.out.println("Auftrag " +aktuellePosition.auftrag.auftragID+ " wurde von "+mitarbeiterName+" ausgefuehrt");
 		if (aktuellePosition.auftrag.checkForReady()) {
 			aktuellePosition.auftrag.setAuftragstatus(Enums.Auftragsstatus.ERLEDIGT);
-			String verwendungszweck = "GS" + aktuellePosition.auftrag.auftragID;
+			String s = "" +aktuellePosition.auftrag.auftragID;
+			while (s.length() < 8)
+			{
+				s = "0"+s;
+			}
+			String verwendungszweck = "GS" + s;
 			Rechnung r = new Rechnung(aktuellePosition.auftrag.auftraggeber,
-					aktuellePosition.auftrag.auftragID, new Date(),
+					aktuellePosition.auftrag.auftragID, Verwaltung.getInstance().tag,
 					aktuellePosition.auftrag,
 					aktuellePosition.auftrag.getCost(), ziel, verwendungszweck);
 			Verwaltung.getInstance().conn.writeRechnung(r);
 			Verwaltung.getInstance().rechnungversendenList.add(r);
 			Verwaltung.getInstance().rechnungList.add(r);
+			System.out.println("Rechnung wurde erzeugt: "+r.rechnungVerwendungszweck);
 			MainWindowController.getInstance().addOrChangeRechnung(r);
 		}
 

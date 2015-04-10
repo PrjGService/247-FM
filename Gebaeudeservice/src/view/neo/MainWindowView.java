@@ -326,8 +326,8 @@ public class MainWindowView extends JXFrame{
 		}
 		finally
 		{
-			auftreageUebersichtPanel.addAuftrag(Long.valueOf(auftrag.auftragID), auftrag.auftraggeber.auftraggeberName, 
-					Enums.getAStatus(auftrag.getAuftragstatus()), auftrag.auftragdatum.toGMTString(), auftrag.getPositionen().get(0).dienstleistung.dienstleistungsName);
+			auftreageUebersichtPanel.addAuftrag(Long.valueOf(auftrag.auftragID), " "+auftrag.auftraggeber.auftraggeberName, 
+					" "+Enums.getAStatus(auftrag.getAuftragstatus()), " "+auftrag.auftragdatum.toLocaleString(), " "+auftrag.getPositionen().get(0).dienstleistung.dienstleistungsName);
 		}
 	}
 

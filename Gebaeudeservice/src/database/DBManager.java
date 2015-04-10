@@ -36,7 +36,7 @@ public class DBManager {
 
 	public DBManager() {
 		conn = DBUtil.getConnection();
-		System.out.println("Verbindung zur DB hergestellt");
+		
 
 	}
 
@@ -472,7 +472,7 @@ public class DBManager {
 			result = statement.getGeneratedKeys();
 		} catch (SQLException e) {
 			// Auto-generated catch block
-			//System.err.println("kann position nicht erzeugen"+statement);
+			System.err.println("kann position nicht erzeugen"+statement);
 			//e.printStackTrace();
 		}
 

@@ -1,9 +1,13 @@
 package webservices;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Random;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+
+import baldoapp.Zeitsprung;
 
 import model.Auftrag;
 
@@ -39,8 +43,10 @@ public class ServiceWSImpl  implements ServiceWS{
 		String s = "";
 		try {
 			s= Enums.getAStatus(Verwaltung.getInstance().getAuftrag((int)orderID).getAuftragstatus());
+			System.out.println("Der Status des Auftrages "+orderID+" wurde abgefragt und lieferte: "+s);
 		} catch (NullPointerException e) {
-			e.printStackTrace();
+			System.err.println("Die Auftragnummer "+orderID+" konnte nicht gefunden werden");
+			//e.printStackTrace();
 		} 
 		
 		
@@ -66,22 +72,33 @@ public class ServiceWSImpl  implements ServiceWS{
 	public
 	int getValue(int type) {
 		int i = 0;
+		String s = "";
 		if(type == 0)
 		{
 			Random rand = new Random();
 			i = rand.nextInt(2000)+3001;
+			s= "Wasser";
 		}
-		if(type == 1)
+		else if(type == 1)
 		{
 			Random rand = new Random();
 			i = rand.nextInt(100)+201;
+			s= "Strom";
 		}
-		if(type == 2)
+		else if(type == 2)
 		{
 			Random rand = new Random();
 			i = rand.nextInt(500)+1001;
+			s= "Gas";
 		}
-		
+		if(i == 0)
+		{
+			System.err.println("Es wurden die Ablesedaten einer nicht bekannten Ableseart bestellt");
+		}
+		else
+		{
+			System.out.println("Es wurden die Ablesedaten für "+s+" bestellt und folgende Daten mitgeteilt: "+i);
+		}
 		
 		return i;
 	}
@@ -121,15 +138,16 @@ public class ServiceWSImpl  implements ServiceWS{
 		String s = "";
 		try {
 			Auftrag a = Verwaltung.getInstance().addAuftrag(name, size, (int) orderID);
-			s= a.getZieldatum().toString();
+			s= a.getZieldatum().toLocaleString().split(" ")[0];
+			System.out.println("Auftrag erhalten: "+name+" unter der Nummer: "+orderID+ ". Vorraussichtliches Ausführungsdatum: "+s);
 		} catch (NullPointerException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.err.println("Ein Auftrag konnte nicht angenommen werden");
 		} 
 		
 		
 		return s;
 	}
-	//TODO teste addauftrag sodass richtig formatier und dienstleistung zugeordnet
 
 	
 	/**
@@ -153,7 +171,17 @@ public class ServiceWSImpl  implements ServiceWS{
 	@WebMethod
 	public
 	String getUnpaidBills() {
-		return Verwaltung.getInstance().unbezahlteRechnungen();
+		String s = "";
+		try
+		{
+		s = Verwaltung.getInstance().unbezahlteRechnungen();
+		System.out.println("Die unbezahlten Rechnungen wurden abgefragt und geliefert: "+s);
+		}
+		catch(Exception ex)
+		{
+			System.err.println("Die unbezahlten Rechnungen konnten nicht geliefert werden");
+		}
+		return s;
 	}
 
 
@@ -161,40 +189,76 @@ public class ServiceWSImpl  implements ServiceWS{
 	@WebMethod
 	public
 	int pushDate(int year, int month, int day) {
+		
+		
+		
+		int returncode = 0;
+		
+		
 
-		if(Verwaltung.getInstance().tag == null)
+		if(Verwaltung.getInstance().tag != null)
 		{
-			try{
-			Verwaltung.getInstance().tag = new java.util.Date();
-			Verwaltung.getInstance().tag.setMonth(month);
-			Verwaltung.getInstance().tag.setDate(day);
-			Verwaltung.getInstance().tag.setYear(year);
-			System.out.println("localDate wurde gesetzt: "+Verwaltung.getInstance().tag.toString() );
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		}
+			Date d = null;
+			String sprungArt = null;
+			Timestamp sprungDate = new Timestamp(year - 1900, month, day, 0, 0, 0, 0);
+			d =new Date(Verwaltung.getInstance().tag.getTime());
+			d.setYear(d.getYear() - 1900);
+			Zeitsprung zs = new Zeitsprung(d);
+			Object vorgehen = zs.bestimmeVorgehen(new Date(sprungDate.getTime()));
+
+			if (vorgehen instanceof Integer) {
+				returncode = (int) vorgehen;
+			} else if (vorgehen instanceof String) {
+				sprungArt = (String) vorgehen;
+				System.out.println("Sprungart des Zeitsprunges: " + sprungArt);
+				try
+				{
+					
+					Verwaltung.getInstance().zieltag = new java.util.Date();
+					Verwaltung.getInstance().zieltag.setMonth(month);
+					Verwaltung.getInstance().zieltag.setDate(day);
+					Verwaltung.getInstance().zieltag.setYear(year);
+					System.out.println("localDate - zu Beginn der Methode: "+Verwaltung.getInstance().tag.toLocaleString() );
+					Verwaltung.getInstance().timestep();
+					System.out.println("Zieltag war: "+Verwaltung.getInstance().zieltag.toLocaleString().split(" ")[0] );
+					returncode = 100;
+				} catch (NullPointerException e) {
+					e.printStackTrace();
+					returncode = 450;
+				}
+			} else {
+				// Object o ist weder vom Typ Integer noch von String
+				returncode = 402;
+			}
 		}
 		else
 		{
-			try
-			{
-			Verwaltung.getInstance().zieltag = new java.util.Date();
-			Verwaltung.getInstance().zieltag.setMonth(month);
-			Verwaltung.getInstance().zieltag.setDate(day);
-			Verwaltung.getInstance().zieltag.setYear(year);
-			Verwaltung.getInstance().timestep();
-			System.out.println("localDate - zu Beginn der Methode: "+Verwaltung.getInstance().tag.toString() );
-			System.out.println("Zieltag: "+Verwaltung.getInstance().zieltag.toString() );
+			
+				try{
+				Verwaltung.getInstance().tag = new java.util.Date();
+				Verwaltung.getInstance().tag.setMonth(month);
+				Verwaltung.getInstance().tag.setDate(day);
+				Verwaltung.getInstance().tag.setYear(year);
+				System.out.println("localDate wurde gesetzt: "+Verwaltung.getInstance().tag.toLocaleString() );
 			} catch (NullPointerException e) {
-			e.printStackTrace();
+				e.printStackTrace();
+				
+			}
+			returncode = 101;
 		}
-		}
+		
+
+		return returncode;
+		
+		
+		
+		
+		
 		
 
        
 
 
-        return 100;
 	}
 
 
@@ -205,8 +269,18 @@ public class ServiceWSImpl  implements ServiceWS{
 			String rechnungsersteller, String rechnungsempfaenger,
 			double betrag, String rechnungsdatum, String zahlungsdatum) {
 		// TODO Auto-generated method stub
-		System.out.println("Rechnung erhalten");
-		return "";
+		String s = "true";
+		try
+		{
+		System.out.println("Rechnung erhalten: "+verwendungszweck);
+		Verwaltung.getInstance().sendInvoice(verwendungszweck, "GS", rechnungsersteller, rechnungsempfaenger, betrag, rechnungsdatum, zahlungsdatum);
+		}
+		catch(Exception ex)
+		{
+			System.err.println("Rechnung konnte nicht zurückgeleitet werden.");
+			s = "false";
+		}
+		return s;
 	}
 
 
@@ -215,7 +289,7 @@ public class ServiceWSImpl  implements ServiceWS{
 	public
 	int mahnungEmpfangen(String verwendungszweck) {
 		// TODO Auto-generated method stub
-		System.out.println("Mahnung erhalten");
+		System.out.println("Mahnung erhalten: "+verwendungszweck);
 		return 0;
 	}
 
