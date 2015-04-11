@@ -1,5 +1,6 @@
 package model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import controller.Verwaltung;
@@ -28,12 +29,13 @@ public class Rechnung {
 
 	// versenden methode
 	public void versenden() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 		Verwaltung.getInstance().sendInvoice(rechnungVerwendungszweck, "GS",
 				"GS", "GM", (double) auftrag.getCost(),
-				rechnungDatum.toString(), rechnungZahlungsziel.toString());
+				sdf.format(rechnungDatum), sdf.format(rechnungZahlungsziel));
 		Verwaltung.getInstance().sendInvoiceGM(rechnungVerwendungszweck, "GS",
 				"GS", "GM", (double) auftrag.getCost(),
-				rechnungDatum.toString(), rechnungZahlungsziel.toString());
+				sdf.format(rechnungDatum), sdf.format(rechnungZahlungsziel));
 	}
 
 }
