@@ -358,7 +358,7 @@ public class MainWindowView extends JXFrame{
 		}
 		finally
 		{
-			mitarbeiterPanel.addMitarbeiter(Long.valueOf(mitarbeiter.mitarbeiterID), mitarbeiter.mitarbeiterName, 
+			mitarbeiterPanel.addMitarbeiter(Long.valueOf(mitarbeiter.mitarbeiterID)," "+ mitarbeiter.mitarbeiterName, 
 					mitarbeiter.getMitarbeiterStatus());
 		}
 	}

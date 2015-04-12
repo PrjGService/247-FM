@@ -7,6 +7,9 @@ import java.util.Random;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
+import webservices.impl.BVWSImplService;
+import webservices.impl.BVWebService;
+
 import baldoapp.Zeitsprung;
 
 import model.Auftrag;
@@ -188,77 +191,75 @@ public class ServiceWSImpl  implements ServiceWS{
 	@Override
 	@WebMethod
 	public
-	int pushDate(int year, int month, int day) {
+	int pushDate(final int year, final int month, final int day) {
 		
-		
-		
-		int returncode = 0;
-		
-		
+		Thread t = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				BVWSImplService ws = new BVWSImplService();
+				BVWebService ws2 = ws.getBVWSImplPort();
+				int returncode = 0;
+				
+				
 
-		if(Verwaltung.getInstance().tag != null)
-		{
-			Date d = null;
-			String sprungArt = null;
-			Timestamp sprungDate = new Timestamp(year - 1900, month, day, 0, 0, 0, 0);
-			d =new Date(Verwaltung.getInstance().tag.getTime());
-			d.setYear(d.getYear() - 1900);
-			Zeitsprung zs = new Zeitsprung(d);
-			Object vorgehen = zs.bestimmeVorgehen(new Date(sprungDate.getTime()));
+				if(Verwaltung.getInstance().tag != null)
+				{
+					Date d = null;
+					String sprungArt = null;
+					Timestamp sprungDate = new Timestamp(year - 1900, month, day, 0, 0, 0, 0);
+					d =new Date(Verwaltung.getInstance().tag.getTime());
+					d.setYear(d.getYear() - 1900);
+					Zeitsprung zs = new Zeitsprung(d);
+					Object vorgehen = zs.bestimmeVorgehen(new Date(sprungDate.getTime()));
 
-			if (vorgehen instanceof Integer) {
-				returncode = (int) vorgehen;
-			} else if (vorgehen instanceof String) {
-				sprungArt = (String) vorgehen;
-				System.out.println("Sprungart des Zeitsprunges: " + sprungArt);
-				try
+					if (vorgehen instanceof Integer) {
+						returncode = (int) vorgehen;
+					} else if (vorgehen instanceof String) {
+						sprungArt = (String) vorgehen;
+						System.out.println("Sprungart des Zeitsprunges: " + sprungArt);
+						try
+						{
+							
+							Verwaltung.getInstance().zieltag = new java.util.Date();
+							Verwaltung.getInstance().zieltag.setMonth(month);
+							Verwaltung.getInstance().zieltag.setDate(day);
+							Verwaltung.getInstance().zieltag.setYear(year);
+							System.out.println("localDate - zu Beginn der Methode: "+Verwaltung.getInstance().tag.toLocaleString() );
+							Verwaltung.getInstance().timestep();
+							System.out.println("Zieltag war: "+Verwaltung.getInstance().zieltag.toLocaleString().split(" ")[0] );
+							returncode = 100;
+						} catch (NullPointerException e) {
+							e.printStackTrace();
+							returncode = 450;
+						}
+					} else {
+						// Object o ist weder vom Typ Integer noch von String
+						returncode = 402;
+					}
+				}
+				else
 				{
 					
-					Verwaltung.getInstance().zieltag = new java.util.Date();
-					Verwaltung.getInstance().zieltag.setMonth(month);
-					Verwaltung.getInstance().zieltag.setDate(day);
-					Verwaltung.getInstance().zieltag.setYear(year);
-					System.out.println("localDate - zu Beginn der Methode: "+Verwaltung.getInstance().tag.toLocaleString() );
-					Verwaltung.getInstance().timestep();
-					System.out.println("Zieltag war: "+Verwaltung.getInstance().zieltag.toLocaleString().split(" ")[0] );
-					returncode = 100;
-				} catch (NullPointerException e) {
-					e.printStackTrace();
-					returncode = 450;
+						try{
+						Verwaltung.getInstance().tag = new java.util.Date();
+						Verwaltung.getInstance().tag.setMonth(month);
+						Verwaltung.getInstance().tag.setDate(day);
+						Verwaltung.getInstance().tag.setYear(year);
+						System.out.println("localDate wurde gesetzt: "+Verwaltung.getInstance().tag.toLocaleString() );
+					} catch (NullPointerException e) {
+						e.printStackTrace();
+						
+					}
+					returncode = 101;
 				}
-			} else {
-				// Object o ist weder vom Typ Integer noch von String
-				returncode = 402;
-			}
-		}
-		else
-		{
-			
-				try{
-				Verwaltung.getInstance().tag = new java.util.Date();
-				Verwaltung.getInstance().tag.setMonth(month);
-				Verwaltung.getInstance().tag.setDate(day);
-				Verwaltung.getInstance().tag.setYear(year);
-				System.out.println("localDate wurde gesetzt: "+Verwaltung.getInstance().tag.toLocaleString() );
-			} catch (NullPointerException e) {
-				e.printStackTrace();
 				
+				ws2.pushDateSuccesful(returncode);
+				return;
 			}
-			returncode = 101;
-		}
-		
-
-		return returncode;
-		
-		
-		
-		
-		
-		
-
-       
-
-
+		});
+		t.start();
+		return 101;
 	}
 
 
@@ -289,7 +290,7 @@ public class ServiceWSImpl  implements ServiceWS{
 	public
 	int mahnungEmpfangen(String verwendungszweck) {
 		// TODO Auto-generated method stub
-		System.out.println("Mahnung erhalten: "+verwendungszweck);
+		System.err.println("Mahnung erhalten: "+verwendungszweck);
 		return 0;
 	}
 

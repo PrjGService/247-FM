@@ -64,7 +64,7 @@ public class Verwaltung {
 	public void tag() {
 		Calendar c = Calendar.getInstance();
 		c.setTime(tag);
-		System.out.println(c.getTime().toLocaleString().split(" ")[0] + " ("+c.getTime().toString()+") ist vergangen");
+		
 		c.add(Calendar.DATE, 1);
 		tag = c.getTime();
 		// TODO jeden tag vergeht zeit?
@@ -94,23 +94,24 @@ public class Verwaltung {
 				positionVergeben(mitarbeiterList.get(i));
 			}
 		}
+		System.out.println(c.getTime().toLocaleString().split(" ")[0] + " ("+c.getTime().toString()+") ist vergangen");
 		// writedb();
 
 	}
 
 	public void test() {
-		// tag = new java.util.Date();
-		// zieltag = new java.util.Date();
-		// Calendar c = Calendar.getInstance();
-		// c.setTime(zieltag);
-		// c.add(Calendar.DATE, 30);
-		// zieltag = c.getTime();
-		// for(int i = 20000000; i < 20000002; i++)
-		// {
-		// System.out.println(Verwaltung.getInstance().addAuftrag("Gartenpflege",
-		// 4, +i).getZieldatum());
-		// }
-		// timestep();
+//		 tag = new java.util.Date();
+//		 zieltag = new java.util.Date();
+//		 Calendar c = Calendar.getInstance();
+//		 c.setTime(zieltag);
+//		 c.add(Calendar.DATE, 30);
+//		 zieltag = c.getTime();
+//		 for(int i = 20000000; i < 20000002; i++)
+//		 {
+//		 System.out.println(Verwaltung.getInstance().addAuftrag("Gartenpflege",
+//		 4, +i).getZieldatum());
+//		 }
+//		 timestep();
 	}
 
 	// verarbeitungen nach jeden timestep
@@ -120,6 +121,7 @@ public class Verwaltung {
 		zieltag.setHours(tag.getHours()-1);
 		// TODO verarbeitungen per step db aktualisieren
 		while (tag.before(zieltag)) {
+			System.out.println(tag.toLocaleString().split(" ")[0] + " ("+tag.toString()+") beginnt");
 			int alt = tag.getMonth();
 			Calendar c = Calendar.getInstance();
 			c.setTime(tag);
@@ -140,6 +142,7 @@ public class Verwaltung {
 				rechnungversendenList = new ArrayList<Rechnung>();
 				
 			}
+			
 			tag();
 		}
 		System.out.println("Zeitsprung abgeschlossen, neues Localdate: "+tag.toLocaleString());
@@ -190,8 +193,9 @@ public class Verwaltung {
 				Enums.Auftragsstatus.ANGEKOMMEN, tag,
 				getDienstleistung(name), size);
 		auftragList.add(a);
+		//System.out.println(name);
 		conn.writeAuftrag(a);
-		a.positionErzeugen(getDienstleistung(name), size);
+		a.positionErzeugen(getDienstleistung(name), (float)size);
 
 
 		positionList.add(a.positionen.get(0));
@@ -294,6 +298,10 @@ public class Verwaltung {
 		{
 			
 		}
+		if(tag.after(c.getTime()))
+		{
+			c.add(Calendar.DATE, 1);
+		}
 		d = c.getTime();
 		return d;
 	}
@@ -338,7 +346,7 @@ public class Verwaltung {
 			} else
 
 			{
-				System.out.println("Rechnung abgelehnt");
+				System.err.println("Rechnung abgelehnt");
 			}
 		} catch (Exception e) {
 			System.err
@@ -352,7 +360,7 @@ public class Verwaltung {
 		GmWSImplService InvoiceService = new GmWSImplService();
 		GmWS InvoiceWS = InvoiceService.getGmWSImplPort();
 		System.out
-				.println("Versenden einer Rechnung mit folgenden Daten an GM:"+verwendungszweck +", "+ sender+", " + rechnungsersteller
+				.println("Versenden einer Rechnung mit folgenden Daten an GM: "+verwendungszweck +", "+ sender+", " + rechnungsersteller
 						+", "+ rechnungsempfaenger+", " + betrag +", "+ rechnungsdatum
 						+", "+ zahlungsdatum);
 		try {
@@ -363,7 +371,7 @@ public class Verwaltung {
 			} else
 
 			{
-				System.out.println("Rechnung abgelehnt");
+				System.err.println("Rechnung abgelehnt");
 			}
 		} catch (Exception e) {
 			System.err
@@ -388,13 +396,16 @@ public class Verwaltung {
 					}
 				}
 			}
+		} catch (Exception e) {
+			//System.err.println("Es ist ein Fehler beim anfragen der offenen Posten aufgetreten.");
+		}
 			for (int i = 0; i < rechnungList.size(); i++) {
 				if (!r.contains(rechnungList.get(i))
 						&& !rechnungversendenList.contains(rechnungList.get(i))) {
 					if (rechnungList.get(i).auftrag.getAuftragstatus() != Enums.Auftragsstatus.BEZAHLT) {
 						rechnungList.get(i).auftrag
 								.setAuftragstatus(Enums.Auftragsstatus.BEZAHLT);
-						System.out.println("Rechnung "+rechnungList.get(i).rechnungVerwendungszweck+" wurde bezahlt;");
+						System.out.println("Rechnung "+rechnungList.get(i).rechnungVerwendungszweck+" wurde bezahlt!");
 						zaehl++;
 						MainWindowController.getInstance().addOrChangeRechnung(
 								rechnungList.get(i));
@@ -402,10 +413,6 @@ public class Verwaltung {
 				}
 			}
 			System.out.println("Es wurden insgesamt "+zaehl+" Zahlungen empfangen");
-		} catch (Exception e) {
-			System.err
-					.println("Es ist ein Fehler beim anfragen der offenen Posten aufgetreten.");
-		}
 	}
 
 	public void instructDunnning(String verwendungszweck) {

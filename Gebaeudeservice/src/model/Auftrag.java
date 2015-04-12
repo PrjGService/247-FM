@@ -89,9 +89,9 @@ public class Auftrag {
 		}
 	}
 
-	public void positionErzeugen(Dienstleistung dienstleistung, int menge) {
+	public void positionErzeugen(Dienstleistung dienstleistung, float menge) {
 		Date zieldatum = Verwaltung.getInstance().getZieldatum(this);
-		Position p = new Position(dienstleistung, this, null, menge,
+		Position p = new Position(dienstleistung, this, null,  menge,
 				zieldatum, auftragstatus);
 		if(this.positionen == null)
 		{
@@ -105,6 +105,7 @@ public class Auftrag {
 		catch (Exception ex)
 		{
 			System.err.println("Eine Position konnte nicht angelegt werden");
+			//ex.printStackTrace();
 		}
 	}
 
@@ -122,7 +123,7 @@ public class Auftrag {
 	public float getCost() {
 		float preis = 0f;
 		for (int i = 0; i < positionen.size(); i++) {
-			preis += positionen.get(i).dienstleistung.aufwandermitteln(positionen.get(i).positionMenge);
+			preis += positionen.get(i).dienstleistung.preisermitteln(positionen.get(i).positionMenge);
 		}
 		return preis;
 	}
